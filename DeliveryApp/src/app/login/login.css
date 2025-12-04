@@ -1,0 +1,130 @@
+/** src/app/login/login.css */
+.form-container {
+  height: 100vh;
+}
+
+.form-login {
+  width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-login img {
+  width: 50%;
+  margin: 20px;
+}
+
+.form-login input[type="password"] {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.form-links a {
+  text-decoration: none;
+  font-size: 10pt;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  /* fundo escuro estilo Netflix */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ff0000;
+  /* vermelho vibrante */
+  border-top: 6px solid #000000;
+  /* preto */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos para pré-cadastro */
+.form-check-card {
+  position: relative;
+  padding: 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-check-card:hover {
+  border-color: #007bff;
+  background-color: #f8f9fa;
+}
+
+.form-check-card .form-check-input:checked~.form-check-label {
+  color: #007bff;
+}
+
+.form-check-card .form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.form-check-card input[type="radio"]:checked+label {
+  font-weight: 600;
+}
+
+.wizard-step {
+  max-width: 900px;
+  width: 100%;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Responsividade para wizard-step */
+@media (max-width: 992px) {
+  .wizard-step {
+    max-width: 720px;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .wizard-step {
+    max-width: 100%;
+    padding: 1.5rem;
+    margin: 0 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .wizard-step {
+    padding: 1rem;
+    margin: 0 0.5rem;
+  }
+}

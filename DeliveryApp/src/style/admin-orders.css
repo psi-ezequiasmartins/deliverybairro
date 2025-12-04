@@ -1,0 +1,261 @@
+/* Admin Orders Page */
+
+@import url('./admin-deliveries.css');
+
+.order-id {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.value-cell {
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.payment-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Status Colors */
+.status-badge.pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.status-badge.confirmed {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.preparing {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.status-badge.ready {
+  background: #e1f5fe;
+  color: #0277bd;
+}
+
+.status-badge.delivering {
+  background: #fff9c4;
+  color: #f57f17;
+}
+
+.status-badge.delivered {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.cancelled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* Modal Large */
+.modal-content.large {
+  max-width: 800px;
+}
+
+.order-status-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.status-badge.large {
+  font-size: 1.1rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.order-date {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.info-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-card p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.info-card p.address {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.info-card p.address i {
+  color: #667eea;
+  margin-top: 0.2rem;
+}
+
+/* Items Section */
+.items-section {
+  margin-bottom: 2rem;
+}
+
+.items-section h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.items-list {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.order-item:last-child {
+  margin-bottom: 0;
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.item-qty {
+  font-weight: 600;
+  color: #667eea;
+  min-width: 30px;
+}
+
+.item-name {
+  color: #333;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+/* Order Summary */
+.order-summary {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  color: #333;
+}
+
+.summary-row.total {
+  border-top: 2px solid #999;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  font-size: 1.2rem;
+  color: #667eea;
+}
+
+.payment-method {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #333;
+}
+
+.payment-method i {
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+/* Observations */
+.observations {
+  background: #fff9c4;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid #f57f17;
+}
+
+.observations h4 {
+  margin: 0 0 0.75rem 0;
+  color: #f57f17;
+  font-size: 1rem;
+}
+
+.observations p {
+  margin: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-status-timeline {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .modal-content.large {
+    max-width: 95%;
+  }
+}

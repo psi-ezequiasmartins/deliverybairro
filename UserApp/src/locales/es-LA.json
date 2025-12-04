@@ -1,0 +1,189 @@
+{
+  "welcome": {
+    "title": "¡Bienvenido!",
+    "subtitle": "deliverybairro.com - UserApp"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "groups": "Grupos",
+    "deliveries": "Deliveries",
+    "orders": "Mis Pedidos",
+    "profile": "Perfil",
+    "cart": "Carrito",
+    "logout": "Salir (Cerrar)",
+    "closeMenu": "Cerrar Este Menú"
+  },
+  "tabs": {
+    "deliveries": "Deliveries",
+    "orders": "Mis Pedidos",
+    "profile": "Perfil"
+  },
+  "headers": {
+    "groups": "Deliveries (Grupos)",
+    "deliveriesList": "Lista de Deliveries",
+    "deliveryInfo": "Info Delivery",
+    "orders": "Mis Pedidos",
+    "orderDetails": "Detalles del Pedido",
+    "profile": "Datos del Usuario",
+    "cart": "Carrito de Compras",
+    "selectItem": "Seleccionar Artículo"
+  },
+  "auth": {
+    "login": "Ingresar",
+    "register": "Registrarse",
+    "logout": "Salir",
+    "email": "Correo",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "name": "Nombre",
+    "lastName": "Apellido",
+    "phone": "Teléfono",
+    "emailPlaceholder": "usuario@correo.com"
+  },
+  "reset": {
+    "title": "Recuperar Acceso",
+    "subtitle": "Enviaremos un enlace de recuperación al correo registrado:",
+    "sendLink": "Enviar Enlace",
+    "noAccount": "¿Aún no tienes cuenta? ¡Únete a nosotros!",
+    "backToLogin": "Volver al Login"
+  },
+  "signup": {
+    "welcome": "¡Bienvenido!",
+    "subtitle1": "¡Regístrate! Es simple y rápido.",
+    "subtitle2": "Ya estamos finalizando...",
+    "subtitle3": "Ingresa tu teléfono, correo y define una contraseña de 6 números.",
+    "nameLabel": "Nombre:",
+    "lastNameLabel": "Apellido:",
+    "phoneLabel": "Teléfono:",
+    "emailLabel": "Correo:",
+    "passwordLabel": "Contraseña:",
+    "confirmPasswordLabel": "Confirma tu Contraseña:",
+    "namePlaceholder": "Ej.: José",
+    "lastNamePlaceholder": "Ej.: Silva",
+    "phonePlaceholder": "Ej.: (212) 555-1234",
+    "emailPlaceholder": "Ej.: jose@correo.com",
+    "passwordPlaceholder": "Ingresa 6 números",
+    "confirmPasswordPlaceholder": "Repite la contraseña",
+    "advance": "AVANZAR",
+    "register": "REGISTRAR USUARIO",
+    "back": "VOLVER",
+    "wait": "Espere...",
+    "haveAccount": "¡Ya tengo una cuenta!",
+    "requiredFields": "Datos obligatorios",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "invalidPhone": "Teléfono inválido",
+    "invalidEmail": "Correo inválido"
+  },
+  "user": {
+    "welcome": "¡Bienvenido!",
+    "userId": "UserID",
+    "myData": "Mis Datos",
+    "profile": "Perfil",
+    "name": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo",
+    "phone": "Teléfono"
+  },
+  "profile": {
+    "updateData": "Actualizar Datos"
+  },
+  "orders": {
+    "title": "Mis Pedidos",
+    "empty": "No se encontraron pedidos",
+    "status": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmado",
+      "preparing": "Preparando",
+      "ready": "Listo",
+      "delivering": "Entregando",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
+    }
+  },
+  "cart": {
+    "title": "Carrito",
+    "empty": "Carrito vacío",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "delivery": "Entrega",
+    "checkout": "Finalizar Pedido",
+    "clear": "Limpiar Carrito"
+  },
+  "product": {
+    "price": "Precio",
+    "description": "Descripción",
+    "addToCart": "Agregar al Carrito",
+    "quantity": "Cantidad",
+    "extras": "Extras"
+  },
+  "delivery": {
+    "info": "Información del Delivery",
+    "menu": "Menú",
+    "contact": "Contacto",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "workingHours": "Horario de Atención",
+    "deliveryFee": "Costo de Entrega",
+    "minimumOrder": "Pedido Mínimo"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "clear": "Limpiar",
+    "add": "Agregar",
+    "remove": "Eliminar",
+    "close": "Cerrar",
+    "open": "Abrir",
+    "yes": "Sí",
+    "no": "No",
+    "ok": "OK"
+  },
+  "messages": {
+    "welcomeBack": "¡Bienvenido de vuelta!",
+    "loginSuccess": "Inicio de sesión exitoso",
+    "loginError": "Error al iniciar sesión",
+    "logoutSuccess": "Cierre de sesión exitoso",
+    "networkError": "Error de conexión",
+    "serverError": "Error del servidor",
+    "invalidCredentials": "Email y/o Contraseña inválidos o error en la autenticación",
+    "fillAllFields": "Complete todos los campos",
+    "passwordTooShort": "Contraseña muy corta",
+    "emailInvalid": "Correo inválido",
+    "passwordsNotMatch": "Las contraseñas no coinciden",
+    "registerPrompt": "¿Aún no tienes cuenta? ¡Únete a nosotros!",
+    "forgotPassword": "¿Olvidaste tu contraseña? Haz clic aquí."
+  },
+  "language": {
+    "select": "Seleccionar Idioma",
+    "current": "Idioma Actual",
+    "portuguese": "Português",
+    "english": "English",
+    "spanish": "Español"
+  },
+  "settings": {
+    "title": "Configuraciones",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "darkMode": "Modo Oscuro",
+    "about": "Acerca de",
+    "version": "Versión",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfUse": "Términos de Uso"
+  },
+  "footer": {
+    "copyright": "2025 psi-software - UserApp v3.2",
+    "rightsReserved": "Derechos Reservados",
+    "blueDelivery": "deliverybairro.com"
+  }
+}

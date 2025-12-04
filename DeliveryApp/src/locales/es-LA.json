@@ -1,0 +1,437 @@
+{
+  "menu": {
+    "home": "Inicio",
+    "advantages": "Ventajas",
+    "testimonials": "Testimonios",
+    "plans": "Planes de Suscripción",
+    "download": "Descargar (App)",
+    "contact": "Contacto"
+  },
+  "banner": {
+    "title": "¡Fácil de configurar y simple de usar!",
+    "subtitle": "Sistema práctico y simplificado para Delivery + Menú Digital con envío de pedidos vía WhatsApp.",
+    "description": "¡Registra tu Delivery gratis hoy mismo y únete a nuestro Catálogo! Paga solo $0,18 por pedido enviado a través de nuestra plataforma.",
+    "register": "Registrarse",
+    "login": "Iniciar Sesión",
+    "rotating_texts": [
+      "¡Agiliza la gestión de pedidos de tu bar, restaurante o comida rápida de manera muy práctica y simple!",
+      "Gestión de Pedidos para Deliveries en General de forma ágil y sin complicaciones.",
+      "Sistema práctico y simplificado para Delivery + Menú Digital con envío de pedidos vía WhatsApp.",
+      "Bares, Restaurantes, Pizzerías, Comida Rápida, Farmacias, Floristerías, Gas de Cocina, Agua Mineral, etc."
+    ]
+  },
+  "advantages": {
+    "title": "Aplicación Web (100% online)",
+    "subtitle": "Gestión de Pedidos, Registro de Productos, Menú Digital, etc. ¡Todo lo que necesitas en un solo lugar!",
+    "items": {
+      "easy": {
+        "title": "Fácil de usar",
+        "description": "El sistema tiene una interfaz simple, práctica e intuitiva. Fácil de configurar y usar."
+      },
+      "anywhere": {
+        "title": "Desde cualquier lugar",
+        "description": "Gestiona tu Delivery remotamente (100% online), estés donde estés."
+      },
+      "affordable": {
+        "title": "Precio justo",
+        "description": "Paga solo $0,18 por pedido realizado. Sin cuotas mensuales o cargos ocultos."
+      },
+      "whatsapp": {
+        "title": "Integración WhatsApp",
+        "description": "Recibe pedidos directamente en tu WhatsApp"
+      },
+      "digital_menu": {
+        "title": "Menú Digital",
+        "description": "Menú online profesional para tus clientes"
+      },
+      "management": {
+        "title": "Gestión Completa",
+        "description": "Controla pedidos, productos y entregas"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Testimonios",
+    "subtitle": "Lo que nuestros clientes dicen sobre deliverybairro.com",
+    "items": [
+      {
+        "name": "Heliomar P Marques - São Paulo",
+        "text": "Excelente herramienta para administrar tu Delivery en el día a día."
+      },
+      {
+        "name": "Afonso Motta - Rio de Janeiro",
+        "text": "Diseño simple y elegante, interfaz intuitiva y agradable para todos los usuarios."
+      },
+      {
+        "name": "Ezequias Martins - Belo Horizonte",
+        "text": "deliverybairro.com es una herramienta útil e intuitiva para la gestión de Deliveries en general."
+      },
+      {
+        "name": "Sérgio Sales - Belo Horizonte",
+        "text": "deliverybairro.com reduce los costos y la distancia entre tú y tus clientes."
+      }
+    ],
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "plans": {
+    "title": "Planes de Suscripción",
+    "subtitle": "Tarifa de Suscripción (pago único) desde $16,20 (Plan PRO), elige el plan según tus necesidades:",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "free_trial": "Prueba Gratis",
+    "free": {
+      "title": "Gratis",
+      "price": "$0,00",
+      "fee": "+ $0,18 por pedido",
+      "products": "Hasta 10 productos",
+      "description": "¡Regístrate gratis y únete a nuestro catálogo! Soporte Offline (por email)",
+      "button": "Regístrate ahora"
+    },
+    "pro": {
+      "title": "Pro",
+      "price": "$35",
+      "fee": "+ $0,18 por pedido",
+      "products": "Hasta 20 productos",
+      "description": "Menú Online* + Soporte Online: (Google Meet/WhatsApp)",
+      "button": "Regístrate ahora"
+    },
+    "premium": {
+      "title": "Premium",
+      "price": "$99",
+      "fee": "+ $0,18 por pedido",
+      "products": "Hasta 30 productos",
+      "description": "Menú Online* + Google Ads** + Soporte Online: (Google Meet/WhatsApp)",
+      "button": "Regístrate ahora"
+    },
+    "notes": {
+      "digital_menu": "(*) Menú Online personalizado con el Logo del Delivery",
+      "google_ads": "(**) Campaña de Publicidad en Google Ads",
+      "google_ads_description": "Promociona tu Delivery en tu región a través de nuestra campaña en Google Ads, para más información, por favor contáctanos."
+    },
+    "form": {
+      "delivery_name": "Nombre del Delivery",
+      "plan": "Plan",
+      "responsible": "Responsable",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "schedule": "Horario de Funcionamiento",
+      "address": "Dirección Completa",
+      "required_fields": "(*) ¡Campos obligatorios! Después del envío, recibirás instrucciones en tu email para completar tu suscripción y crear tu login de acceso.",
+      "submit": "Enviar Solicitud",
+      "modal_title": "¡Registra tu Delivery Gratis!",
+      "category": "Categoría",
+      "cancel": "CANCELAR",
+      "send": "ENVIAR PRE-REGISTRO",
+      "success": "¡Delivery registrado exitosamente!",
+      "error_required": "Por favor complete todos los campos obligatorios marcados con (*).",
+      "plans": {
+        "basic": "Plan Gratis (Hasta 10 productos, incluyendo bebidas): Tasa de Adhesión: $0.00 + $0.99 por pedido",
+        "pro": "Plan Pro (Hasta 30 productos, incluyendo bebidas): Tasa de Adhesión $79.90 + $0.99 por pedido",
+        "premium": "Plan Premium (Hasta 50 productos, incluyendo bebidas): Tasa de Adhesión $579.90 + $0.99 por pedido"
+      },
+      "categories": {
+        "101": "OFERTAS",
+        "102": "SÁNDWICHES",
+        "103": "HOT DOGS",
+        "104": "BEBIDAS",
+        "105": "PLATOS Y PORCIONES",
+        "106": "SUSHI",
+        "107": "FRUTAS Y VERDURAS",
+        "108": "MEDICAMENTOS",
+        "109": "GAS DE COCINA",
+        "110": "FLORICULTURA",
+        "111": "AGUA MINERAL",
+        "112": "MERCADO"
+      }
+    }
+  },
+  "mobile": {
+    "title": "Descarga gratis nuestra App Móvil (Android/iOS*)",
+    "subtitle": "¡Accede a nuestro catálogo de establecimientos con entrega a domicilio cerca de ti!",
+    "download_button": "Descargar UserApp v3.2",
+    "ios_note": "(*) pronto también para dispositivos iOS (iPhone, iPads, etc)"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Ponte en contacto con nosotros",
+    "name": "Nombre",
+    "email": "Correo Electrónico",
+    "phone": "Teléfono",
+    "message": "Mensaje",
+    "send": "Enviar"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Uso",
+    "company_name": "PSI-SOFTWARE",
+    "cnpj": "CNPJ 18.478.810/0001-13",
+    "address": "Rua dos Comanches 870/302 Santa Mônica, Belo Horizonte/MG, Brasil 31530-250",
+    "email": "ezequiasmartins@gmail.com",
+    "phone": "+55 31 98410-7540",
+    "visits_since": "Visitas desde el 31 de Diciembre/2021"
+  },
+  "app": {
+    "login": {
+      "title": "¡Hola! ¡Bienvenido!",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "signin": "INICIAR SESIÓN",
+      "forgot_password": "¡Olvidé mi contraseña!",
+      "create_account": "¿Aún no tienes cuenta? ¡Únete a nosotros!",
+      "copyright": "deliverybairro.com"
+    },
+    "register": {
+      "title": "Nuevo Usuario",
+      "delivery_name": "Delivery",
+      "email": "Correo Electrónico",
+      "password": "Define tu Contraseña",
+      "confirm_password": "Confirma tu Contraseña",
+      "signup": "REGISTRAR ACCESO",
+      "already_have_account": "Ya tengo una cuenta",
+      "copyright": "deliverybairro.com"
+    },
+    "reset": {
+      "title": "Recuperar Contraseña",
+      "email": "Correo Electrónico",
+      "send_link": "ENVIAR ENLACE",
+      "back_to_login": "Volver al Login",
+      "create_account": "¿Aún no tienes cuenta? ¡Únete a nosotros!",
+      "copyright": "deliverybairro.com"
+    },
+    "menu": {
+      "orders": "Pedidos",
+      "products": "Productos",
+      "extras": "Adicionales",
+      "delivery": "Delivery",
+      "logout": "Salir"
+    },
+    "orders": {
+      "title": "COLA DE PEDIDOS",
+      "update": "ACTUALIZAR",
+      "pdf": "PDF",
+      "no_orders": "Aún no hay pedidos registrados para este delivery.",
+      "error_loading": "Error al cargar pedidos. Inténtalo de nuevo más tarde.",
+      "status": {
+        "pending": "Pendiente",
+        "confirmed": "Confirmado",
+        "preparing": "Preparando",
+        "ready": "Listo",
+        "delivering": "En Camino",
+        "delivered": "Entregado",
+        "cancelled": "Cancelado"
+      }
+    },
+    "products": {
+      "title": "GESTIÓN DE PRODUCTOS",
+      "page_title": "Registro de Productos",
+      "new_product": "NUEVO PRODUCTO",
+      "edit_product": "EDITAR PRODUCTO",
+      "pdf": "PDF",
+      "search_placeholder": "Producto",
+      "no_products": "No hay productos registrados para este delivery.",
+      "error_loading": "Error al cargar productos.",
+      "table": {
+        "id": "ID",
+        "image": "IMAGEN",
+        "product": "PRODUCTO",
+        "unit_price": "PRECIO UNIT.",
+        "actions": "ACCIONES"
+      },
+      "form": {
+        "new_title": "NUEVO PRODUCTO",
+        "edit_title": "EDITAR PRODUCTO",
+        "product_name": "Nombre del Producto",
+        "description": "Descripción",
+        "unit_price": "Precio Unitario",
+        "product_image": "Imagen del Producto",
+        "add_image": "AGREGAR IMAGEN",
+        "change_image": "CAMBIAR IMAGEN",
+        "remove_image": "ELIMINAR",
+        "extras_question": "¿Listar artículos extras? (si los hay para este producto)",
+        "observations_question": "¿Agregar observaciones para este producto en el pedido?",
+        "yes": "Sí",
+        "no": "No",
+        "cancel": "CANCELAR",
+        "save": "GUARDAR",
+        "close": "Cerrar"
+      },
+      "messages": {
+        "name_required": "Por favor complete el campo Nombre del Producto.",
+        "id_error": "Error: ID del producto no encontrado. Seleccione un producto para editar.",
+        "created_success": "¡Producto registrado exitosamente!",
+        "updated_success": "¡Producto actualizado exitosamente!",
+        "deleted_success": "¡Producto eliminado exitosamente!",
+        "not_found": "Producto no encontrado.",
+        "load_error": "Error al cargar producto: "
+      },
+      "delete": {
+        "title": "Eliminación",
+        "confirm": "¿Confirma eliminar {{product}} ?",
+        "deleted_title": "¡Eliminado!",
+        "deleted_text": "Producto eliminado.",
+        "cancelled_title": "Cancelado",
+        "cancelled_text": "La eliminación del producto fue cancelada."
+      },
+      "image_upload": {
+        "select_title": "Seleccione la imagen:",
+        "select_new_title": "Seleccione la imagen del producto:",
+        "upload_success": "¡Imagen enviada exitosamente!",
+        "image_loaded": "¡Imagen cargada!",
+        "image_loaded_text": "Imagen seleccionada exitosamente. Ahora haga clic en GUARDAR para registrar el producto.",
+        "upload_error": "Error",
+        "upload_error_text": "Falla en la carga de la imagen.",
+        "send": "ENVIAR"
+      },
+      "pdf_generation": {
+        "no_products_title": "Aviso",
+        "no_products_text": "No hay pedidos abiertos disponibles para generar el PDF.",
+        "error_title": "Error",
+        "error_text": "No se pudo generar el PDF. Intente nuevamente más tarde."
+      },
+      "tooltips": {
+        "edit": "EDITAR PRODUCTO",
+        "upload_image": "SUBIR IMAGEN",
+        "delete": "ELIMINAR PRODUCTO"
+      }
+    },
+    "extras": {
+      "title": "Artículos Adicionales",
+      "new_item": "NUEVO ARTÍCULO ADICIONAL",
+      "pdf": "PDF",
+      "search_placeholder": "Artículo adicional",
+      "no_items": "No hay artículos adicionales registrados para este delivery.",
+      "error_loading": "Error al cargar artículos adicionales. Intente nuevamente más tarde.",
+      "table": {
+        "id": "ID",
+        "item": "ARTÍCULO ADICIONAL",
+        "unit_price": "PRECIO UNIT.",
+        "actions": "ACCIONES"
+      },
+      "form": {
+        "new_title": "NUEVO ARTÍCULO ADICIONAL",
+        "edit_title": "EDITAR ARTÍCULO ADICIONAL",
+        "description": "Descripción",
+        "unit_price": "Precio Unitario",
+        "cancel": "CANCELAR",
+        "save": "GUARDAR",
+        "close": "Cerrar"
+      },
+      "messages": {
+        "description_required": "Por favor complete el campo Descripción.",
+        "price_invalid": "Por favor complete el campo Precio Unitario con un número válido.",
+        "created_success": "¡Artículo adicional registrado exitosamente!",
+        "updated_success": "¡Artículo adicional actualizado exitosamente!",
+        "validation_error": "Error de validación: Verifique los datos ingresados.",
+        "server_error": "Error del servidor: No se pudo procesar la solicitud.",
+        "unknown_error": "Error desconocido: Intente nuevamente más tarde.",
+        "not_found": "Artículo adicional no encontrado.",
+        "load_error": "Error al cargar artículo adicional: "
+      },
+      "delete": {
+        "title": "Eliminación",
+        "confirm": "¿Confirma eliminar {{item}} ?",
+        "deleted_title": "¡Eliminado!",
+        "deleted_text": "Artículo adicional eliminado.",
+        "cancelled_title": "Cancelado",
+        "cancelled_text": "La eliminación del artículo adicional fue cancelada."
+      },
+      "pdf_generation": {
+        "no_items_title": "Aviso",
+        "no_items_text": "No hay artículos adicionales registrados para generar el PDF.",
+        "error_title": "Error",
+        "error_text": "No se pudo generar el PDF. Intente nuevamente más tarde."
+      }
+    },
+    "delivery": {
+      "title": "DATOS DEL DELIVERY",
+      "form": {
+        "delivery_name": "Nombre del Delivery",
+        "plan": "Plan",
+        "category": "Categoría del Delivery",
+        "responsible": "Nombre del Responsable",
+        "email": "Correo Electrónico",
+        "phone": "Teléfono",
+        "hours": "Horario de Funcionamiento",
+        "min_time": "Tiempo Mín. Entrega (min)",
+        "max_time": "Tiempo Máx. Entrega (min)",
+        "delivery_fee": "Tasa de Entrega ($)",
+        "rating": "Calificación",
+        "image_url": "URL de Imagen",
+        "cep": "Código Postal",
+        "address": "Dirección",
+        "number": "Número",
+        "complement": "Complemento",
+        "neighborhood": "Barrio",
+        "city": "Ciudad",
+        "state": "Estado",
+        "save": "GUARDAR CAMBIOS",
+        "plans": {
+          "basic": "Plan Gratis | Hasta 10 productos (incluyendo bebidas): Tasa de Adhesión: $0.00 + $0.99 por pedido",
+          "pro": "Plan Pro | Hasta 30 productos (incluyendo bebidas): Tasa de Adhesión $79.90 + $0.99 por pedido",
+          "premium": "Plan Premium | Hasta 50 productos (incluyendo bebidas): Tasa de Adhesión $579.90 + $0.99 por pedido"
+        },
+        "categories": {
+          "101": "OFERTAS",
+          "102": "SÁNDWICHES",
+          "103": "HOT DOGS",
+          "104": "BEBIDAS",
+          "105": "PLATOS Y PORCIONES",
+          "106": "SUSHI",
+          "107": "FRUTAS Y VERDURAS",
+          "108": "MEDICAMENTOS",
+          "109": "GAS DE COCINA",
+          "110": "FLORICULTURA",
+          "111": "AGUA MINERAL",
+          "112": "MERCADO"
+        }
+      },
+      "plans_section": {
+        "title": "Planes de Adhesión",
+        "subtitle": "Tasa de Adhesión (pago único) a partir de $89.90 (Plan PRO), elige el plan según tu necesidad:",
+        "free": {
+          "title": "Gratis",
+          "price": "$0.00",
+          "fee": "+ $0.99 por pedido",
+          "products": "Hasta 10 productos",
+          "description": "¡Regístrate gratis y forma parte de nuestro catálogo! Soporte Offline (por email)"
+        },
+        "pro": {
+          "title": "Pro",
+          "price": "$89.90",
+          "fee": "+ $0.99 por pedido",
+          "products": "Hasta 30 productos",
+          "description": "Soporte Online (WhatsApp)"
+        },
+        "premium": {
+          "title": "Premium",
+          "price": "$489.90",
+          "fee": "+ $0.99 por pedido",
+          "products": "Hasta 50 productos",
+          "description": "Soporte Online (WhatsApp) + Soporte Telefónico"
+        }
+      },
+      "messages": {
+        "pre_register_success": "¡Pre-registro completado exitosamente!",
+        "update_success": "¡Datos actualizados exitosamente!",
+        "pre_register_error": "Error en pre-registro: ",
+        "connection_error": "Error de conexión con el servidor",
+        "unknown_error": "Error desconocido"
+      }
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "yes": "Sí",
+    "no": "No",
+    "save": "Guardar",
+    "close": "Cerrar"
+  }
+}

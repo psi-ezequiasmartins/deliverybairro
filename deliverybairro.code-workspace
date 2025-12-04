@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "backend"
+    },
+    {
+      "path": "cardapio-online"
+    },
+    {
+      "path": "CourierApp"
+    },
+    {
+      "path": "DeliveryApp"
+    },
+    {
+      "path": "UserApp"
+    }
+  ],
+  "settings": {
+    "editor.codeActions.triggerOnFocusChange": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveWhenNoErrors": true
+  }
+}

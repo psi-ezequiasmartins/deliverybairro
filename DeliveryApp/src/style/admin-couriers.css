@@ -1,0 +1,116 @@
+/* Admin Couriers Page */
+
+@import url('./admin-deliveries.css');
+
+.courier-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.courier-avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffa726;
+}
+
+.rating i {
+  font-size: 1rem;
+}
+
+.rating span {
+  font-weight: 600;
+  color: #333;
+}
+
+.rating-large {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.rating-large i {
+  color: #ffa726;
+  font-size: 1.2rem;
+}
+
+.rating-large>span {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.rating-count {
+  color: #666;
+  font-size: 0.9rem !important;
+  font-weight: normal !important;
+}
+
+.status-online {
+  background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+  color: white;
+}
+
+.status-busy {
+  background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+  color: white;
+}
+
+.status-offline {
+  background: #757575;
+  color: white;
+}
+
+.deliveries-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.deliveries-section h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.delivery-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.delivery-item strong {
+  color: #333;
+  font-size: 1rem;
+}
+
+.delivery-item p {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.85rem;
+}

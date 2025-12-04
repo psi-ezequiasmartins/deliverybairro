@@ -1,0 +1,113 @@
+{
+  "app": {
+    "name": "CourierApp",
+    "welcome": "Welcome to CourierApp",
+    "loading": "Loading..."
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "surname": "Last Name",
+    "phone": "Phone",
+    "vehicleType": "Vehicle Type",
+    "vehiclePlate": "Vehicle Plate",
+    "forgotPassword": "Forgot your password?",
+    "dontHaveAccount": "Don't have an account? Sign up",
+    "alreadyHaveAccount": "Already have an account? Sign in",
+    "loginError": "Login error",
+    "registerError": "Registration error",
+    "invalidCredentials": "Invalid credentials",
+    "accountPending": "Account pending approval"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "status": "Status",
+    "online": "Online",
+    "offline": "Offline",
+    "busy": "Busy",
+    "totalDeliveries": "Total Deliveries",
+    "rating": "Rating",
+    "earnings": "Earnings"
+  },
+  "orders": {
+    "title": "Orders",
+    "available": "Available",
+    "accepted": "Accepted",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "accept": "Accept",
+    "reject": "Reject",
+    "startPickup": "Start Pickup",
+    "confirmPickup": "Confirm Pickup",
+    "startDelivery": "Start Delivery",
+    "completeDelivery": "Complete Delivery",
+    "orderNumber": "Order #",
+    "customer": "Customer",
+    "restaurant": "Restaurant",
+    "address": "Address",
+    "value": "Value",
+    "distance": "Distance",
+    "estimatedTime": "Estimated Time",
+    "pickupAddress": "Pickup Address",
+    "deliveryAddress": "Delivery Address",
+    "orderDetails": "Order Details",
+    "items": "Items",
+    "instructions": "Instructions",
+    "paymentMethod": "Payment Method"
+  },
+  "navigation": {
+    "title": "Navigation",
+    "startNavigation": "Start Navigation",
+    "stopNavigation": "Stop Navigation",
+    "recalculate": "Recalculate Route",
+    "arrival": "Arrival",
+    "duration": "Duration",
+    "route": "Route",
+    "traffic": "Traffic"
+  },
+  "status": {
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "pickingUp": "Picking Up",
+    "inDelivery": "In Delivery",
+    "delivered": "Delivered",
+    "canceled": "Canceled"
+  },
+  "vehicle": {
+    "bike": "Bike",
+    "motorcycle": "Motorcycle",
+    "car": "Car",
+    "truck": "Truck"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "refresh": "Refresh",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "errors": {
+    "networkError": "Network error",
+    "locationPermission": "Location permission required",
+    "cameraPermission": "Camera permission required",
+    "generalError": "Unexpected error"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "app": {
+    "name": "CourierApp",
+    "welcome": "Bem-vindo ao CourierApp",
+    "loading": "Carregando..."
+  },
+  "auth": {
+    "login": "Entrar",
+    "logout": "Sair",
+    "register": "Cadastrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "name": "Nome",
+    "surname": "Sobrenome",
+    "phone": "Telefone",
+    "vehicleType": "Tipo de Veículo",
+    "vehiclePlate": "Placa do Veículo",
+    "forgotPassword": "Esqueceu sua senha?",
+    "dontHaveAccount": "Não tem conta? Cadastre-se",
+    "alreadyHaveAccount": "Já tem conta? Entre",
+    "loginError": "Erro no login",
+    "registerError": "Erro no cadastro",
+    "invalidCredentials": "Credenciais inválidas",
+    "accountPending": "Conta aguardando aprovação"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "status": "Status",
+    "online": "Online",
+    "offline": "Offline",
+    "busy": "Ocupado",
+    "totalDeliveries": "Total de Entregas",
+    "rating": "Avaliação",
+    "earnings": "Ganhos"
+  },
+  "orders": {
+    "title": "Pedidos",
+    "available": "Disponíveis",
+    "accepted": "Aceitos",
+    "inProgress": "Em Andamento",
+    "completed": "Concluídos",
+    "accept": "Aceitar",
+    "reject": "Rejeitar",
+    "startPickup": "Iniciar Coleta",
+    "confirmPickup": "Confirmar Coleta",
+    "startDelivery": "Iniciar Entrega",
+    "completeDelivery": "Finalizar Entrega",
+    "orderNumber": "Pedido #",
+    "customer": "Cliente",
+    "restaurant": "Restaurante",
+    "address": "Endereço",
+    "value": "Valor",
+    "distance": "Distância",
+    "estimatedTime": "Tempo Estimado",
+    "pickupAddress": "Endereço de Coleta",
+    "deliveryAddress": "Endereço de Entrega",
+    "orderDetails": "Detalhes do Pedido",
+    "items": "Itens",
+    "instructions": "Instruções",
+    "paymentMethod": "Forma de Pagamento"
+  },
+  "navigation": {
+    "title": "Navegação",
+    "startNavigation": "Iniciar Navegação",
+    "stopNavigation": "Parar Navegação",
+    "recalculate": "Recalcular Rota",
+    "arrival": "Chegada",
+    "duration": "Duração",
+    "route": "Rota",
+    "traffic": "Trânsito"
+  },
+  "status": {
+    "pending": "Pendente",
+    "accepted": "Aceito",
+    "pickingUp": "Coletando",
+    "inDelivery": "Em Entrega",
+    "delivered": "Entregue",
+    "canceled": "Cancelado"
+  },
+  "vehicle": {
+    "bike": "Bicicleta",
+    "motorcycle": "Motocicleta",
+    "car": "Carro",
+    "truck": "Caminhão"
+  },
+  "common": {
+    "yes": "Sim",
+    "no": "Não",
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "refresh": "Atualizar",
+    "error": "Erro",
+    "success": "Sucesso",
+    "warning": "Atenção",
+    "info": "Informação"
+  },
+  "errors": {
+    "networkError": "Erro de conexão",
+    "locationPermission": "Permissão de localização necessária",
+    "cameraPermission": "Permissão de câmera necessária",
+    "generalError": "Erro inesperado"
+  }
+}

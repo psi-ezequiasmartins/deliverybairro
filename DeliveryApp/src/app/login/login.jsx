@@ -1,0 +1,82 @@
+/**
+ * src/app/login/login.jsx
+ */
+
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+import { useTranslateContext } from '../../context/TranslateContext';
+import { useTranslation } from 'react-i18next';
+import api from "../../config/apiAxios";
+import './login.css';
+
+export default function Login() {
+  const { t } = useTranslation();
+  const { currentLanguage } = useTranslateContext();
+  const { loading, message, signIn, authenticated, result } = useContext(AuthContext);
+  // const [delivery, setDelivery] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const ano = new Date().getFullYear();
+
+  useEffect(() => {
+    console.log('🌐 Login - Current Language:', currentLanguage);
+    console.log('🌐 Login - Translation test:', t('app.login.title'));
+    // Após login bem-sucedido, buscar dados do delivery
+    if (result === 'S' && authenticated) {
+      const deliveryId = parseFloat(localStorage.getItem("vID"));
+      if (!deliveryId || isNaN(deliveryId)) {
+        navigate('/app/login');
+        return;
+      }
+      api.get(`/api/delivery/${deliveryId}`)
+        .then(response => {
+          // setDelivery(response.data);
+
+          const obrigatorios = ['ENDERECO', 'NUMERO', 'BAIRRO', 'CIDADE', 'UF', 'CEP'];
+          const incompletos = obrigatorios.some(campo => !response.data[campo] || response.data[campo] === null || response.data[campo] === '');
+          if (incompletos) {
+            navigate('/app/delivery');
+          } else {
+            navigate('/app/pedidos');
+          }
+        })
+        .catch(() => {
+          navigate('/app/login');
+        });
+    }
+  }, [result, authenticated, navigate, currentLanguage, t]);
+
+  // ...removido: validação e navegação devem ser feitas no useEffect acima
+
+  return (
+    <div className="d-flex align-items-center text-center form-container">
+      <form className="form-login" onSubmit={(e) => e.preventDefault()}>
+        <a href="/#">
+          <img src="/images/logo.png" alt="" className="mb-4" />
+        </a>
+        <h1 className="h3 mb-2 fw-normal">{t('app.login.title')}</h1>
+        <div className="form-floating mt-2">
+          <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="email" placeholder={t('app.login.email')} />
+          <label htmlFor="email">{t('app.login.email')}</label>
+        </div>
+        <div className="form-floating mt-2">
+          <input onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="password" placeholder={t('app.login.password')} />
+          <label htmlFor="password">{t('app.login.password')}</label>
+        </div>
+        <button onClick={() => signIn(email, password)} className="btn btn-lg btn-dark mt-2 w-100" type="button">{t('app.login.signin')}</button>
+        <div className="form-links">
+          <Link to="/pre-cadastro" className="mx-3">{t('app.login.create_account')}</Link>
+        </div>
+        {message && <div className="alert alert-danger mt-2" role="alert">{message}</div>}
+        <small>&copy; {ano} {t('app.login.copyright')}</small>
+      </form>
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+    </div>
+  );
+}

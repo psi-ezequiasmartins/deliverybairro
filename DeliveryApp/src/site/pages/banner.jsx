@@ -42,7 +42,7 @@ function Banner() {
               <h5>{t('banner.description')}</h5>
               <div className="button-group">
                 <a href="/pre-cadastro" type="button" className="btn btn-primary btn-lg btn-app">{t('banner.register')}</a>
-                <a href="/app/login" type="button" className="btn btn-outline-light btn-lg btn-app">{t('banner.login')}</a>
+                <a href="/app/login" type="button" className="btn btn-warning btn-lg btn-app">{t('banner.login')}</a>
               </div>
             </div>
           </div>

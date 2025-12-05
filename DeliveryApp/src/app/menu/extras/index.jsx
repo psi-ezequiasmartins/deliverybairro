@@ -239,11 +239,11 @@ export default function Extras() {
           <h1>{t('app.extras.title')} - {vID} {vDelivery}</h1>
           <div className="row">
             <div className="col-6">
-              <div className="mt-2">
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novo">
+              <div className="mt-2 d-flex gap-1">
+                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novo" style={{ width: 'auto' }}>
                   <i className="fas fa-address-book"></i> {t('app.extras.new_item')}
                 </button>
-                <button onClick={VisualizarPDF} className="btn btn-warning"><i className="fas fa-file-pdf"></i> {t('app.extras.pdf')}</button>
+                <button onClick={VisualizarPDF} className="btn btn-warning" style={{ width: 'auto' }}><i className="fas fa-file-pdf"></i> {t('app.extras.pdf')}</button>
               </div>
             </div>
             <div className="col-6">
@@ -286,9 +286,9 @@ export default function Extras() {
                   </form>
                 </div>
 
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{t('app.extras.form.cancel')}</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>{t('app.extras.form.save')}</button>
+                <div className="modal-footer d-flex gap-1">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" style={{ width: 'auto' }}>{t('app.extras.form.cancel')}</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar} style={{ width: 'auto' }}>{t('app.extras.form.save')}</button>
                 </div>
 
               </div>
@@ -323,9 +323,9 @@ export default function Extras() {
                   </form>
                 </div>
 
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{t('app.extras.form.cancel')}</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar}>{t('app.extras.form.save')}</button>
+                <div className="modal-footer d-flex gap-1">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" style={{ width: 'auto' }}>{t('app.extras.form.cancel')}</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar} style={{ width: 'auto' }}>{t('app.extras.form.save')}</button>
                 </div>
 
               </div>

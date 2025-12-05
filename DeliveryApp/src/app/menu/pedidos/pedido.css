@@ -8,29 +8,40 @@
   border: 1px solid rgb(90, 90, 90);
   padding: 15px;
 }
+
 .pedido text-black {
   color: #000;
-  background-color: #FFF;
+  background-color: transparent;
 }
+
 .pedido text-gray {
   color: gray;
   font-size: 12px;
-  background-color: #FFF;
+  background-color: transparent;
 }
+
 .pedido text-orange {
   color: orangered;
-  background-color: #FFF;
+  background-color: transparent;
 }
+
 .pedido text-white {
   color: #FFF;
-  background-color: #FFF;
+  background-color: transparent;
 }
+
 .pedido a {
   cursor: pointer;
 }
+
 .foto-item {
-  max-width: 100px;
+  max-width: 50px;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 5px;
 }
+
 .card-pedido {
   position: relative;
   display: flex;
@@ -38,18 +49,100 @@
   min-width: 0;
   min-height: 200px;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: transparent;
   background-clip: border-box;
-  border: 1px;
+  border: 0;
   border-radius: .25rem;
   padding: 15px;
 }
+
 .acrescimos ul {
-  min-height: 100px;
+  /* min-height: 10px; */
+  background-color: transparent;
 }
+
+.acrescimos {
+  background-color: transparent;
+}
+
 .obs {
-  min-height: 50px; /* Defina a altura mínima desejada */
+  padding: 10px;
+  background-color: transparent;
+  border-radius: 5px;
 }
+
 .bg-warning {
   color: #000;
+}
+
+/* Blocos Principais do Pedido */
+
+/* 1. Bloco de Informações do Cliente/Pedido - Azul claro */
+.pedido-info-block {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #90caf9;
+  height: 100%;
+}
+
+/* 2. Bloco de Controles de Status - Verde claro */
+.pedido-status-block {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #81c784;
+  height: 100%;
+}
+
+/* 3. Bloco de Itens do Pedido - Laranja/Âmbar claro */
+.pedido-items-block {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ffd54f;
+}
+
+/* Controles de Status - Base */
+.status-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.status-select {
+  padding: 6px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #212529;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 160px;
+}
+
+.status-select:hover {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+}
+
+.status-select option {
+  padding: 8px;
 }

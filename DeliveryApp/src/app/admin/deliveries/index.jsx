@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminMenu from '../../../components/admin/AdminMenu';
 import api from '../../../config/apiAxios';
@@ -22,11 +22,34 @@ export default function AdminDeliveries() {
       return;
     }
     loadDeliveries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
+  const filterData = useCallback(() => {
+    let filtered = deliveries;
+
+    if (searchTerm) {
+      filtered = filtered.filter(delivery =>
+        delivery.DELIVERY_NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        delivery.EMAIL?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        delivery.TELEFONE?.includes(searchTerm)
+      );
+    }
+
+    if (filterCategoria) {
+      filtered = filtered.filter(delivery => delivery.CATEGORIA_ID?.toString() === filterCategoria);
+    }
+
+    if (filterStatus) {
+      filtered = filtered.filter(delivery => delivery.CHV?.toString() === filterStatus);
+    }
+
+    setFilteredDeliveries(filtered);
+  }, [deliveries, searchTerm, filterCategoria, filterStatus]);
 
   useEffect(() => {
     filterData();
-  }, [searchTerm, filterCategoria, filterStatus, deliveries]);
+  }, [filterData]);
 
   const loadDeliveries = async () => {
     try {
@@ -49,28 +72,6 @@ export default function AdminDeliveries() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const filterData = () => {
-    let filtered = [...deliveries];
-
-    if (searchTerm) {
-      filtered = filtered.filter(d =>
-        d.NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        d.EMAIL?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        d.TELEFONE?.includes(searchTerm)
-      );
-    }
-
-    if (filterCategoria) {
-      filtered = filtered.filter(d => d.CATEGORIA === filterCategoria);
-    }
-
-    if (filterStatus !== '') {
-      filtered = filtered.filter(d => d.SITUACAO === parseInt(filterStatus));
-    }
-
-    setFilteredDeliveries(filtered);
   };
 
   const toggleStatus = async (deliveryId, currentStatus) => {

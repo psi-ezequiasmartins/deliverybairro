@@ -95,9 +95,9 @@ export default function Pedidos() {
           <h1>{t('app.orders.title')} - {vID} {vDelivery}</h1>
 
           <div className="row">
-            <div className="mt-2">
-              <button onClick={ListarPedidos} className="btn m-2 btn-primary">{t('app.orders.update')}</button>
-              <button onClick={VisualizarPDF} className="btn m-2 btn-warning"><i className="fas fa-file-pdf"></i> {t('app.orders.pdf')}</button>
+            <div className="mt-2 d-flex gap-1">
+              <button onClick={ListarPedidos} className="btn btn-primary" style={{ width: 'auto' }}>{t('app.orders.update')}</button>
+              <button onClick={VisualizarPDF} className="btn btn-warning" style={{ width: 'auto' }}><i className="fas fa-file-pdf"></i> {t('app.orders.pdf')}</button>
             </div>
           </div>
 

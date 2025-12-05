@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminMenu from '../../../components/admin/AdminMenu';
 import api from '../../../config/apiAxios';
@@ -21,11 +21,30 @@ export default function AdminCouriers() {
       return;
     }
     loadCouriers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
+  const filterData = useCallback(() => {
+    let filtered = couriers;
+
+    if (searchTerm) {
+      filtered = filtered.filter(courier =>
+        courier.COURIER_NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        courier.EMAIL?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        courier.TELEFONE?.includes(searchTerm)
+      );
+    }
+
+    if (filterStatus) {
+      filtered = filtered.filter(courier => courier.STATUS === filterStatus);
+    }
+
+    setFilteredCouriers(filtered);
+  }, [couriers, searchTerm, filterStatus]);
 
   useEffect(() => {
     filterData();
-  }, [searchTerm, filterStatus, couriers]);
+  }, [filterData]);
 
   const loadCouriers = async () => {
     try {
@@ -48,24 +67,6 @@ export default function AdminCouriers() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const filterData = () => {
-    let filtered = [...couriers];
-
-    if (searchTerm) {
-      filtered = filtered.filter(c =>
-        c.NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.EMAIL?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.TELEFONE?.includes(searchTerm)
-      );
-    }
-
-    if (filterStatus !== '') {
-      filtered = filtered.filter(c => c.ATIVO === parseInt(filterStatus));
-    }
-
-    setFilteredCouriers(filtered);
   };
 
   const toggleStatus = async (courierId, currentStatus) => {
@@ -100,15 +101,6 @@ export default function AdminCouriers() {
   const formatDate = (dateString) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('pt-BR');
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'ONLINE': return 'online';
-      case 'OCUPADO': return 'busy';
-      case 'OFFLINE': return 'offline';
-      default: return 'offline';
-    }
   };
 
   return (

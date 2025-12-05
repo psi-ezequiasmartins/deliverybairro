@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminMenu from '../../../components/admin/AdminMenu';
 import api from '../../../config/apiAxios';
@@ -20,11 +20,26 @@ export default function AdminUsers() {
       return;
     }
     loadUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
+  const filterData = useCallback(() => {
+    let filtered = users;
+
+    if (searchTerm) {
+      filtered = filtered.filter(user =>
+        user.USER_ID?.toString().includes(searchTerm) ||
+        user.EMAIL?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.TELEFONE?.includes(searchTerm)
+      );
+    }
+
+    setFilteredUsers(filtered);
+  }, [users, searchTerm]);
 
   useEffect(() => {
     filterData();
-  }, [searchTerm, users]);
+  }, [filterData]);
 
   const loadUsers = async () => {
     try {
@@ -47,20 +62,6 @@ export default function AdminUsers() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const filterData = () => {
-    let filtered = [...users];
-
-    if (searchTerm) {
-      filtered = filtered.filter(u =>
-        u.NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        u.EMAIL?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        u.TELEFONE?.includes(searchTerm)
-      );
-    }
-
-    setFilteredUsers(filtered);
   };
 
   const toggleBlock = async (userId, currentStatus) => {

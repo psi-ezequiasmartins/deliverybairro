@@ -321,12 +321,12 @@ export default function Delivery() {
                   </div>
                 </div>
                 <div className="row mb-2">
-                  <div className="col-md-3">
+                  <div className="col-md-6">
                     <label htmlFor="CEP" className="form-label">
                       <i className="fas fa-map-marker-alt text-primary me-2"></i>
                       {t('app.delivery.form.cep')}
                     </label>
-                    <div className="input-group">
+                    <div className="input-group flex-nowrap">
                       <InputMask
                         mask="99999-999"
                         id="CEP"
@@ -336,7 +336,7 @@ export default function Delivery() {
                         onChange={e => setCEP(e.target.value)}
                         disabled={cepLoading}
                         placeholder="00000-000"
-                        style={{ height: '38px' }}
+                        style={{ maxWidth: '150px', height: '38px' }}
                       />
                       <button
                         className={`btn ${CEP.length === 9 ? 'btn-primary' : 'btn-outline-secondary'}`}
@@ -344,7 +344,7 @@ export default function Delivery() {
                         onClick={handleSearchCEP}
                         disabled={cepLoading || CEP.length < 9}
                         title={CEP.length < 9 ? 'Digite um CEP válido' : 'Clique para buscar o endereço'}
-                        style={{ height: '38px', minWidth: '100px' }}
+                        style={{ whiteSpace: 'nowrap', width: 'auto', height: '38px' }}
                       >
                         {cepLoading ? (
                           <>
@@ -366,7 +366,7 @@ export default function Delivery() {
                       </small>
                     )}
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-3">
                     <label className="form-label">
                       <i className="fas fa-map-pin text-success me-2"></i>
                       Latitude
@@ -380,7 +380,7 @@ export default function Delivery() {
                       style={{ cursor: 'not-allowed' }}
                     />
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-3">
                     <label className="form-label">
                       <i className="fas fa-map-pin text-danger me-2"></i>
                       Longitude
@@ -436,6 +436,7 @@ export default function Delivery() {
               className="btn btn-dark d-flex align-items-center"
               onClick={saveDeliveryInfo}
               disabled={saveLoading}
+              style={{ width: 'auto' }}
             >
               {saveLoading ? (
                 <>

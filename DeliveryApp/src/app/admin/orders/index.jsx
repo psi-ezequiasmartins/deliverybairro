@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminMenu from '../../../components/admin/AdminMenu';
 import api from '../../../config/apiAxios';
@@ -24,11 +24,34 @@ export default function AdminOrders() {
     }
     loadOrders();
     loadDeliveries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
+  const filterData = useCallback(() => {
+    let filtered = orders;
+
+    if (searchTerm) {
+      filtered = filtered.filter(order =>
+        order.PEDIDO_ID?.toString().includes(searchTerm) ||
+        order.USER_ID?.toString().includes(searchTerm) ||
+        order.DELIVERY_NOME?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (filterStatus) {
+      filtered = filtered.filter(order => order.STATUS === filterStatus);
+    }
+
+    if (filterDelivery) {
+      filtered = filtered.filter(order => order.DELIVERY_ID?.toString() === filterDelivery);
+    }
+
+    setFilteredOrders(filtered);
+  }, [orders, searchTerm, filterStatus, filterDelivery]);
 
   useEffect(() => {
     filterData();
-  }, [searchTerm, filterStatus, filterDelivery, orders]);
+  }, [filterData]);
 
   const loadOrders = async () => {
     try {
@@ -63,28 +86,6 @@ export default function AdminOrders() {
     } catch (error) {
       console.error('Erro ao carregar deliveries:', error);
     }
-  };
-
-  const filterData = () => {
-    let filtered = [...orders];
-
-    if (searchTerm) {
-      filtered = filtered.filter(o =>
-        o.PEDIDO_ID?.toString().includes(searchTerm) ||
-        o.USUARIO_NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        o.DELIVERY_NOME?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (filterStatus) {
-      filtered = filtered.filter(o => o.STATUS === filterStatus);
-    }
-
-    if (filterDelivery) {
-      filtered = filtered.filter(o => o.DELIVERY_ID === parseInt(filterDelivery));
-    }
-
-    setFilteredOrders(filtered);
   };
 
   const viewDetails = async (order) => {

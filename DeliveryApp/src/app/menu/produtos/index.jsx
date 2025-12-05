@@ -483,9 +483,9 @@ export default function Produtos() {
           )}
           <div className="row">
             <div className="col-6">
-              <div className="mt-2">
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoproduto"><i className="fas fa-address-book"></i> {t('app.products.new_product')}</button>
-                <button onClick={VisualizarPDF} className="btn btn-warning ms-2"><i className="fas fa-file-pdf"></i> {t('app.products.pdf')}</button>
+              <div className="mt-2 d-flex gap-1">
+                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoproduto" style={{ width: 'auto' }}><i className="fas fa-address-book"></i> {t('app.products.new_product')}</button>
+                <button onClick={VisualizarPDF} className="btn btn-warning" style={{ width: 'auto' }}><i className="fas fa-file-pdf"></i> {t('app.products.pdf')}</button>
               </div>
             </div>
             <div className="col-6">
@@ -568,9 +568,9 @@ export default function Produtos() {
                     {success === 'S' ? <Navigate to="/app/produtos" replace={true} /> : null}
                   </form>
                 </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary ml-2" data-bs-dismiss="modal" onClick={img_reset}>{t('common.cancel')}</button>
-                  <button type="button" className="btn btn-primary ml-2" data-bs-dismiss="modal" onClick={Cadastrar}>{t('common.save')}</button>
+                <div className="modal-footer d-flex gap-1">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset} style={{ width: 'auto' }}>{t('common.cancel')}</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar} style={{ width: 'auto' }}>{t('common.save')}</button>
                 </div>
               </div>
             </div>
@@ -643,9 +643,9 @@ export default function Produtos() {
                     {success === 'S' ? <Navigate to="/app/produtos" replace={true} /> : null}
                   </form>
                 </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>{t('common.cancel')}</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar}>{t('common.save')}</button>
+                <div className="modal-footer d-flex gap-1">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset} style={{ width: 'auto' }}>{t('common.cancel')}</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar} style={{ width: 'auto' }}>{t('common.save')}</button>
                 </div>
               </div>
             </div>

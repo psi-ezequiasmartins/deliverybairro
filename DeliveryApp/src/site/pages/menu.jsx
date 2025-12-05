@@ -61,7 +61,6 @@ function Menu() {
                   onMouseLeave={(e) => e.currentTarget.style.color = '#ffa500'}
                 >
                   <i className="fas fa-user-shield"></i>
-                  Admin
                 </a>
               </li>
               {/* Seletor de idiomas no final da navbar */}

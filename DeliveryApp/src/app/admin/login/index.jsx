@@ -66,13 +66,11 @@ export default function AdminLogin() {
     <div className="admin-login-container">
       <div className="admin-login-box">
         <div className="admin-login-header">
-          <img
-            src="/images/logo.png"
-            alt="DeliveryBairro"
-            className="admin-logo"
-          />
-          <h1>Painel Administrativo</h1>
-          <p>Área restrita - Apenas administradores</p>
+          <a href="/">
+            <img src="/images/logo.png" alt="DeliveryBairro" className="admin-logo" />
+          </a>
+          <h1>Área restrita</h1>
+          <p>Apenas administradores</p>
         </div>
 
         <form onSubmit={handleSubmit} className="admin-login-form">

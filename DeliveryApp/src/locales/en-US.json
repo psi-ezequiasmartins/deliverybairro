@@ -98,7 +98,7 @@
     },
     "premium": {
       "title": "Premium",
-      "price": "$99",
+      "price": "$90",
       "fee": "+ $0.18 per order",
       "products": "Up to 30 products",
       "description": "Online Menu* + Google Ads** + Online Support: (Google Meet/WhatsApp)",
@@ -368,9 +368,9 @@
         "state": "State",
         "save": "SAVE CHANGES",
         "plans": {
-          "basic": "Free Plan | Up to 10 products (including drinks): Membership Fee: $0.00 + $0.99 per order",
-          "pro": "Pro Plan | Up to 30 products (including drinks): Membership Fee $79.90 + $0.99 per order",
-          "premium": "Premium Plan | Up to 50 products (including drinks): Membership Fee $579.90 + $0.99 per order"
+          "basic": "Free Plan | Up to 10 products (including drinks): Membership Fee: $0.00 + $0.18 per order",
+          "pro": "Pro Plan | Up to 30 products (including drinks): Membership Fee $35 + $0.18 per order",
+          "premium": "Premium Plan | Up to 50 products (including drinks): Membership Fee $90 + $0.18 per order"
         },
         "categories": {
           "101": "OFFERS",

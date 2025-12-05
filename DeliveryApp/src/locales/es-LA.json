@@ -98,7 +98,7 @@
     },
     "premium": {
       "title": "Premium",
-      "price": "$99",
+      "price": "$90",
       "fee": "+ $0,18 por pedido",
       "products": "Hasta 30 productos",
       "description": "Menú Online* + Google Ads** + Soporte Online: (Google Meet/WhatsApp)",
@@ -368,9 +368,9 @@
         "state": "Estado",
         "save": "GUARDAR CAMBIOS",
         "plans": {
-          "basic": "Plan Gratis | Hasta 10 productos (incluyendo bebidas): Tasa de Adhesión: $0.00 + $0.99 por pedido",
-          "pro": "Plan Pro | Hasta 30 productos (incluyendo bebidas): Tasa de Adhesión $79.90 + $0.99 por pedido",
-          "premium": "Plan Premium | Hasta 50 productos (incluyendo bebidas): Tasa de Adhesión $579.90 + $0.99 por pedido"
+          "basic": "Plan Gratis | Hasta 10 productos (incluyendo bebidas): Tasa de Adhesión: $0.00 + $0.18 por pedido",
+          "pro": "Plan Pro | Hasta 30 productos (incluyendo bebidas): Tasa de Adhesión $35 + $0.18 por pedido",
+          "premium": "Plan Premium | Hasta 50 productos (incluyendo bebidas): Tasa de Adhesión $90 + $0.18 por pedido"
         },
         "categories": {
           "101": "OFERTAS",
@@ -393,21 +393,21 @@
         "free": {
           "title": "Gratis",
           "price": "$0.00",
-          "fee": "+ $0.99 por pedido",
+          "fee": "+ $0.18 por pedido",
           "products": "Hasta 10 productos",
           "description": "¡Regístrate gratis y forma parte de nuestro catálogo! Soporte Offline (por email)"
         },
         "pro": {
           "title": "Pro",
-          "price": "$89.90",
-          "fee": "+ $0.99 por pedido",
+          "price": "$35",
+          "fee": "+ $0.18 por pedido",
           "products": "Hasta 30 productos",
           "description": "Soporte Online (WhatsApp)"
         },
         "premium": {
           "title": "Premium",
-          "price": "$489.90",
-          "fee": "+ $0.99 por pedido",
+          "price": "$90",
+          "fee": "+ $0.18 por pedido",
           "products": "Hasta 50 productos",
           "description": "Soporte Online (WhatsApp) + Soporte Telefónico"
         }

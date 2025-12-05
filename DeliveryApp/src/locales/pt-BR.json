@@ -127,8 +127,8 @@
       "error_required": "Favor preencher todos os campos obrigatórios marcados com (*).",
       "plans": {
         "basic": "Plano Free (Até 10 produtos, incluindo bebidas): Taxa de Adesão: R$ 0,00 + 0,99 por pedido",
-        "pro": "Plano Pro (Até 30 produtos, incluindo bebidas): Taxa de Adesão R$ 79,90 + 0,99 por pedido",
-        "premium": "Plano Premium (Até 50 produtos, incluindo bebidas): Taxa de Adesão R$ 579,90 + 0,99 por pedido"
+        "pro": "Plano Pro (Até 30 produtos, incluindo bebidas): Taxa de Adesão R$ 189,90 + 0,99 por pedido",
+        "premium": "Plano Premium (Até 50 produtos, incluindo bebidas): Taxa de Adesão R$ 489,90 + 0,99 por pedido"
       },
       "categories": {
         "101": "OFERTAS",
@@ -369,8 +369,8 @@
         "save": "SALVAR ALTERAÇÕES",
         "plans": {
           "basic": "Plano Free | Até 10 produtos (incluindo bebidas): Taxa de Adesão: R$ 0,00 + 0,99 por pedido",
-          "pro": "Plano Pro | Até 30 produtos (incluindo bebidas): Taxa de Adesão R$ 79,90 + 0,99 por pedido",
-          "premium": "Plano Premium | Até 50 Produtos (incluindo bebidas): Taxa de Adesão R$ 579,90 + 0,99 por pedido"
+          "pro": "Plano Pro | Até 30 produtos (incluindo bebidas): Taxa de Adesão R$ 189,90 + 0,99 por pedido",
+          "premium": "Plano Premium | Até 50 Produtos (incluindo bebidas): Taxa de Adesão R$ 489,90 + 0,99 por pedido"
         },
         "categories": {
           "101": "OFERTAS",

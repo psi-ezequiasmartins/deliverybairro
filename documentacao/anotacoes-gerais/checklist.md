@@ -71,4 +71,9 @@ cd C:\escritorio\psi-software\deliverybairro\backend
 yarn start
 ```
 
+**Para efetuar limpeza de memória cache do ambiente de desenvolviemnto**
+```powershell
+powershell -ExecutionPolicy Bypass -File .\limpar-memoria-dev.ps1
+```
+
 Bom trabalho remoto! 🏠💻

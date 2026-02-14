@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 04/12/2025 às 16:07
--- Versão do servidor: 8.0.36
--- Versão do PHP: 8.2.20
+-- Generation Time: Nov 24, 2025 at 05:11 PM
+-- Server version: 8.0.41
+-- PHP Version: 8.2.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,37 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `deliverybairro`
+-- Database: `deliverybairro`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `admin_users`
---
-
-CREATE TABLE `admin_users` (
-  `ADMIN_ID` int NOT NULL,
-  `USER_EMAIL` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `USER_PASSWORD` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `NOME` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ROLE` enum('SUPER_ADMIN','ADMIN','SUPPORT') COLLATE utf8mb4_unicode_ci DEFAULT 'ADMIN',
-  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LAST_LOGIN` timestamp NULL DEFAULT NULL,
-  `ACTIVE` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `admin_users`
---
-
-INSERT INTO `admin_users` (`ADMIN_ID`, `USER_EMAIL`, `USER_PASSWORD`, `NOME`, `ROLE`, `CREATED_AT`, `LAST_LOGIN`, `ACTIVE`) VALUES
-(1, 'admin@deliverybairro.com', '9af30b377a951b997ced093953603fa61c5d8955', 'Administrador', 'SUPER_ADMIN', '2025-12-03 13:56:41', '2025-12-04 16:05:10', 1);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `categorias`
+-- Table structure for table `categorias`
 --
 
 CREATE TABLE `categorias` (
@@ -60,7 +36,7 @@ CREATE TABLE `categorias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `categorias`
+-- Dumping data for table `categorias`
 --
 
 INSERT INTO `categorias` (`CATEGORIA_ID`, `CATEGORIA_NOME`, `URL_IMAGEM`, `ORDEM`, `CHV`) VALUES
@@ -80,7 +56,7 @@ INSERT INTO `categorias` (`CATEGORIA_ID`, `CATEGORIA_NOME`, `URL_IMAGEM`, `ORDEM
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `couriers`
+-- Table structure for table `couriers`
 --
 
 CREATE TABLE `couriers` (
@@ -90,14 +66,14 @@ CREATE TABLE `couriers` (
   `SOBRENOME` varchar(60) NOT NULL,
   `TELEFONE` varchar(18) NOT NULL,
   `EMAIL` varchar(100) NOT NULL,
-  `TRANSPORTE` enum('DRIVING','BICYCLING','WALKING') NOT NULL,
+  `TRANSPORTE` enum('DRIVING','BICYCLING','WALKING') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `PLACA` varchar(10) NOT NULL,
   `URL_IMAGEM` varchar(240) NOT NULL,
   `CHV` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `couriers`
+-- Dumping data for table `couriers`
 --
 
 INSERT INTO `couriers` (`COURIER_ID`, `FIREBASE_UID`, `NOME`, `SOBRENOME`, `TELEFONE`, `EMAIL`, `TRANSPORTE`, `PLACA`, `URL_IMAGEM`, `CHV`) VALUES
@@ -107,7 +83,7 @@ INSERT INTO `couriers` (`COURIER_ID`, `FIREBASE_UID`, `NOME`, `SOBRENOME`, `TELE
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `deliveries`
+-- Table structure for table `deliveries`
 --
 
 CREATE TABLE `deliveries` (
@@ -138,7 +114,7 @@ CREATE TABLE `deliveries` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `deliveries`
+-- Dumping data for table `deliveries`
 --
 
 INSERT INTO `deliveries` (`DELIVERY_ID`, `DELIVERY_NOME`, `PLANO`, `CATEGORIA_ID`, `RESPONSAVEL`, `EMAIL`, `TELEFONE`, `HORARIO`, `MIN_DELIVERY_TIME`, `MAX_DELIVERY_TIME`, `TAXA_ENTREGA`, `RATING`, `URL_IMAGEM`, `CEP`, `ENDERECO`, `NUMERO`, `COMPLEMENTO`, `BAIRRO`, `CIDADE`, `UF`, `LATITUDE`, `LONGITUDE`, `CHV`, `VALIDATION_CODE`) VALUES
@@ -150,7 +126,7 @@ INSERT INTO `deliveries` (`DELIVERY_ID`, `DELIVERY_NOME`, `PLANO`, `CATEGORIA_ID
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `extras`
+-- Table structure for table `extras`
 --
 
 CREATE TABLE `extras` (
@@ -161,7 +137,7 @@ CREATE TABLE `extras` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `extras`
+-- Dumping data for table `extras`
 --
 
 INSERT INTO `extras` (`EXTRA_ID`, `DESCRICAO`, `VR_UNITARIO`, `DELIVERY_ID`) VALUES
@@ -181,7 +157,7 @@ INSERT INTO `extras` (`EXTRA_ID`, `DESCRICAO`, `VR_UNITARIO`, `DELIVERY_ID`) VAL
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `itens`
+-- Table structure for table `itens`
 --
 
 CREATE TABLE `itens` (
@@ -197,7 +173,7 @@ CREATE TABLE `itens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `itens`
+-- Dumping data for table `itens`
 --
 
 INSERT INTO `itens` (`ITEM_ID`, `PEDIDO_ID`, `PRODUTO_ID`, `ACRESCIMOS`, `OBS`, `QTD`, `VR_UNITARIO`, `VR_ACRESCIMOS`, `TOTAL`) VALUES
@@ -246,15 +222,12 @@ INSERT INTO `itens` (`ITEM_ID`, `PEDIDO_ID`, `PRODUTO_ID`, `ACRESCIMOS`, `OBS`, 
 (128, 1094, 1053, '[]', '', 1.00, 4.50, 0.00, 4.50),
 (129, 1095, 1018, '[{\"EXTRA_ID\":5,\"DESCRICAO\":\"Salada Americana\",\"VR_UNITARIO\":1,\"DELIVERY_ID\":1002},{\"EXTRA_ID\":6,\"DESCRICAO\":\"Molho Especial 50g\",\"VR_UNITARIO\":2,\"DELIVERY_ID\":1002}]', 'Teste', 1.00, 24.90, 3.00, 27.90),
 (130, 1096, 1070, '[{\"EXTRA_ID\":3,\"DESCRICAO\":\"Ovo (unidade)\",\"VR_UNITARIO\":1,\"DELIVERY_ID\":1002},{\"EXTRA_ID\":2,\"DESCRICAO\":\"Bacon Fatiado 50g\",\"VR_UNITARIO\":3.5,\"DELIVERY_ID\":1002}]', '', 1.00, 35.00, 4.50, 39.50),
-(131, 1096, 1069, '[]', '', 2.00, 7.99, 0.00, 15.98),
-(132, 1097, 1070, '[{\"EXTRA_ID\":2,\"DESCRICAO\":\"Bacon Fatiado 50g\",\"VR_UNITARIO\":3.5,\"DELIVERY_ID\":1002},{\"EXTRA_ID\":3,\"DESCRICAO\":\"Ovo (unidade)\",\"VR_UNITARIO\":1,\"DELIVERY_ID\":1002}]', '', 2.00, 35.00, 4.50, 79.00),
-(133, 1097, 1048, '[]', '', 1.00, 4.50, 0.00, 4.50),
-(134, 1097, 1025, '[]', '', 1.00, 4.80, 0.00, 4.80);
+(131, 1096, 1069, '[]', '', 2.00, 7.99, 0.00, 15.98);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidos`
+-- Table structure for table `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -273,40 +246,39 @@ CREATE TABLE `pedidos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `pedidos`
+-- Dumping data for table `pedidos`
 --
 
 INSERT INTO `pedidos` (`PEDIDO_ID`, `DELIVERY_ID`, `USER_ID`, `DATA`, `ENDERECO_ENTREGA`, `LATITUDE`, `LONGITUDE`, `VR_SUBTOTAL`, `TAXA_ENTREGA`, `VR_TOTAL`, `STATUS`, `PUSH_TOKEN`) VALUES
 (1051, 1002, 100001, '2025-03-20 18:42:05', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250  ', -19.82724000, -43.98316000, 72.80, 4.00, 76.80, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1052, 1002, 100001, '2025-03-20 18:59:01', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 65.78, 4.00, 69.78, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1053, 1002, 100001, '2025-03-20 21:37:15', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 85.78, 4.00, 89.78, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1054, 1002, 100001, '2025-03-20 22:34:24', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 86.68, 4.00, 90.68, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1055, 1002, 100001, '2025-03-20 15:58:12', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 60.79, 4.00, 64.79, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1059, 1002, 100001, '2025-03-21 21:16:44', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 27.90, 4.00, 31.90, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1079, 1002, 100001, '2025-04-03 17:58:50', 'Rua Alcides Lins, 320, Venda Nova, 31510-030\r\n\r\n', -19.81641497, -43.95921010, 63.78, 4.00, 67.78, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1080, 1002, 100001, '2025-04-22 00:16:25', 'Rua dos Apaches, 870, Santa Monica, 31530-280', -19.82729230, -43.98321370, 99.76, 4.00, 103.76, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1081, 1003, 100001, '2025-05-01 15:42:09', 'Rua dos Comanches, 870, Santa Monica, 31530-250', -19.82725810, -43.98318010, 68.00, 3.50, 71.50, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1053, 1002, 100001, '2025-03-20 21:37:15', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 85.78, 4.00, 89.78, 'PGTO_PENDENTE', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1054, 1002, 100001, '2025-03-20 22:34:24', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 86.68, 4.00, 90.68, 'SAIU_PARA_ENTREGA', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1055, 1002, 100001, '2025-03-20 15:58:12', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 60.79, 4.00, 64.79, 'PGTO_OK', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1059, 1002, 100001, '2025-03-21 21:16:44', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250 ', -19.82724000, -43.98316000, 27.90, 4.00, 31.90, 'PRONTO_PARA_RETIRADA', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1079, 1002, 100001, '2025-04-03 17:58:50', 'Rua Alcides Lins, 320, Venda Nova, 31510-030\r\n\r\n', -19.81641497, -43.95921010, 63.78, 4.00, 67.78, 'PREPARANDO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1080, 1002, 100001, '2025-04-22 00:16:25', 'Rua dos Apaches, 870, Santa Monica, 31530-280', -19.82729230, -43.98321370, 99.76, 4.00, 103.76, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1081, 1003, 100001, '2025-05-01 15:42:09', 'Rua dos Comanches, 870, Santa Monica, 31530-250', -19.82725810, -43.98318010, 68.00, 3.50, 71.50, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1082, 1002, NULL, '2025-09-24 21:11:14', 'Rua dos Comanches, 870 Apto 302 Santa Mônica CEP 31530-250', -19.82724370, -43.98307500, 67.00, 4.00, 71.00, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1083, 1002, 100001, '2025-09-24 21:31:13', 'Rua dos Apaches, 870, Santa Monica, 31530-280', -19.82726050, -43.98317840, 31.10, 4.00, 35.10, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1083, 1002, 100001, '2025-09-24 21:31:13', 'Rua dos Apaches, 870, Santa Monica, 31530-280', -19.82726050, -43.98317840, 31.10, 4.00, 35.10, 'PREPARANDO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1084, 1002, 100001, '2025-09-25 21:08:37', 'Rua dos Comanches, 870, Apto 302, Santa Monica, 31530-250', -19.82719110, -43.98311470, 47.99, 4.00, 51.99, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1085, 1002, 100001, '2025-09-26 15:26:05', 'Rua dos Comanches, 870, Apto 302, Santa Monica, 31530-250', -19.82732730, -43.98320140, 65.40, 4.00, 69.40, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1086, 1003, 100001, '2025-09-26 15:30:52', 'Rua dos Comanches, 870, Apto 302 Santa Monica, 31530-250', -19.82722320, -43.98310900, 38.00, 3.50, 41.50, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1087, 1003, 100001, '2025-10-03 15:20:42', 'Rua dos Comanches, 860, Santa Monica, Minas Gerais, 31530-250', -19.82721790, -43.98304120, 44.40, 3.50, 47.90, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1088, 1003, 100001, '2025-10-08 22:18:02', 'Rua dos Apaches, 870, Santa Monica, Minas Gerais, 31530-280', -19.82721040, -43.98311450, 17.20, 3.50, 20.70, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1089, 1002, 100001, '2025-10-14 00:30:16', 'Rua dos Comanches, 860, Santa Monica, Minas Gerais, 31530-250', -19.82720700, -43.98306120, 63.80, 4.00, 67.80, 'FINALIZADO', 'ExponentPushToken[Tm8QY1ASWNUDghDleCM3ez]'),
-(1090, 1002, 100001, '2025-11-08 13:34:02', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82718320, -43.98302290, 34.70, 4.00, 38.70, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1091, 1002, 100001, '2025-11-08 20:51:50', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82718440, -43.98302610, 34.70, 4.00, 38.70, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1092, 1002, 100001, '2025-11-08 20:59:14', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82723910, -43.98306780, 64.30, 4.00, 68.30, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1093, 1002, 100001, '2025-11-09 14:20:33', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82723770, -43.98304270, 64.80, 4.00, 68.80, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1089, 1002, 100001, '2025-10-14 00:30:16', 'Rua dos Comanches, 860, Santa Monica, Minas Gerais, 31530-250', -19.82720700, -43.98306120, 63.80, 4.00, 67.80, 'SAIU_PARA_ENTREGA', 'ExponentPushToken[Tm8QY1ASWNUDghDleCM3ez]'),
+(1090, 1002, 100001, '2025-11-08 13:34:02', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82718320, -43.98302290, 34.70, 4.00, 38.70, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1091, 1002, 100001, '2025-11-08 20:51:50', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82718440, -43.98302610, 34.70, 4.00, 38.70, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1092, 1002, 100001, '2025-11-08 20:59:14', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82723910, -43.98306780, 64.30, 4.00, 68.30, 'NOVO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
+(1093, 1002, 100001, '2025-11-09 14:20:33', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82723770, -43.98304270, 64.80, 4.00, 68.80, 'PREPARANDO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1094, 1003, 100001, '2025-11-09 14:27:16', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82715950, -43.98311440, 35.50, 3.50, 39.00, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
 (1095, 1002, 100001, '2025-11-09 20:29:46', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82723280, -43.98302300, 27.90, 4.00, 31.90, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1096, 1002, 100001, '2025-11-12 20:30:19', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82720280, -43.98302970, 55.48, 4.00, 59.48, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]'),
-(1097, 1002, 100001, '2025-12-01 08:50:46', 'Rua Alcídes Lins, 320, Venda Nova, Minas Gerais, 31510-030', -19.81642560, -43.95922110, 88.30, 4.00, 92.30, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]');
+(1096, 1002, 100001, '2025-11-12 20:30:19', 'Rua dos Comanches, 870, Santa Monica, Minas Gerais, 31530-250', -19.82720280, -43.98302970, 55.48, 4.00, 59.48, 'FINALIZADO', 'ExponentPushToken[NORKdoBG3OuOFfyf3Ma6i3]');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pix_transactions`
+-- Table structure for table `pix_transactions`
 --
 
 CREATE TABLE `pix_transactions` (
@@ -321,7 +293,7 @@ CREATE TABLE `pix_transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `pix_transactions`
+-- Dumping data for table `pix_transactions`
 --
 
 INSERT INTO `pix_transactions` (`id`, `orderId`, `value`, `status`, `txid`, `payload`, `created_at`, `updated_at`) VALUES
@@ -337,13 +309,12 @@ INSERT INTO `pix_transactions` (`id`, `orderId`, `value`, `status`, `txid`, `pay
 (12, '1091', 38.70, 'GENERATED', 'PSI00001091', '00020126330014br.gov.bcb.pix011173209341672520400005303986540538.705802BR5918DELIVERYBAIRRO.COM6015BELO HORIZONTE 62150511PSI0000109163046C0F', '2025-11-08 20:52:19', '2025-11-08 20:52:19'),
 (13, '1092', 68.30, 'GENERATED', 'PSI00001092', '00020126330014br.gov.bcb.pix011173209341672520400005303986540568.305802BR5918DELIVERYBAIRRO.COM6015BELO HORIZONTE 62150511PSI0000109263040778', '2025-11-08 21:01:05', '2025-11-08 21:01:05'),
 (14, '1095', 31.90, 'GENERATED', 'PSI00001095', '00020126330014br.gov.bcb.pix011173209341672520400005303986540531.905802BR5918DELIVERYBAIRRO.COM6015BELO HORIZONTE 62150511PSI00001095630427A3', '2025-11-12 15:08:19', '2025-11-12 15:08:19'),
-(15, '1094', 39.00, 'GENERATED', 'PSI00001094', '00020126330014br.gov.bcb.pix011173209341672520400005303986540539.005802BR5918DELIVERYBAIRRO.COM6015BELO HORIZONTE 62150511PSI00001094630453D4', '2025-11-12 17:42:55', '2025-11-12 17:42:55'),
-(16, '1097', 92.30, 'GENERATED', 'PSI00001097', '00020126330014br.gov.bcb.pix011173209341672520400005303986540592.305802BR5918DELIVERYBAIRRO.COM6015BELO HORIZONTE 62150511PSI0000109763043E7E', '2025-12-01 08:51:33', '2025-12-01 08:51:33');
+(15, '1094', 39.00, 'GENERATED', 'PSI00001094', '00020126330014br.gov.bcb.pix011173209341672520400005303986540539.005802BR5918DELIVERYBAIRRO.COM6015BELO HORIZONTE 62150511PSI00001094630453D4', '2025-11-12 17:42:55', '2025-11-12 17:42:55');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Table structure for table `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -359,7 +330,7 @@ CREATE TABLE `produtos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `produtos`
+-- Dumping data for table `produtos`
 --
 
 INSERT INTO `produtos` (`PRODUTO_ID`, `DELIVERY_ID`, `PRODUTO_NOME`, `DESCRICAO`, `VR_UNITARIO`, `URL_IMAGEM`, `ITENS_EXTRAS`, `ITENS_OBS`, `CHV`) VALUES
@@ -391,35 +362,7 @@ INSERT INTO `produtos` (`PRODUTO_ID`, `DELIVERY_ID`, `PRODUTO_NOME`, `DESCRICAO`
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `system_logs`
---
-
-CREATE TABLE `system_logs` (
-  `LOG_ID` int NOT NULL,
-  `ADMIN_ID` int DEFAULT NULL,
-  `ACTION` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ENTITY_TYPE` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ENTITY_ID` int DEFAULT NULL,
-  `DETAILS` text COLLATE utf8mb4_unicode_ci,
-  `IP_ADDRESS` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `USER_AGENT` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `system_logs`
---
-
-INSERT INTO `system_logs` (`LOG_ID`, `ADMIN_ID`, `ACTION`, `ENTITY_TYPE`, `ENTITY_ID`, `DETAILS`, `IP_ADDRESS`, `USER_AGENT`, `CREATED_AT`) VALUES
-(1, 1, 'LOGIN', NULL, NULL, 'Admin login realizado', '::ffff:192.168.0.211', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-12-04 13:56:49'),
-(2, 1, 'LOGIN', NULL, NULL, 'Admin login realizado', '::ffff:192.168.0.211', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-12-04 15:41:43'),
-(3, 1, 'LOGIN', NULL, NULL, 'Admin login realizado', '::ffff:192.168.0.211', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-12-04 15:56:59'),
-(4, 1, 'LOGIN', NULL, NULL, 'Admin login realizado', '::ffff:192.168.0.211', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-12-04 16:05:10');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `taxa`
+-- Table structure for table `taxa`
 --
 
 CREATE TABLE `taxa` (
@@ -430,7 +373,7 @@ CREATE TABLE `taxa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `taxa`
+-- Dumping data for table `taxa`
 --
 
 INSERT INTO `taxa` (`TAXA_ID`, `DELIVERY_ID`, `TAXA_ENTREGA`, `CHV`) VALUES
@@ -441,77 +384,13 @@ INSERT INTO `taxa` (`TAXA_ID`, `DELIVERY_ID`, `TAXA_ENTREGA`, `CHV`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `taxas_config`
---
-
-CREATE TABLE `taxas_config` (
-  `CONFIG_ID` int NOT NULL,
-  `TAXA_SERVICO` decimal(10,2) NOT NULL DEFAULT '0.99',
-  `TAXA_SERVICO_ATIVA` tinyint(1) DEFAULT '1',
-  `PSP_PROVIDER` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'PagSeguro',
-  `TAXA_PAGAMENTO_FIXA` decimal(10,2) NOT NULL DEFAULT '0.40',
-  `TAXA_PAGAMENTO_PERCENTUAL` decimal(5,2) NOT NULL DEFAULT '3.99',
-  `TAXA_PAGAMENTO_MIN` decimal(5,2) NOT NULL DEFAULT '3.99',
-  `TAXA_PAGAMENTO_MAX` decimal(5,2) NOT NULL DEFAULT '4.99',
-  `TAXA_PAGAMENTO_ATIVA` tinyint(1) DEFAULT '1',
-  `UPDATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `UPDATED_BY` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `taxas_config`
---
-
-INSERT INTO `taxas_config` (`CONFIG_ID`, `TAXA_SERVICO`, `TAXA_SERVICO_ATIVA`, `PSP_PROVIDER`, `TAXA_PAGAMENTO_FIXA`, `TAXA_PAGAMENTO_PERCENTUAL`, `TAXA_PAGAMENTO_MIN`, `TAXA_PAGAMENTO_MAX`, `TAXA_PAGAMENTO_ATIVA`, `UPDATED_AT`, `UPDATED_BY`) VALUES
-(1, 0.99, 1, 'PagSeguro', 0.40, 3.99, 3.99, 4.99, 1, '2025-12-03 13:56:03', NULL);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `taxas_config_history`
---
-
-CREATE TABLE `taxas_config_history` (
-  `HISTORY_ID` int NOT NULL,
-  `TAXA_SERVICO` decimal(10,2) DEFAULT NULL,
-  `TAXA_PAGAMENTO_FIXA` decimal(10,2) DEFAULT NULL,
-  `TAXA_PAGAMENTO_PERCENTUAL` decimal(5,2) DEFAULT NULL,
-  `PSP_PROVIDER` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `CHANGED_BY` int DEFAULT NULL,
-  `CHANGED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `REASON` text COLLATE utf8mb4_unicode_ci,
-  `OLD_VALUES` text COLLATE utf8mb4_unicode_ci,
-  `NEW_VALUES` text COLLATE utf8mb4_unicode_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `taxas_exceptions`
---
-
-CREATE TABLE `taxas_exceptions` (
-  `EXCEPTION_ID` int NOT NULL,
-  `DELIVERY_ID` int NOT NULL,
-  `TAXA_SERVICO_CUSTOM` decimal(10,2) DEFAULT NULL,
-  `TAXA_PAGAMENTO_FIXA_CUSTOM` decimal(10,2) DEFAULT NULL,
-  `TAXA_PAGAMENTO_PERCENTUAL_CUSTOM` decimal(5,2) DEFAULT NULL,
-  `REASON` text COLLATE utf8mb4_unicode_ci,
-  `ACTIVE` tinyint(1) DEFAULT '1',
-  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `CREATED_BY` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `userlog`
+-- Table structure for table `userlog`
 --
 
 CREATE TABLE `userlog` (
   `ID` int NOT NULL,
   `USER_ID` int NOT NULL,
-  `IP_ADDRESS` varchar(45) NOT NULL,
+  `IP_ADDRESS` varchar(18) NOT NULL,
   `DT_ACCESS` datetime NOT NULL,
   `TOKEN` varchar(240) NOT NULL,
   `EXPIRATION_TIME` datetime DEFAULT NULL,
@@ -519,7 +398,7 @@ CREATE TABLE `userlog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `userlog`
+-- Dumping data for table `userlog`
 --
 
 INSERT INTO `userlog` (`ID`, `USER_ID`, `IP_ADDRESS`, `DT_ACCESS`, `TOKEN`, `EXPIRATION_TIME`, `CHV`) VALUES
@@ -570,30 +449,12 @@ INSERT INTO `userlog` (`ID`, `USER_ID`, `IP_ADDRESS`, `DT_ACCESS`, `TOKEN`, `EXP
 (45, 1003, '::1', '2025-11-24 14:04:09', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMywiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNCAxNDowNDowOSIsImNodiI6MSwiaWF0IjoxNzY0MDAzODQ5LCJleHAiOjE3NjQwMTQ2NDl9.66JAq-hhY5xjPXX26AtRxw6x-nHljyqDvf85FGSVqwE', '2025-11-24 17:04:09', '1'),
 (46, 1017, '::1', '2025-11-24 14:04:30', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxNywiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNCAxNDowNDozMCIsImNodiI6MSwiaWF0IjoxNzY0MDAzODcwLCJleHAiOjE3NjQwMTQ2NzB9.OMVGVOBvxD5Fh4NhqI30GbSjrQPjrA0mUG8sIwfStIM', '2025-11-24 17:04:30', '1'),
 (47, 1001, '::1', '2025-11-24 14:05:45', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNCAxNDowNTo0NSIsImNodiI6MSwiaWF0IjoxNzY0MDAzOTQ1LCJleHAiOjE3NjQwMTQ3NDV9.Y9YvuDebGfGOkDepWxwkvUZ6kktVKl49PTFGmcyGqik', '2025-11-24 17:05:45', '1'),
-(48, 1001, '::1', '2025-11-24 14:09:43', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNCAxNDowOTo0MyIsImNodiI6MSwiaWF0IjoxNzY0MDA0MTgzLCJleHAiOjE3NjQwMTQ5ODN9.eJFdlhZ22mRMPBIk6hvCG6XH5UF_7jkcjTlbQO0nP0I', '2025-11-24 17:09:43', '1'),
-(49, 100001, '201.17.157.61', '2025-11-24 14:46:06', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTExLTI0IDE0OjQ2OjA2IiwiY2h2IjoxLCJpYXQiOjE3NjQwMDYzNjYsImV4cCI6MTc2NDAxNzE2Nn0.Ad3Llno0Mk3deCht4pGvDw5Ua9_oQ_ejj-94VaLc1A0', '2025-11-24 17:46:06', '1'),
-(50, 1002, '201.17.157.61', '2025-11-24 14:51:50', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNCAxNDo1MTo1MCIsImNodiI6MSwiaWF0IjoxNzY0MDA2NzEwLCJleHAiOjE3NjQwMTc1MTB9.bBXMfgXh_gz67xZy1COta6RflyCGkdxofxOEKCKiAio', '2025-11-24 17:51:50', '1'),
-(51, 100001, '201.17.157.61', '2025-11-24 21:02:28', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTExLTI0IDIxOjAyOjI4IiwiY2h2IjoxLCJpYXQiOjE3NjQwMjg5NDgsImV4cCI6MTc2NDAzOTc0OH0.wCZ5HLtK87F2Bi4ieofaCtEnqY9qIerV_40p-psl1gI', '2025-11-25 00:02:28', '1'),
-(52, 1002, '201.17.208.30', '2025-11-25 08:53:49', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNSAwODo1Mzo0OSIsImNodiI6MSwiaWF0IjoxNzY0MDcxNjI5LCJleHAiOjE3NjQwODI0Mjl9.TKJp-BbWF1O4rPFBwNcWCVmUbKmUjY_xtd0yFqRIsmU', '2025-11-25 11:53:49', '1'),
-(53, 100001, '201.17.208.30', '2025-11-25 08:54:14', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTExLTI1IDA4OjU0OjE0IiwiY2h2IjoxLCJpYXQiOjE3NjQwNzE2NTQsImV4cCI6MTc2NDA4MjQ1NH0.aBEKOMMiNVGMzMdMvKBYBNbsja3JGwxEYMPcwnxGdCk', '2025-11-25 11:54:14', '1'),
-(54, 1002, '201.17.208.30', '2025-11-25 08:58:56', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNSAwODo1ODo1NiIsImNodiI6MSwiaWF0IjoxNzY0MDcxOTM2LCJleHAiOjE3NjQwODI3MzZ9.P5oyZAP2GcNwrYGur8m9im4CCPhrnaSllFSy8n7hbto', '2025-11-25 11:58:56', '1'),
-(55, 1002, '201.17.157.61', '2025-11-29 17:44:38', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yOSAxNzo0NDozOCIsImNodiI6MSwiaWF0IjoxNzY0NDQ5MDc4LCJleHAiOjE3NjQ0NTk4Nzh9.sh0MiHPlWAa6UjPXAicLFdNd7FkFhHBMJFl9z_n6UVw', '2025-11-29 20:44:38', '1'),
-(56, 100001, '187.68.16.60', '2025-12-01 08:48:50', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTEyLTAxIDA4OjQ4OjUwIiwiY2h2IjoxLCJpYXQiOjE3NjQ1ODk3MzAsImV4cCI6MTc2NDYwMDUzMH0.n0Rno7UvEkCV_EwIqqMceSx8J3WAurU3iXXrXkEK5GE', '2025-12-01 11:48:50', '1'),
-(57, 100001, '187.68.16.60', '2025-12-01 08:51:19', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTEyLTAxIDA4OjUxOjE5IiwiY2h2IjoxLCJpYXQiOjE3NjQ1ODk4NzksImV4cCI6MTc2NDYwMDY3OX0.YJZtjpCH1f0RUogPNus-TMCy-lDVCTukmZlPpI1xzHM', '2025-12-01 11:51:19', '1'),
-(58, 1002, '201.17.208.30', '2025-12-01 08:52:18', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMSAwODo1MjoxOCIsImNodiI6MSwiaWF0IjoxNzY0NTg5OTM4LCJleHAiOjE3NjQ2MDA3Mzh9.sWrpFLBCYh4IkxYFnR7_O8KgSiaF5MKbnHUt-Z6q8KM', '2025-12-01 11:52:18', '1'),
-(59, 1002, '::1', '2025-12-01 09:23:36', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMSAwOToyMzozNiIsImNodiI6MSwiaWF0IjoxNzY0NTkxODE2LCJleHAiOjE3NjQ2MDI2MTZ9.eAIBwPfCD3FeCb87pjxnBA5YBkn5UJLO6PjN9iFwH0U', '2025-12-01 12:23:36', '1'),
-(60, 1002, '::1', '2025-12-01 10:45:45', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMSAxMDo0NTo0NSIsImNodiI6MSwiaWF0IjoxNzY0NTk2NzQ1LCJleHAiOjE3NjQ2MDc1NDV9.plSSiulVfZsXLGDyJY7FGDOGBhhRrsghvkTXPq1jWGQ', '2025-12-01 13:45:45', '1'),
-(61, 100001, '192.168.0.231', '2025-12-01 10:50:04', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTEyLTAxIDEwOjUwOjA0IiwiY2h2IjoxLCJpYXQiOjE3NjQ1OTcwMDQsImV4cCI6MTc2NDYwNzgwNH0.KtWNB7cWb-lqkUDbxZwZpDq5L_w4K7sa2Zg_y3WRCiA', '2025-12-01 13:50:04', '1'),
-(62, 1002, '::1', '2025-12-01 11:27:59', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMSAxMToyNzo1OSIsImNodiI6MSwiaWF0IjoxNzY0NTk5Mjc5LCJleHAiOjE3NjQ2MTAwNzl9.uJLKNrzCKxYVRAAztNaGXVgTp-XR9BF0qcWzxzADsko', '2025-12-01 14:27:59', '1'),
-(63, 1002, '::1', '2025-12-02 09:20:26', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMiAwOToyMDoyNiIsImNodiI6MSwiaWF0IjoxNzY0Njc4MDI2LCJleHAiOjE3NjQ2ODg4MjZ9.USCnzzU9z_kqD1tVBY8AkNCqLtGupFNdcERzV_BO_TM', '2025-12-02 12:20:26', '1'),
-(64, 100001, '192.168.0.239', '2025-12-02 09:38:12', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI1LTEyLTAyIDA5OjM4OjEyIiwiY2h2IjoxLCJpYXQiOjE3NjQ2NzkwOTIsImV4cCI6MTc2NDY4OTg5Mn0.KKP0uElHz8Yr8NzTZBVjulRQuI1bnrR6nuDpWESRN7c', '2025-12-02 12:38:12', '1'),
-(65, 1003, '::1', '2025-12-02 09:41:17', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMywiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMiAwOTo0MToxNyIsImNodiI6MSwiaWF0IjoxNzY0Njc5Mjc3LCJleHAiOjE3NjQ2OTAwNzd9.7PfA2WBkyWrB_z3TgJMQnz387yt0Fc893AeWXmEPS-M', '2025-12-02 12:41:17', '1'),
-(66, 1002, '::1', '2025-12-02 09:41:52', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNS0xMi0wMiAwOTo0MTo1MiIsImNodiI6MSwiaWF0IjoxNzY0Njc5MzEyLCJleHAiOjE3NjQ2OTAxMTJ9.BbF_RNZkrVTDzM8DWqr8Cvxpmw5vYCGcAvwujGpsA8M', '2025-12-02 12:41:52', '1');
+(48, 1001, '::1', '2025-11-24 14:09:43', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiZHRfYWNjZXNzIjoiMjAyNS0xMS0yNCAxNDowOTo0MyIsImNodiI6MSwiaWF0IjoxNzY0MDA0MTgzLCJleHAiOjE3NjQwMTQ5ODN9.eJFdlhZ22mRMPBIk6hvCG6XH5UF_7jkcjTlbQO0nP0I', '2025-11-24 17:09:43', '1');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -608,50 +469,42 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Despejando dados para a tabela `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`USER_ID`, `FIREBASE_UID`, `NOME`, `SOBRENOME`, `TELEFONE`, `EMAIL`, `URL_IMAGEM`, `CHV`) VALUES
 (100001, 'x1OFq9mZLjWLBYSe37EksjjEzVd2', 'Ezequias', 'Martins', '(31) 98410-7540', 'ezequiasmartins@gmail.com', 'https://firebasestorage.googleapis.com/v0/b/psi-deliverybairro.firebasestorage.app/o/usuarios%2F100001%2Fprofile_1762983646063.jpg?alt=media&token=98e84d77-9b19-4628-82c7-483a20c35043', '1');
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `admin_users`
---
-ALTER TABLE `admin_users`
-  ADD PRIMARY KEY (`ADMIN_ID`),
-  ADD UNIQUE KEY `USER_EMAIL` (`USER_EMAIL`),
-  ADD KEY `idx_email` (`USER_EMAIL`);
-
---
--- Índices de tabela `categorias`
+-- Indexes for table `categorias`
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`CATEGORIA_ID`);
 
 --
--- Índices de tabela `couriers`
+-- Indexes for table `couriers`
 --
 ALTER TABLE `couriers`
   ADD PRIMARY KEY (`COURIER_ID`);
 
 --
--- Índices de tabela `deliveries`
+-- Indexes for table `deliveries`
 --
 ALTER TABLE `deliveries`
   ADD PRIMARY KEY (`DELIVERY_ID`);
 
 --
--- Índices de tabela `extras`
+-- Indexes for table `extras`
 --
 ALTER TABLE `extras`
   ADD PRIMARY KEY (`EXTRA_ID`);
 
 --
--- Índices de tabela `itens`
+-- Indexes for table `itens`
 --
 ALTER TABLE `itens`
   ADD PRIMARY KEY (`ITEM_ID`),
@@ -659,14 +512,14 @@ ALTER TABLE `itens`
   ADD KEY `id_produto` (`PRODUTO_ID`);
 
 --
--- Índices de tabela `pedidos`
+-- Indexes for table `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`PEDIDO_ID`),
   ADD KEY `id_usuario` (`USER_ID`);
 
 --
--- Índices de tabela `pix_transactions`
+-- Indexes for table `pix_transactions`
 --
 ALTER TABLE `pix_transactions`
   ADD PRIMARY KEY (`id`),
@@ -674,192 +527,99 @@ ALTER TABLE `pix_transactions`
   ADD KEY `idx_txid` (`txid`);
 
 --
--- Índices de tabela `produtos`
+-- Indexes for table `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`PRODUTO_ID`),
   ADD KEY `CategoriaID` (`DELIVERY_ID`);
 
 --
--- Índices de tabela `system_logs`
---
-ALTER TABLE `system_logs`
-  ADD PRIMARY KEY (`LOG_ID`),
-  ADD KEY `fk_log_admin` (`ADMIN_ID`),
-  ADD KEY `idx_action` (`ACTION`),
-  ADD KEY `idx_entity` (`ENTITY_TYPE`,`ENTITY_ID`),
-  ADD KEY `idx_created` (`CREATED_AT`);
-
---
--- Índices de tabela `taxa`
+-- Indexes for table `taxa`
 --
 ALTER TABLE `taxa`
   ADD PRIMARY KEY (`TAXA_ID`);
 
 --
--- Índices de tabela `taxas_config`
---
-ALTER TABLE `taxas_config`
-  ADD PRIMARY KEY (`CONFIG_ID`),
-  ADD KEY `fk_taxas_admin` (`UPDATED_BY`);
-
---
--- Índices de tabela `taxas_config_history`
---
-ALTER TABLE `taxas_config_history`
-  ADD PRIMARY KEY (`HISTORY_ID`),
-  ADD KEY `fk_history_admin` (`CHANGED_BY`),
-  ADD KEY `idx_changed_at` (`CHANGED_AT`);
-
---
--- Índices de tabela `taxas_exceptions`
---
-ALTER TABLE `taxas_exceptions`
-  ADD PRIMARY KEY (`EXCEPTION_ID`),
-  ADD KEY `fk_exception_delivery` (`DELIVERY_ID`),
-  ADD KEY `fk_exception_admin` (`CREATED_BY`),
-  ADD KEY `idx_active` (`ACTIVE`);
-
---
--- Índices de tabela `userlog`
+-- Indexes for table `userlog`
 --
 ALTER TABLE `userlog`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Índices de tabela `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`USER_ID`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `admin_users`
---
-ALTER TABLE `admin_users`
-  MODIFY `ADMIN_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `categorias`
+-- AUTO_INCREMENT for table `categorias`
 --
 ALTER TABLE `categorias`
   MODIFY `CATEGORIA_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
--- AUTO_INCREMENT de tabela `couriers`
+-- AUTO_INCREMENT for table `couriers`
 --
 ALTER TABLE `couriers`
   MODIFY `COURIER_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200003;
 
 --
--- AUTO_INCREMENT de tabela `deliveries`
+-- AUTO_INCREMENT for table `deliveries`
 --
 ALTER TABLE `deliveries`
   MODIFY `DELIVERY_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1018;
 
 --
--- AUTO_INCREMENT de tabela `extras`
+-- AUTO_INCREMENT for table `extras`
 --
 ALTER TABLE `extras`
   MODIFY `EXTRA_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT de tabela `itens`
+-- AUTO_INCREMENT for table `itens`
 --
 ALTER TABLE `itens`
-  MODIFY `ITEM_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `ITEM_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
--- AUTO_INCREMENT de tabela `pedidos`
+-- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `PEDIDO_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1098;
+  MODIFY `PEDIDO_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1097;
 
 --
--- AUTO_INCREMENT de tabela `pix_transactions`
+-- AUTO_INCREMENT for table `pix_transactions`
 --
 ALTER TABLE `pix_transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT de tabela `produtos`
+-- AUTO_INCREMENT for table `produtos`
 --
 ALTER TABLE `produtos`
   MODIFY `PRODUTO_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1084;
 
 --
--- AUTO_INCREMENT de tabela `system_logs`
---
-ALTER TABLE `system_logs`
-  MODIFY `LOG_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de tabela `taxa`
+-- AUTO_INCREMENT for table `taxa`
 --
 ALTER TABLE `taxa`
   MODIFY `TAXA_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de tabela `taxas_config`
---
-ALTER TABLE `taxas_config`
-  MODIFY `CONFIG_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `taxas_config_history`
---
-ALTER TABLE `taxas_config_history`
-  MODIFY `HISTORY_ID` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `taxas_exceptions`
---
-ALTER TABLE `taxas_exceptions`
-  MODIFY `EXCEPTION_ID` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `userlog`
+-- AUTO_INCREMENT for table `userlog`
 --
 ALTER TABLE `userlog`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- AUTO_INCREMENT de tabela `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `USER_ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000000;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `system_logs`
---
-ALTER TABLE `system_logs`
-  ADD CONSTRAINT `fk_log_admin` FOREIGN KEY (`ADMIN_ID`) REFERENCES `admin_users` (`ADMIN_ID`) ON DELETE SET NULL;
-
---
--- Restrições para tabelas `taxas_config`
---
-ALTER TABLE `taxas_config`
-  ADD CONSTRAINT `fk_taxas_admin` FOREIGN KEY (`UPDATED_BY`) REFERENCES `admin_users` (`ADMIN_ID`) ON DELETE SET NULL;
-
---
--- Restrições para tabelas `taxas_config_history`
---
-ALTER TABLE `taxas_config_history`
-  ADD CONSTRAINT `fk_history_admin` FOREIGN KEY (`CHANGED_BY`) REFERENCES `admin_users` (`ADMIN_ID`) ON DELETE SET NULL;
-
---
--- Restrições para tabelas `taxas_exceptions`
---
-ALTER TABLE `taxas_exceptions`
-  ADD CONSTRAINT `fk_exception_admin` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin_users` (`ADMIN_ID`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_exception_delivery` FOREIGN KEY (`DELIVERY_ID`) REFERENCES `deliveries` (`DELIVERY_ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

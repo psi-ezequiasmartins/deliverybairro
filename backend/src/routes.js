@@ -38,7 +38,6 @@ async function geocodeAddress(endereco, numero, bairro, cidade, uf) {
   }
 }
 
-
 const publicRoutes = [
   '/api/ping',
   '/api/health',

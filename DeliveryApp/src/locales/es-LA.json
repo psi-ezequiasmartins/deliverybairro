@@ -105,7 +105,7 @@
       "button": "Regístrate ahora"
     },
     "notes": {
-      "digital_menu": "(*) Menú Online personalizado con el Logo del Delivery",
+      "digital_menu": "(*) Aplicación personalizada con el Logo de tu Delivery",
       "google_ads": "(**) Campaña de Publicidad en Google Ads",
       "google_ads_description": "Promociona tu Delivery en tu región a través de nuestra campaña en Google Ads, para más información, por favor contáctanos."
     },
@@ -409,7 +409,7 @@
           "price": "$90",
           "fee": "+ $0.18 por pedido",
           "products": "Hasta 50 productos",
-          "description": "Soporte Online (WhatsApp) + Soporte Telefónico"
+          "description": "Aplicación personalizada* + Soporte Online (WhatsApp) + Soporte Telefónico" 
         }
       },
       "messages": {

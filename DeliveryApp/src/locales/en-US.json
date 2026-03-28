@@ -93,7 +93,7 @@
       "price": "$35",
       "fee": "+ $0.18 per order",
       "products": "Up to 20 products",
-      "description": "Online Menu* + Online Support: (Google Meet/WhatsApp)",
+      "description": "Online Support: (Google Meet/WhatsApp)",
       "button": "Register now"
     },
     "premium": {
@@ -101,7 +101,7 @@
       "price": "$90",
       "fee": "+ $0.18 per order",
       "products": "Up to 30 products",
-      "description": "Online Menu* + Google Ads** + Online Support: (Google Meet/WhatsApp)",
+      "description": "Customized application* + Google Ads** + Online Support: (Google Meet/WhatsApp)",
       "button": "Register now"
     },
     "notes": {
@@ -409,7 +409,7 @@
           "price": "$489.90",
           "fee": "+ $0.99 per order",
           "products": "Up to 50 products",
-          "description": "Online Support (WhatsApp) + Phone Support"
+          "description": "Customized application* Online Support (WhatsApp) + Phone Support"
         }
       },
       "messages": {

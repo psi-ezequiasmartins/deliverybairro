@@ -105,7 +105,7 @@
       "button": "Registre-se agora"
     },
     "notes": {
-      "digital_menu": "(*) Cardápio Online personalizado c/ a Logo do Delivery",
+      "digital_menu": "(*) App personalizado c/ a Logo do seu Delivery",
       "google_ads": "(**) Campanha de Publicidade no Google Ads (consultar condições)",
       "google_ads_description": "Promova o seu Delivery em sua região através da nossa campanha no Google Ads, para saber mais a respeito, entre em contato por favor."
     },
@@ -409,7 +409,7 @@
           "price": "R$ 489,90",
           "fee": "+ R$ 0,99 por pedido",
           "products": "Até 50 produtos",
-          "description": "Suporte Online (WhatsApp) + Suporte por Telefone"
+          "description": "App personalizado* + Suporte Online (WhatsApp) + Suporte por Telefone"
         }
       },
       "messages": {

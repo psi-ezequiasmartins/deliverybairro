@@ -93,7 +93,7 @@
       "price": "R$ 189,90",
       "fee": "+ R$ 0,99 por pedido",
       "products": "Até 20 produtos",
-      "description": "Cardápio Digital* + Suporte Online (Google Meet/WhatsApp)*",
+      "description": "Cardápio Digital* + Suporte Online (Google Meet/WhatsApp)*", 
       "button": "Cadastre-se agora"
     },
     "premium": {
@@ -101,7 +101,7 @@
       "price": "R$ 489,90",
       "fee": "+ R$ 0,99 por pedido",
       "products": "Até 30 produtos",
-      "description": "Cardápio Digital* + Google Ads**, Suporte Online: (Google Meet/WhatsApp)",
+      "description": "App personalizado* + Suporte Online (WhatsApp) + Suporte por Telefone",
       "button": "Registre-se agora"
     },
     "notes": {

@@ -8,7 +8,7 @@
     "contact": "Contacto"
   },
   "banner": {
-    "title": "¡Fácil de configurar y simple de usar!",
+    "title": "¡Simple de configurar y fácil de usar!",
     "subtitle": "Sistema práctico y simplificado para Delivery + Menú Digital con envío de pedidos vía WhatsApp.",
     "description": "¡Registra tu Delivery gratis hoy mismo y únete a nuestro Catálogo! Paga solo $0,18 por pedido enviado a través de nuestra plataforma.",
     "register": "Registrarse",
@@ -30,11 +30,11 @@
       },
       "anywhere": {
         "title": "Desde cualquier lugar",
-        "description": "Gestiona tu Delivery remotamente (100% online), estés donde estés."
+        "description": "Gestiona tu Delivery remotamente estés donde estés (100% online)."
       },
       "affordable": {
         "title": "Precio justo",
-        "description": "Paga solo $0,18 por pedido realizado. Sin cuotas mensuales o cargos ocultos."
+        "description": "Paga solo $0,35 por pedido realizado. Sin cuotas mensuales o cargos ocultos."
       },
       "whatsapp": {
         "title": "Integración WhatsApp",
@@ -82,24 +82,24 @@
     "free_trial": "Prueba Gratis",
     "free": {
       "title": "Gratis",
-      "price": "$0,00",
-      "fee": "+ $0,18 por pedido",
+      "tax": "Sin Tarifa de Adhesión",
+      "fee": "+ $0,35 por pedido",
       "products": "Hasta 10 productos",
       "description": "¡Regístrate gratis y únete a nuestro catálogo! Soporte Offline (por email)",
       "button": "Regístrate ahora"
     },
     "pro": {
       "title": "Pro",
-      "price": "$35",
-      "fee": "+ $0,18 por pedido",
+      "tax": "Tarifa de Adhesión: $35",
+      "fee": "+ $0,35 por pedido",
       "products": "Hasta 20 productos",
       "description": "Menú Online* + Soporte Online: (Google Meet/WhatsApp)",
       "button": "Regístrate ahora"
     },
     "premium": {
       "title": "Premium",
-      "price": "$90",
-      "fee": "+ $0,18 por pedido",
+      "tax": "Tarifa de Adhesión: $85",
+      "fee": "+ $0,35 por pedido",
       "products": "Hasta 30 productos",
       "description": "Menú Online* + Google Ads** + Soporte Online: (Google Meet/WhatsApp)",
       "button": "Regístrate ahora"

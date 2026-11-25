@@ -8,7 +8,7 @@
     "contact": "Contact"
   },
   "banner": {
-    "title": "Easy to setup and simple to use!",
+    "title": "Simple to setup and easy to use!",
     "subtitle": "Practical and simplified system for Delivery + Digital Menu with order sending via WhatsApp.",
     "description": "Register your Delivery for free today and join our Catalog! Pay only $0.18 per order sent through our platform.",
     "register": "Sign Up",
@@ -30,11 +30,11 @@
       },
       "anywhere": {
         "title": "From anywhere",
-        "description": "Manage your Delivery remotely (100% online), wherever you are."
+        "description": "Manage your Delivery remotely wherever you are (100% online)."
       },
       "affordable": {
         "title": "Fair price",
-        "description": "Pay only $0.18 per order placed. No monthly fees or hidden charges."
+        "description": "Pay only $0.35 per order placed. No monthly fees or hidden charges."
       },
       "whatsapp": {
         "title": "WhatsApp Integration",
@@ -82,24 +82,24 @@
     "free_trial": "Free Trial",
     "free": {
       "title": "Free",
-      "price": "$0.00",
-      "fee": "+ $0.18 per order",
+      "tax": "No Subscription Fee",
+      "fee": "+ $0.35 per order",
       "products": "Up to 10 products",
       "description": "Register for free and join our catalog! Offline Support (by email)",
       "button": "Register now"
     },
     "pro": {
       "title": "Pro",
-      "price": "$35",
-      "fee": "+ $0.18 per order",
+      "tax": "Subscription Fee: $35",
+      "fee": "+ $0.35 per order",
       "products": "Up to 20 products",
       "description": "Online Support: (Google Meet/WhatsApp)",
       "button": "Register now"
     },
     "premium": {
       "title": "Premium",
-      "price": "$90",
-      "fee": "+ $0.18 per order",
+      "tax": "Subscription Fee: $85",
+      "fee": "+ $0.35 per order",
       "products": "Up to 30 products",
       "description": "Customized application* + Google Ads** + Online Support: (Google Meet/WhatsApp)",
       "button": "Register now"

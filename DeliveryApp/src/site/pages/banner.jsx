@@ -35,7 +35,7 @@ function Banner() {
           </div>
           <div className="col-lg-6">
             <div className="bloco">
-              <h1>{t('banner.title')}</h1>
+              <h3>{t('banner.title')}</h3>
               <div className={`${fade ? 'fade-in' : 'fade-out'}`}>
                 <h4>{texts[index]}</h4>
               </div>

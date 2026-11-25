@@ -8,11 +8,11 @@
     "contact": "Contato"
   },
   "banner": {
-    "title": "Fácil de configurar e simples de usar!",
+    "title": "Simples de configurar e fácil de usar!",
     "subtitle": "Sistema prático e simplificado para Delivery + Cardápio Digital c/ envio de pedidos via WhatsApp.",
     "description": "Cadastre gratuitamente o seu Delivery hoje mesmo e faça parte do nosso Catálogo! Pague apenas R$ 0,99 por pedido enviado pela nossa plataforma.",
-    "register": "Cadastre-se",
-    "login": "Fazer Login",
+    "register": "CADASTRE-SE",
+    "login": "LOGIN",
     "rotating_texts": [
       "Agilize a gestão de pedidos do seu bar, restaurante ou fastfood de forma muito prática e simples!",
       "Gestão de Pedidos para Deliveries em Geral de forma ágil e descomplicada.",
@@ -30,11 +30,11 @@
       },
       "anywhere": {
         "title": "De qualquer lugar",
-        "description": "Gerencie seu Delivery remotamente (100% online), esteja onde estiver."
+        "description": "Gerencie seu Delivery remotamente esteja onde estiver (100% online)."
       },
       "affordable": {
         "title": "Preço justo",
-        "description": "Pague apenas R$ 0,99 por pedido realizado. Sem mensalidades ou taxas ocultas."
+        "description": "Pague apenas R$ 1,99 por pedido realizado. Sem mensalidades ou taxas ocultas."
       },
       "whatsapp": {
         "title": "Integração WhatsApp",
@@ -82,26 +82,26 @@
     "free_trial": "Teste Grátis",
     "free": {
       "title": "Free",
-      "price": "R$ 0,00",
-      "fee": "+ R$ 0,99 por pedido",
+      "tax": "S/ Taxa de Adesão",
+      "fee": "+R$ 1,99 por pedido",
       "products": "Até 10 produtos",
       "description": "Cadastre-se grátis e venha fazer parte do nosso catálogo! Suporte Offline (por email)",
       "button": "Cadastre-se agora"
     },
     "pro": {
       "title": "Pro",
-      "price": "R$ 189,90",
-      "fee": "+ R$ 0,99 por pedido",
+      "tax": "Taxa de Adesão: R$ 199",
+      "fee": "+ R$ 1,99 por pedido",
       "products": "Até 20 produtos",
       "description": "Cardápio Digital* + Suporte Online (Google Meet/WhatsApp)*", 
       "button": "Cadastre-se agora"
     },
     "premium": {
       "title": "Premium",
-      "price": "R$ 489,90",
-      "fee": "+ R$ 0,99 por pedido",
+      "tax": "Taxa de Adesão: R$ 499",
+      "fee": "+ R$ 1,99 por pedido",
       "products": "Até 30 produtos",
-      "description": "App personalizado* + Suporte Online (WhatsApp) + Suporte por Telefone",
+      "description": "Cardápio Digital* + Google Ads** + Suporte Online (Google Meet/WhatsApp) + Suporte por Telefone",
       "button": "Registre-se agora"
     },
     "notes": {

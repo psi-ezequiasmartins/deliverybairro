@@ -24,7 +24,8 @@ function Planos() {
                 <h1>{t('plans.free.title')}</h1>
               </div>
               <div className="card-body">
-                <h2>{t('plans.free.price')}</h2>
+                {/* <h2>{t('plans.free.price')}</h2> */}
+                <h3>{t('plans.free.tax')}</h3>
                 <h5>{t('plans.free.fee')}</h5>
                 <p>{t('plans.free.products')}</p>
                 <p>{t('plans.free.description')}</p>
@@ -38,7 +39,8 @@ function Planos() {
                 <h1>{t('plans.pro.title')}</h1>
               </div>
               <div className="card-body">
-                <h2>{t('plans.pro.price')}</h2>
+                {/* <h2>{t('plans.pro.price')}</h2> */}
+                <h3>{t('plans.pro.tax')}</h3>
                 <h5>{t('plans.pro.fee')}</h5>
                 <p>{t('plans.pro.products')}</p>
                 <p>{t('plans.pro.description')}</p>
@@ -52,7 +54,8 @@ function Planos() {
                 <h1>{t('plans.premium.title')}</h1>
               </div>
               <div className="card-body">
-                <h2>{t('plans.premium.price')}</h2>
+                {/* <h2>{t('plans.premium.price')}</h2> */}
+                <h3>{t('plans.premium.tax')}</h3>
                 <h5>{t('plans.premium.fee')}</h5>
                 <p>{t('plans.premium.products')}</p>
                 <p>{t('plans.premium.description')}</p>

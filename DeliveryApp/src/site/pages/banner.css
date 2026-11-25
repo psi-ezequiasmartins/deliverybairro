@@ -52,7 +52,7 @@
 .button-group {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 0rem;
   flex-wrap: wrap;
   align-items: center;
 }

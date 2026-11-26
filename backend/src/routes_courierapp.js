@@ -22,6 +22,9 @@ router.use(authMiddleware);
 router.get('/api/courier/:courierId', async (req, res) => {
   try {
     const { courierId } = req.params;
+    if (String(req.auth.id) !== String(courierId)) {
+      return res.sendStatus(403);
+    }
 
     const [courier] = await db.query(
       'SELECT * FROM couriers WHERE COURIER_ID = ?',
@@ -32,7 +35,9 @@ router.get('/api/courier/:courierId', async (req, res) => {
       return res.status(404).json({ error: 'Entregador não encontrado' });
     }
 
-    res.json(courier[0]);
+    const safeCourier = { ...courier[0] };
+    delete safeCourier.PASSWORD;
+    res.json(safeCourier);
   } catch (error) {
     console.error('Erro ao buscar entregador:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });

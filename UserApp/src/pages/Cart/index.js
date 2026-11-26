@@ -3,7 +3,6 @@
 */
 
 import React, { useState, useEffect, useContext } from 'react';
-import { NotificationContext } from '../../contexts/NotificationContext';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { ScrollView } from "react-native-virtualized-view";
 import { Fontisto } from '@expo/vector-icons';
@@ -25,7 +24,6 @@ import Logger from '../../utils/logger';
 
 export default function Cesta() {
   const { basket, delivery, AddToBasket, RemoveFromBasket, CleanBasket } = useContext(CartContext);
-  const { pushToken, getPushToken } = useContext(NotificationContext);
   const { user } = useContext(AuthContext);
   const { createOrder } = useContext(OrderContext);
   const [loading, setLoading] = useState(false);
@@ -104,13 +102,7 @@ export default function Cesta() {
       let addressToUse = tempAddress;
       let locationData = null;
 
-      // IMPORTANTE: Obtém o pushToken mais atual antes de criar o pedido
-      const currentPushToken = await getPushToken();
-
-      Logger.debug('Cart', 'Obtendo pushToken para pedido', {
-        contextToken: !!pushToken,
-        freshToken: !!currentPushToken
-      });      // Sempre tentar GPS primeiro
+      // Sempre tentar GPS primeiro
       try {
         locationData = await getCurrentLocationStandalone();
         if (locationData?.address?.formatted) {
@@ -149,7 +141,6 @@ export default function Cesta() {
         VR_SUBTOTAL: subtotal,
         TAXA_ENTREGA: delivery?.TAXA_ENTREGA,
         VR_TOTAL: total, // Total já inclui todas as taxas calculadas
-        PUSH_TOKEN: currentPushToken || pushToken, // Usa o token mais atual obtido
         STATUS: "NOVO",
         LATITUDE: locationData?.location?.latitude,
         LONGITUDE: locationData?.location?.longitude,
@@ -164,7 +155,6 @@ export default function Cesta() {
       if (isDevelopment) {
         Logger.debug('Cart', 'TempOrder criado', {
           hasItems: tempOrder.ITENS?.length > 0,
-          hasPushToken: !!tempOrder.PUSH_TOKEN,
           hasDeliveryId: !!tempOrder.DELIVERY_ID
         });
       }
@@ -212,32 +202,22 @@ export default function Cesta() {
         CREATED_AT: new Date().toISOString()
       };
 
-      // Garante que PUSH_TOKEN não seja null antes da validação
-      if (!finalOrder.PUSH_TOKEN) {
-        Logger.info('Cart', 'PUSH_TOKEN ausente, obtendo novo');
-        const freshPushToken = await getPushToken();
-        finalOrder.PUSH_TOKEN = freshPushToken || ''; // Garante que não seja null
-
-        Logger.token('Cart', 'Novo PUSH_TOKEN obtido para pedido', { hasToken: !!freshPushToken });
-      }      // Debug do pedido final antes da validação
+      // Debug do pedido final antes da validação
       if (isDevelopment) {
         Logger.debug('Cart', 'Pedido final completo', {
           hasItems: finalOrder.ITENS?.length > 0,
-          hasPushToken: !!finalOrder.PUSH_TOKEN,
           hasAddress: !!finalOrder.ENDERECO_ENTREGA,
           hasCoords: !!(finalOrder.LATITUDE && finalOrder.LONGITUDE)
         });
       }
 
       const requiredFields = [
-        'DELIVERY_ID', 'USER_ID', 'VR_SUBTOTAL', 'TAXA_ENTREGA', 'VR_TOTAL', 'PUSH_TOKEN', 'ENDERECO_ENTREGA', 'LATITUDE', 'LONGITUDE', 'ITENS'
+        'DELIVERY_ID', 'USER_ID', 'VR_SUBTOTAL', 'TAXA_ENTREGA', 'VR_TOTAL', 'ENDERECO_ENTREGA', 'LATITUDE', 'LONGITUDE', 'ITENS'
       ];
       for (const field of requiredFields) {
         const value = finalOrder[field];
-        // Para PUSH_TOKEN, aceita string vazia mas não null/undefined
-        const isEmpty = field === 'PUSH_TOKEN'
-          ? (value === null || value === undefined)
-          : (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0));
+        const isEmpty = value === null || value === undefined || value === '' ||
+          (Array.isArray(value) && value.length === 0);
 
         if (isEmpty) {
           Logger.errorCritical('Cart', `Campo obrigatório ausente: ${field}`, { field, value });
@@ -249,7 +229,6 @@ export default function Cesta() {
 
       Logger.success('Cart', 'Pedido validado e enviado', {
         hasItems: finalOrder.ITENS?.length > 0,
-        hasPushToken: !!finalOrder.PUSH_TOKEN,
         total: finalOrder.VR_TOTAL
       });
 

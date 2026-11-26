@@ -1,6 +1,7 @@
 // Pedidos - gerenciamento de pedidos do delivery
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import socket from "../../../services/socket";
 import { useTranslation } from 'react-i18next';
 import { imprimirListagemDePedidos } from './impressao';
 import api from "../../../config/apiAxios";
@@ -24,7 +25,7 @@ export default function Pedidos() {
   const [pedidos, setPedidos] = useState(null);
   const [msg, setMsg] = useState('');
 
-  async function ListarPedidos() {
+  const ListarPedidos = useCallback(async () => {
     try {
       const response = await api.get(`/delivery-app/pedidos/abertos/delivery/${vID}`);
       if (response.data.length > 0) {
@@ -43,11 +44,19 @@ export default function Pedidos() {
       }
       setPedidos([]); // Garante que a lista de pedidos esteja vazia
     }
-  }
+  }, [t, vID]);
 
   useEffect(() => {
-    ListarPedidos(); // eslint-disable-next-line 
-  }, [pedidos, vID])
+    ListarPedidos();
+  }, [ListarPedidos]);
+
+  useEffect(() => {
+    const handleNewOrder = (order) => {
+      if (String(order?.deliveryId) === String(vID)) ListarPedidos();
+    };
+    socket.on('newOrder', handleNewOrder);
+    return () => socket.off('newOrder', handleNewOrder);
+  }, [ListarPedidos, vID]);
 
   async function loadDeliveryAddress() {
     if (vID) {
@@ -114,7 +123,6 @@ export default function Pedidos() {
                   USER_ID={pedido.USER_ID}
                   CLIENTE={(pedido.CLIENTE || '').toUpperCase()}
                   ENDERECO_ENTREGA={(pedido.ENDERECO_ENTREGA || '').toUpperCase()}
-                  PUSH_TOKEN={pedido.PUSH_TOKEN}
                   itens={pedido.ITENS}
                 />
               })

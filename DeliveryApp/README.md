@@ -3,7 +3,7 @@
 <img src="src/assets/banner.jpg" width="70%"><br>
 
 ## Descrição<br>
-Projeto Web desenvolvido c/ Reactjs+Bootstrap+Firebase para Gestão de Clientes, Fornecedores, Produtos, Pedidos, Controle de Estoque e Financeiro, com foco em Bares, Restaurantes, Fast-foods, Supermercados, Drograrias & Delivery's em Geral.
+Projeto Web desenvolvido c/ React, Bootstrap e backend MySQL para Gestão de Clientes, Produtos, Pedidos e Deliveries, com foco em Bares, Restaurantes, Fast-foods e Delivery's em Geral.
 
 ## Para instalar as dependências (node_modules)
 > npm | yarn install

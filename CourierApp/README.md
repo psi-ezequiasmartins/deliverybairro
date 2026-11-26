@@ -8,7 +8,7 @@ Aplicativo React Native + Expo para entregadores do DelireryBairro. Permite que 
 - Login/logout de entregadores
 - Cadastro de novos entregadores (aguarda aprovação)
 - Recuperação de senha
-- Integração com Firebase Auth
+- Autenticação via backend e MySQL
 
 ### Dashboard
 - Status do entregador (Online/Offline/Ocupado)
@@ -32,7 +32,7 @@ Aplicativo React Native + Expo para entregadores do DelireryBairro. Permite que 
 
 ### Outros Recursos
 - Sistema de internacionalização (PT/EN/ES)
-- Notificações push
+- Atualizações em tempo real via Socket.IO enquanto o app estiver conectado
 - Logs detalhados para debug
 - Interface responsiva e otimizada
 
@@ -41,7 +41,6 @@ Aplicativo React Native + Expo para entregadores do DelireryBairro. Permite que 
 - **React Native** 0.81.5
 - **Expo SDK** ~54.0.0
 - **React Navigation** 7.x
-- **Firebase** 12.4.0
 - **React Native Maps** 1.20.1
 - **React Native Maps Directions** 1.9.0
 - **Axios** para API calls
@@ -54,7 +53,7 @@ Aplicativo React Native + Expo para entregadores do DelireryBairro. Permite que 
 - Node.js 18+
 - Expo CLI
 - Android Studio ou Xcode
-- Conta Firebase configurada
+- Backend do DeliveryBairro configurado
 - Google Maps API key
 
 ### Instalação
@@ -76,13 +75,7 @@ cp .env.example .env
 
 Edite o arquivo `.env` com suas configurações:
 - `BASE_URL`: URL do backend
-- Variáveis Firebase
 - `GOOGLE_MAPS_API_KEY`: Sua chave da API do Google Maps
-
-4. Configure o Firebase:
-   - Crie um projeto no Firebase Console
-   - Ative Authentication e Realtime Database
-   - Adicione as configurações no arquivo `.env`
 
 5. Inicie o projeto:
 ```bash
@@ -98,11 +91,9 @@ CourierApp/
 │   ├── contexts/           # Contextos React
 │   │   ├── AuthContext.js  # Autenticação
 │   │   ├── OrderContext.js # Gerenciamento de pedidos
-│   │   ├── NotificationContext.js
 │   │   └── TranslateContext.js
 │   ├── config/             # Configurações
 │   │   ├── apiAxios.js     # Configuração Axios
-│   │   └── apiFirebase.js  # Configuração Firebase
 │   ├── locales/           # Traduções
 │   │   ├── pt-BR.json
 │   │   ├── en-US.json
@@ -190,13 +181,9 @@ Para adicionar novos idiomas:
 2. Adicione ao array em `TranslateContext.js`
 3. Configure no `i18n.js`
 
-## 🔔 Notificações
+## 🔔 Atualizações em tempo real
 
-Configuradas para receber:
-- Novos pedidos disponíveis
-- Atualizações de pedidos
-- Cancelamentos
-- Mensagens do sistema
+Os eventos são recebidos via Socket.IO enquanto o app estiver aberto e conectado. Não há notificações quando o app está suspenso ou fechado.
 
 ## 📄 Licença
 

@@ -26,14 +26,7 @@ export default function Pedido(props) {
     await api.put(`/delivery-app/update/status/pedido`, {
       orderId: props.PEDIDO_ID,
       status: codigo
-    }).then((response) => {
-      console.log(response);
-      const json = {
-        title: 'psi-Delivery',
-        body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo,
-        pushToken: props.PUSH_TOKEN || null,
-      }
-      console.log(json);
+    }).then(() => {
       if (status === 'FINALIZADO') {
         setVisible(false);
       }

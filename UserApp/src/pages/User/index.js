@@ -13,8 +13,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../contexts/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDatabase, ref, update } from "firebase/database";
-import firebase_app from '../../config/apiFirebase';
 
 import CameraModal from '../../components/Camera/CameraModal';
 import Logger from '../../utils/logger';
@@ -33,7 +31,6 @@ export default function Perfil() {
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
-  const db = getDatabase(firebase_app);
 
   const [nome, setNome] = useState(user?.NOME || '');
   const [sobrenome, setSobrenome] = useState(user?.SOBRENOME || '');
@@ -123,7 +120,7 @@ export default function Perfil() {
       // Pergunta se quer fazer upload imediatamente
       Alert.alert(
         'Foto capturada!',
-        'Deseja fazer o upload da foto agora? A foto será salva permanentemente no Firebase Storage.',
+        'Deseja enviar a foto agora? Ela será armazenada no servidor do DeliveryBairro.',
         [
           {
             text: 'Depois',
@@ -157,7 +154,6 @@ export default function Perfil() {
       // Faz upload da nova foto
       const newImageUrl = await UserImageUploadService.updateUserPhoto(
         uri,
-        url_imagem, // URL atual para remoção
         user.USER_ID
       );
 
@@ -262,30 +258,6 @@ export default function Perfil() {
         ["vEmail", email],
         ["vUrlImagem", finalUrlImagem],
       ]);
-
-      // Atualiza Firebase RTDB se tiver UID (apenas dados essenciais)
-      if (user?.FIREBASE_UID) {
-        const rtdbData = {
-          Nome: nome,
-          Sobrenome: sobrenome,
-          Telefone: telefone,
-          Email: email
-          // UrlImagem removida - não precisa estar no RTDB
-        };
-
-        Logger.info('Perfil', 'Atualizando RTDB com dados essenciais', {
-          firebaseUid: user.FIREBASE_UID,
-          rtdbData
-        });
-
-        await update(ref(db, 'users/' + user.FIREBASE_UID), rtdbData);
-        Logger.success('Perfil', 'Dados essenciais atualizados no Firebase RTDB');
-      } else {
-        Logger.warn('Perfil', 'FIREBASE_UID não encontrado, RTDB não foi atualizado', {
-          hasUser: !!user,
-          userKeys: user ? Object.keys(user) : []
-        });
-      }
 
       Logger.success('Perfil', 'Atualização completa realizada com sucesso');
       Alert.alert('Dados atualizados com sucesso!');
@@ -455,7 +427,7 @@ export default function Perfil() {
         <ImageUploadStatus
           isVisible={uploadingPhoto}
           isUploading={uploadingPhoto}
-          message="Enviando foto para Firebase Storage..."
+          message="Enviando foto para o servidor..."
         />
 
       </KeyboardAvoidingView>
@@ -608,7 +580,7 @@ const styles = StyleSheet.create({
     "UserID": 100001,
     "Nome": "Ezequias",
     "Sobrenome": "Martins",
-    "UrlImagem": "https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/usuarios%2Fezequiasmartins.jpg?alt=media&token=873161e8-922e-49df-b5c1-0d200023e326",
+    "UrlImagem": "",
     "Email": "ezequiasmartins@gmail.com",
     "Telefone": "+55 31 98410-7540",
     "Endereco": "Rua dos Comanches, 870 Santa Mônica, Belo Horizonte, MG, 31530-250",

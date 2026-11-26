@@ -20,6 +20,7 @@ export default function PreCadastro() {
 
   const [step, setStep] = useState(initialState?.step || 1);
   const [deliveryId, setDeliveryId] = useState(initialState?.deliveryId || null);
+  const [registrationToken, setRegistrationToken] = useState(initialState?.registrationToken || '');
   const [nome, setNome] = useState(initialState?.nome || "");
   const [planoassinatura, setPlanoAssinatura] = useState(initialState?.planoassinatura || "FREE");
   const [categoria, setCategoria] = useState(initialState?.categoria || 101);
@@ -46,6 +47,7 @@ export default function PreCadastro() {
     const state = {
       step,
       deliveryId,
+      registrationToken,
       nome,
       planoassinatura,
       categoria,
@@ -62,7 +64,7 @@ export default function PreCadastro() {
       sendMethod
     };
     sessionStorage.setItem('preCadastroState', JSON.stringify(state));
-  }, [step, deliveryId, nome, planoassinatura, categoria, responsavel, email, telefone, CEP, endereco, numero, complemento, bairro, cidade, UF, sendMethod]);
+  }, [step, deliveryId, registrationToken, nome, planoassinatura, categoria, responsavel, email, telefone, CEP, endereco, numero, complemento, bairro, cidade, UF, sendMethod]);
 
   // Função para reiniciar o cadastro
   function handleReiniciarCadastro() {
@@ -205,6 +207,25 @@ _Esta é uma mensagem automática. Não responda este número._`;
     }
   }
 
+  async function handleResendCode() {
+    if (!deliveryId) return;
+    setLoading(true);
+    try {
+      const { data } = await api.post(`/api/delivery/send-validation-code/${deliveryId}`, {
+        SEND_METHOD: sendMethod
+      });
+      if (sendMethod === 'whatsapp' && data.codigo) {
+        sendCodeViaWhatsApp(data.codigo);
+      }
+      showSuccess(t('app.auth.registration_code_resent'));
+    } catch (error) {
+      console.error('Erro ao reenviar código:', error.message);
+      showError(t('app.auth.registration_error'));
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSaveAddress() {
     if (!CEP || !endereco || !numero || !bairro || !cidade || !UF) {
       showError('Preencha todos os campos obrigatórios do endereço.');
@@ -238,18 +259,19 @@ _Esta é uma mensagem automática. Não responda este número._`;
     }
     setLoading(true);
     try {
-      const response = await api.post('/api/delivery/validar-codigo', { email, codigo: validationCode });
-      if (response.data.valid) {
+      const response = await api.post('/api/delivery/validar-codigo-cadastro', { email, codigo: validationCode });
+      if (response.data.valid && response.data.registrationToken) {
         setDeliveryId(response.data.DELIVERY_ID);
-        showSuccess('Código validado! Agora informe o endereço do seu estabelecimento.', () => {
+        setRegistrationToken(response.data.registrationToken);
+        showSuccess(t('app.auth.registration_code_validated'), () => {
           setStep(3);
         });
       } else {
-        showError('Código inválido.');
+        showError(t('app.auth.invalid_registration_code'));
       }
     } catch (error) {
-      console.error('Erro ao validar código:', error);
-      showError('Erro ao validar código.');
+      console.error('Erro ao validar código:', error.message);
+      showError(t('app.auth.registration_error'));
     } finally {
       setLoading(false);
     }
@@ -257,54 +279,45 @@ _Esta é uma mensagem automática. Não responda este número._`;
 
   async function handleValidarLogin() {
     if (!userPassword || userPassword !== userPasswordConfirm) {
-      setUserMsg('Senhas não conferem.');
+      setUserMsg(t('app.auth.passwords_do_not_match'));
       return;
     }
     if (userPassword.length < 6) {
-      setUserMsg('A senha deve ter pelo menos 6 caracteres.');
+      setUserMsg(t('app.auth.password_too_short'));
+      return;
+    }
+    if (!registrationToken) {
+      setUserMsg(t('app.auth.registration_expired'));
       return;
     }
     setUserMsg('');
     try {
       setLoading(true);
-      const { getAuth, createUserWithEmailAndPassword } = await import('firebase/auth');
-      const { getDatabase, ref, set } = await import('firebase/database');
-      const { firebase_app } = await import('../../config/apiFirebase');
-
-      const auth = getAuth(firebase_app);
-      const db = getDatabase();
-
-      // Cria usuário no Firebase Auth
-      const result = await createUserWithEmailAndPassword(auth, email, userPassword);
-      const uid = result.user.uid;
-
-      // Salva dados no RTDB
-      await set(ref(db, 'deliveries/' + uid), {
-        DeliveryID: deliveryId,
-        DeliveryName: nome,
-        DeliveryMail: email,
-        Responsavel: responsavel,
-        Telefone: telefone
+      await api.post('/api/delivery/finalizar-cadastro', {
+        PASSWORD: userPassword
+      }, {
+        headers: {
+          Authorization: `Bearer ${registrationToken}`
+        }
       });
 
-      showSuccess('Pré-cadastro concluído com sucesso! Agora você será redirecionado para a tela de Login (entrada) e pode acessar e completar seus dados no sistema.', () => {
+      showSuccess(t('app.register.completed'), () => {
         sessionStorage.removeItem('preCadastroState'); // Limpa o estado salvo
         window.location.href = '/app/login';
       });
-    } catch (err) {
-      console.error('Erro no cadastro Firebase:', err);
-      let errorMessage = 'Erro ao criar usuário no Firebase ou salvar no RTDB.';
-
-      // Personaliza mensagens de erro do Firebase
-      if (err.code === 'auth/email-already-in-use') {
-        errorMessage = 'Este e-mail já está em uso. Tente fazer login ou use outro e-mail.';
-      } else if (err.code === 'auth/weak-password') {
-        errorMessage = 'A senha é muito fraca. Use pelo menos 6 caracteres.';
-      } else if (err.code === 'auth/invalid-email') {
-        errorMessage = 'E-mail inválido.';
+    } catch (error) {
+      console.error('Erro ao finalizar cadastro:', error.message);
+      const errorCode = error.response?.data?.error;
+      if (errorCode === 'USER_ACCOUNT_PASSWORD_MISMATCH') {
+        setUserMsg(t('app.auth.existing_account_password_mismatch'));
+      } else if (errorCode === 'INVALID_REGISTRATION_TOKEN') {
+        setRegistrationToken('');
+        setValidationCode('');
+        setStep(2);
+        showError(t('app.auth.registration_expired'));
+      } else {
+        setUserMsg(t('app.auth.registration_error'));
       }
-
-      setUserMsg(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -516,15 +529,20 @@ _Esta é uma mensagem automática. Não responda este número._`;
               </div>
 
               {sendMethod === "email" ? (
-                <div className="alert alert-primary border-0 mb-4">
-                  <div className="d-flex align-items-center">
-                    <i className="fas fa-envelope text-primary fs-4 me-3"></i>
-                    <div>
-                      <div className="fw-semibold">E-mail enviado para:</div>
-                      <div className="text-break">{email}</div>
-                      <small className="text-muted">Verifique sua caixa de entrada e spam</small>
+                <div className="mb-4">
+                  <div className="alert alert-primary border-0">
+                    <div className="d-flex align-items-center">
+                      <i className="fas fa-envelope text-primary fs-4 me-3"></i>
+                      <div>
+                        <div className="fw-semibold">E-mail enviado para:</div>
+                        <div className="text-break">{email}</div>
+                        <small className="text-muted">Verifique sua caixa de entrada e spam</small>
+                      </div>
                     </div>
                   </div>
+                  <button type="button" className="btn btn-outline-primary" onClick={handleResendCode} disabled={loading}>
+                    {t('app.auth.resend_code')}
+                  </button>
                 </div>
               ) : (
                 <div className="mb-4">
@@ -542,19 +560,11 @@ _Esta é uma mensagem automática. Não responda este número._`;
                   <button
                     type="button"
                     className="btn btn-outline-success d-flex align-items-center"
-                    onClick={async () => {
-                      try {
-                        const response = await api.get(`/api/delivery/get-code/${deliveryId}`);
-                        const codigo = response.data.codigo || "CÓDIGO";
-                        sendCodeViaWhatsApp(codigo);
-                        showSuccess('Link do WhatsApp foi aberto novamente!');
-                      } catch (error) {
-                        sendCodeViaWhatsApp("Solicite seu código de validação");
-                      }
-                    }}
+                    onClick={handleResendCode}
+                    disabled={loading}
                   >
                     <i className="fab fa-whatsapp me-2"></i>
-                    Reenviar via WhatsApp
+                    {t('app.auth.resend_code')}
                   </button>
                 </div>
               )}
@@ -734,15 +744,15 @@ _Esta é uma mensagem automática. Não responda este número._`;
           <div className="wizard-step wizard-cadastro-usuario">
             <div className="text-center mb-4">
               <i className="fas fa-user-shield text-success fs-1 mb-3"></i>
-              <h4 className="fw-bold">Finalizar Cadastro</h4>
-              <p className="text-muted">Defina sua senha para acessar o sistema</p>
+              <h4 className="fw-bold">{t('app.register.complete_title')}</h4>
+              <p className="text-muted">{t('app.register.password')}</p>
             </div>
 
             <form onSubmit={e => { e.preventDefault(); handleValidarLogin(); }}>
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label className="form-label text-muted">
-                    <i className="fas fa-store me-2"></i>Delivery
+                    <i className="fas fa-store me-2"></i>{t('app.register.delivery_name')}
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
@@ -753,7 +763,7 @@ _Esta é uma mensagem automática. Não responda este número._`;
                 </div>
                 <div className="col-md-6">
                   <label className="form-label text-muted">
-                    <i className="fas fa-envelope me-2"></i>E-mail
+                    <i className="fas fa-envelope me-2"></i>{t('app.register.email')}
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
@@ -767,7 +777,7 @@ _Esta é uma mensagem automática. Não responda este número._`;
               <div className="mb-3">
                 <label className="form-label fw-semibold">
                   <i className="fas fa-lock text-primary me-2"></i>
-                  Nova Senha (mínimo 6 caracteres)
+                  {t('app.register.password')}
                 </label>
                 <div className="input-group">
                   <span className="input-group-text">
@@ -782,7 +792,7 @@ _Esta é uma mensagem automática. Não responda este número._`;
                       if (userMsg) setUserMsg('');
                     }}
                     disabled={loading}
-                    placeholder="Digite sua senha"
+                    placeholder={t('app.register.password')}
                   />
                 </div>
               </div>
@@ -790,7 +800,7 @@ _Esta é uma mensagem automática. Não responda este número._`;
               <div className="mb-4">
                 <label className="form-label fw-semibold">
                   <i className="fas fa-lock text-primary me-2"></i>
-                  Confirme a Senha
+                  {t('app.register.confirm_password')}
                 </label>
                 <div className="input-group">
                   <span className="input-group-text">
@@ -805,7 +815,7 @@ _Esta é uma mensagem automática. Não responda este número._`;
                       if (userMsg) setUserMsg('');
                     }}
                     disabled={loading}
-                    placeholder="Confirme sua senha"
+                    placeholder={t('app.register.confirm_password')}
                   />
                 </div>
               </div>
@@ -825,12 +835,12 @@ _Esta é uma mensagem automática. Não responda este número._`;
                 {loading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                    Criando conta...
+                    {t('app.register.signup')}...
                   </>
                 ) : (
                   <>
                     <i className="fas fa-check-circle me-2"></i>
-                    Concluir Cadastro
+                    {t('app.register.signup')}
                   </>
                 )}
               </button>

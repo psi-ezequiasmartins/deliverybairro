@@ -3,7 +3,6 @@
 */
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../config/apiAxios';
 import { AuthContext } from './AuthContext';
 import { CartContext } from './CartContext';
@@ -20,7 +19,6 @@ function localTimestamp() {
 export function OrderProvider({ children }) {
   const { user } = useContext(AuthContext);
   const { delivery } = useContext(CartContext);
-  const [pushToken, setPushToken] = useState(null);
   const [pedido, setPedido] = useState([]);
   const [orders, setOrders] = useState([]);
 
@@ -40,11 +38,6 @@ export function OrderProvider({ children }) {
     }
 
     loadOrdersByUserID();
-
-    (async () => {
-      const token = await AsyncStorage.getItem('vPushToken');
-      setPushToken(token);
-    })();
   }, [user, pedido]);
 
   async function createOrder(orderData) {
@@ -60,7 +53,6 @@ export function OrderProvider({ children }) {
       ...orderData,
       DELIVERY_ID: deliveryId,
       USER_ID: orderData?.USER_ID || user?.USER_ID,
-      PUSH_TOKEN: orderData?.PUSH_TOKEN || pushToken,
       CREATED_AT: orderData?.CREATED_AT || localTimestamp(),
       UPDATED_AT: localTimestamp()
     };

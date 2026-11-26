@@ -4,6 +4,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const routes = require('./routes');
 const routes_admin = require('./routes_admin');
@@ -21,6 +22,7 @@ const PORT = process.env.SERVER_PORT || 33570;
 
 app.use(express.json());
 app.use(cors());
+app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')));
 app.use('/admin', routes_admin);  // Admin PRIMEIRO, antes do middleware global
 app.use(routes);
 app.use(routes_delivery);

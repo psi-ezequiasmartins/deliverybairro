@@ -12,7 +12,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LogBox } from 'react-native';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { OrderProvider } from './src/contexts/OrderContext';
-import { NotificationProvider } from './src/contexts/NotificationContext';
 import { TranslateProvider } from './src/contexts/TranslateContext';
 import Logger from './src/utils/logger';
 import './src/i18n';
@@ -52,16 +51,14 @@ function App() {
   return (
     <TranslateProvider>
       <AuthProvider>
-        <NotificationProvider>
-          <OrderProvider>
-            <SafeAreaProvider>
-              <NavigationContainer>
-                <StatusBar style="auto" />
-                <Routes />
-              </NavigationContainer>
-            </SafeAreaProvider>
-          </OrderProvider>
-        </NotificationProvider>
+        <OrderProvider>
+          <SafeAreaProvider>
+            <NavigationContainer>
+              <StatusBar style="auto" />
+              <Routes />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </OrderProvider>
       </AuthProvider>
     </TranslateProvider>
   );

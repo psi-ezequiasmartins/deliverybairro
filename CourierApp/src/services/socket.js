@@ -1,10 +1,10 @@
 // src/services/socket.js
 import { io } from 'socket.io-client';
+import { BASE_URL } from '../config/apiAxios';
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:33570';
-const socket = io(SOCKET_URL, {
+const socket = io(BASE_URL, {
   transports: ['websocket'],
-  autoConnect: true,
+  autoConnect: false,
 });
 
 export default socket;

@@ -46,13 +46,6 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Este app precisa de acesso à localização para rastreamento de entregas."
         }
-      ],
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/notification-icon.png",
-          "color": "#ffffff"
-        }
       ]
     ]
   }

@@ -18,14 +18,7 @@
       },
       "env": {
         "BASE_URL": "https://srv.deliverybairro.com",
-        "GOOGLE_MAPS_API_KEY": "AIzaSyC6YSUb6L47sKu1ykiKFSsfdTfJNmhlgx4",
-        "REACT_APP_APIKEY": "AIzaSyBVZPJtP2wBvuOXEHYGETlysuE_8kwYLs4",
-        "REACT_APP_AUTHDOMAIN": "psi-deliverybairro.firebaseapp.com",
-        "REACT_APP_DATABASEURL": "https://psi-deliverybairro-default-rtdb.firebaseio.com",
-        "REACT_APP_PROJECTID": "psi-deliverybairro",
-        "REACT_APP_STORAGEBUCKET": "psi-deliverybairro.firebasestorage.app",
-        "REACT_APP_MESSAGINGSENDERID": "234983243246",
-        "REACT_APP_APPID": "1:234983243246:android:12c7a181d47dcdc492a2ff"
+        "GOOGLE_MAPS_API_KEY": "AIzaSyC6YSUb6L47sKu1ykiKFSsfdTfJNmhlgx4"
       }
     },
     "production": {
@@ -52,4 +45,4 @@
       }
     }
   }
-}
+}\n

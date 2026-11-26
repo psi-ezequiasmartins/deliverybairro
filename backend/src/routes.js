@@ -6,8 +6,12 @@ const express = require('express');
 const authMiddleware = require('./auth.js');
 const db = require('./config/database.js');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const { hashPassword } = require('./utils/hash.js');
+const passwordReset = require('./services/passwordReset.js');
 
 const router = express.Router();
+const DELIVERY_JWT_SECRET = '#23f3dDF209B6dDc156e79F5405402ACffA1b7686';
 
 // Função auxiliar para geocodificar endereço usando Nominatim (OpenStreetMap)
 async function geocodeAddress(endereco, numero, bairro, cidade, uf) {
@@ -42,9 +46,18 @@ const publicRoutes = [
   '/api/ping',
   '/api/health',
   '/api/delivery/authenticate',
+  '/api/delivery/validar-codigo-cadastro',
+  '/api/delivery/finalizar-cadastro',
+  '/api/delivery/request-password-reset',
+  '/api/delivery/reset-password',
+  '/api/user/register',
   '/api/user/authenticate',
+  '/api/user/request-password-reset',
+  '/api/user/reset-password',
   '/api/courier/authenticate',
   '/api/courier/register',
+  '/api/courier/request-password-reset',
+  '/api/courier/reset-password',
   '/api/delivery/pre-cadastro',
   '/api/delivery/send-validation-code',
   '/api/delivery/update-address-only',
@@ -136,141 +149,393 @@ router.get('/api/health', (req, res) => {
 
 router.post('/api/delivery/authenticate', async (req, res) => {
   try {
-    const { DELIVERY_ID, CHV, timezoneOffset } = req.body;
-
-    if (!DELIVERY_ID || DELIVERY_ID === undefined) {
-      return res.status(400).json({
-        error: 'Código do Delivery (MySQL) é obrigatório',
-        details: 'O campo DELIVERY_ID deverá ser informado corretamente'
-      });
+    const { EMAIL, PASSWORD, timezoneOffset } = req.body;
+    if (typeof EMAIL !== 'string' || !EMAIL.trim() || typeof PASSWORD !== 'string' || !PASSWORD) {
+      return res.status(400).json({ error: 'INVALID_CREDENTIALS' });
     }
-
-    if (timezoneOffset === undefined) {
-      return res.status(400).json({
-        error: 'timezoneOffset é obrigatório',
-        details: 'O campo timezoneOffset é necessário para calcular o horário local'
-      });
+    if (!Number.isFinite(timezoneOffset)) {
+      return res.status(400).json({ error: 'INVALID_TIMEZONE_OFFSET' });
     }
 
     const rawIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    // Remove IPv6 prefix (::ffff:) and get only first IP if multiple
     let IP_ADDRESS = rawIp.includes(',') ? rawIp.split(',')[0].trim() : rawIp;
     IP_ADDRESS = IP_ADDRESS.replace('::ffff:', '');
 
-    const [deliveryExists] = await db.query(
-      'select DELIVERY_ID from deliveries where DELIVERY_ID = ?',
-      [DELIVERY_ID]
+    const [deliveries] = await db.query(
+      `SELECT d.DELIVERY_ID, d.DELIVERY_NOME, d.EMAIL, d.RESPONSAVEL, d.TELEFONE, d.CHV
+       FROM usuarios u
+       INNER JOIN deliveries d ON d.EMAIL = u.EMAIL
+       WHERE u.EMAIL = ? AND u.\`PASSWORD\` = ? AND u.CHV = '1' AND d.CHV = '1'
+       LIMIT 1`,
+      [EMAIL.trim(), hashPassword(PASSWORD)]
     );
 
-    if (!deliveryExists || deliveryExists.length === 0) {
-      return res.status(404).json({
-        error: 'Delivery não encontrado',
-        details: 'O DELIVERY_ID fornecido não existe na base de dados'
-      });
+    if (deliveries.length === 0) {
+      return res.status(401).json({ error: 'INVALID_CREDENTIALS' });
     }
 
+    const delivery = deliveries[0];
     const serverTime = new Date();
     const localTime = new Date(serverTime.getTime() - timezoneOffset * 60000);
     const DT_ACCESS = localTime.toISOString().slice(0, 19).replace('T', ' ');
     const EXPIRATION_TIME = new Date(localTime.getTime() + 10800 * 1000).toISOString().slice(0, 19).replace('T', ' ');
 
     const user = {
-      id: DELIVERY_ID,
+      id: delivery.DELIVERY_ID,
+      type: 'delivery',
       dt_access: DT_ACCESS,
-      chv: CHV
+      chv: delivery.CHV
     };
-    const secret = "#23f3dDF209B6dDc156e79F5405402ACffA1b7686"
-    const token = jwt.sign(user, secret, {
+    const token = jwt.sign(user, DELIVERY_JWT_SECRET, {
       expiresIn: '3h',
       algorithm: 'HS256'
     });
 
     await db.query(
       `insert into userlog (USER_ID, IP_ADDRESS, DT_ACCESS, TOKEN, EXPIRATION_TIME, CHV) values (?, ?, ?, ?, ?, ?)`,
-      [DELIVERY_ID, IP_ADDRESS, DT_ACCESS, token, EXPIRATION_TIME, CHV]
+      [delivery.DELIVERY_ID, IP_ADDRESS, DT_ACCESS, token, EXPIRATION_TIME, delivery.CHV]
     );
 
     return res.status(200).json({
       token,
       expiresIn: 10800,
-      userId: DELIVERY_ID
+      delivery: {
+        DELIVERY_ID: delivery.DELIVERY_ID,
+        DELIVERY_NOME: delivery.DELIVERY_NOME,
+        EMAIL: delivery.EMAIL,
+        RESPONSAVEL: delivery.RESPONSAVEL,
+        TELEFONE: delivery.TELEFONE
+      }
     });
   } catch (error) {
-    console.error('Erro na autenticação do delivery:', error);
-    return res.status(500).json({
-      error: 'Erro interno do servidor',
-      details: error.message
+    console.error('Erro na autenticação do delivery:', error.message);
+    return res.status(500).json({ error: 'AUTHENTICATION_ERROR' });
+  }
+});
+
+router.post('/api/delivery/validar-codigo-cadastro', async (req, res) => {
+  try {
+    const { email, codigo } = req.body;
+    if (typeof email !== 'string' || !email.trim() || typeof codigo !== 'string' || !/^\d{6}$/.test(codigo)) {
+      return res.status(400).json({ error: 'INVALID_REGISTRATION_CODE' });
+    }
+
+    const [deliveries] = await db.query(
+      `SELECT DELIVERY_ID, EMAIL
+       FROM deliveries
+      WHERE EMAIL = ? AND VALIDATION_CODE = ? AND CHV IN ('0', '1')
+       LIMIT 1`,
+      [email.trim(), codigo]
+    );
+    if (deliveries.length === 0) {
+      return res.status(200).json({ valid: false, error: 'INVALID_REGISTRATION_CODE' });
+    }
+
+    const delivery = deliveries[0];
+    const [updated] = await db.query(
+      `UPDATE deliveries
+       SET CHV = '1', VALIDATION_CODE = NULL
+      WHERE DELIVERY_ID = ? AND CHV IN ('0', '1') AND VALIDATION_CODE = ?`,
+      [delivery.DELIVERY_ID, codigo]
+    );
+    if (updated.affectedRows === 0) {
+      return res.status(200).json({ valid: false, error: 'INVALID_REGISTRATION_CODE' });
+    }
+
+    const registrationToken = jwt.sign({
+      tokenType: 'delivery-registration',
+      DELIVERY_ID: delivery.DELIVERY_ID,
+      EMAIL: delivery.EMAIL
+    }, DELIVERY_JWT_SECRET, {
+      expiresIn: '30m',
+      algorithm: 'HS256'
     });
+
+    return res.status(200).json({
+      valid: true,
+      DELIVERY_ID: delivery.DELIVERY_ID,
+      registrationToken
+    });
+  } catch (error) {
+    console.error('Erro ao validar código de cadastro:', error.message);
+    return res.status(500).json({ error: 'REGISTRATION_ERROR' });
+  }
+});
+
+router.post('/api/delivery/finalizar-cadastro', async (req, res) => {
+  const authorization = req.headers.authorization || '';
+  const [scheme, token] = authorization.split(' ');
+  if (scheme !== 'Bearer' || !token) {
+    return res.status(401).json({ error: 'INVALID_REGISTRATION_TOKEN' });
+  }
+
+  let registration;
+  try {
+    registration = jwt.verify(token, DELIVERY_JWT_SECRET, { algorithms: ['HS256'] });
+  } catch (error) {
+    return res.status(401).json({ error: 'INVALID_REGISTRATION_TOKEN' });
+  }
+  if (registration.tokenType !== 'delivery-registration' || !registration.DELIVERY_ID || !registration.EMAIL) {
+    return res.status(401).json({ error: 'INVALID_REGISTRATION_TOKEN' });
+  }
+
+  const { PASSWORD } = req.body;
+  if (typeof PASSWORD !== 'string' || PASSWORD.length < 6) {
+    return res.status(400).json({ error: 'INVALID_PASSWORD' });
+  }
+
+  try {
+    const [deliveries] = await db.query(
+      `SELECT DELIVERY_NOME, RESPONSAVEL, TELEFONE
+       FROM deliveries
+       WHERE DELIVERY_ID = ? AND EMAIL = ? AND CHV = '1'
+       LIMIT 1`,
+      [registration.DELIVERY_ID, registration.EMAIL]
+    );
+    if (deliveries.length === 0) {
+      return res.status(404).json({ error: 'DELIVERY_NOT_FOUND' });
+    }
+
+    const delivery = deliveries[0];
+    const [users] = await db.query(
+      'SELECT USER_ID, `PASSWORD` FROM usuarios WHERE EMAIL = ? LIMIT 1',
+      [registration.EMAIL]
+    );
+    const passwordHash = hashPassword(PASSWORD);
+
+    if (users.length > 0) {
+      const currentPasswordHash = users[0].PASSWORD;
+      if (currentPasswordHash && currentPasswordHash !== passwordHash) {
+        return res.status(409).json({ error: 'USER_ACCOUNT_PASSWORD_MISMATCH' });
+      }
+      if (!currentPasswordHash) {
+        await db.query(
+          `UPDATE usuarios SET \`PASSWORD\` = ?
+           WHERE USER_ID = ? AND (\`PASSWORD\` IS NULL OR \`PASSWORD\` = '')`,
+          [passwordHash, users[0].USER_ID]
+        );
+      }
+    } else {
+      const responsibleName = (delivery.RESPONSAVEL || delivery.DELIVERY_NOME || '').trim();
+      const nameParts = responsibleName.split(/\s+/);
+      const firstName = (nameParts.shift() || delivery.DELIVERY_NOME).slice(0, 60);
+      const lastName = nameParts.join(' ').slice(0, 60);
+      await db.query(
+        `INSERT INTO usuarios (NOME, SOBRENOME, TELEFONE, EMAIL, \`PASSWORD\`, URL_IMAGEM, CHV)
+         VALUES (?, ?, ?, ?, ?, '', '1')`,
+        [firstName, lastName, delivery.TELEFONE || '', registration.EMAIL, passwordHash]
+      );
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Erro ao concluir cadastro do delivery:', error.message);
+    return res.status(500).json({ error: 'REGISTRATION_ERROR' });
+  }
+});
+
+router.post('/api/delivery/request-password-reset', async (req, res) => {
+  const { email } = req.body;
+  if (typeof email !== 'string' || !email.trim()) {
+    return res.status(400).json({ error: 'INVALID_EMAIL' });
+  }
+
+  try {
+    const [deliveries] = await db.query(
+      `SELECT d.DELIVERY_ID, d.EMAIL, d.RESPONSAVEL, d.DELIVERY_NOME
+       FROM deliveries d
+       INNER JOIN usuarios u ON u.EMAIL = d.EMAIL
+       WHERE d.EMAIL = ? AND d.CHV = '1' AND u.CHV = '1'
+       LIMIT 1`,
+      [email.trim()]
+    );
+
+    if (deliveries.length > 0) {
+      const delivery = deliveries[0];
+      const code = String(crypto.randomInt(0, 1000000)).padStart(6, '0');
+      await db.query(
+        `UPDATE deliveries
+         SET VALIDATION_CODE = CONCAT(?, UNIX_TIMESTAMP(DATE_ADD(NOW(), INTERVAL 15 MINUTE)))
+         WHERE DELIVERY_ID = ? AND CHV = '1'`,
+        [code, delivery.DELIVERY_ID]
+      );
+
+      const nodemailer = require('nodemailer');
+      const transporter = nodemailer.createTransport({
+        service: process.env.MAIL_SERVICE || 'gmail',
+        auth: {
+          user: process.env.MAIL_USER,
+          pass: process.env.MAIL_PASS
+        }
+      });
+      await transporter.sendMail({
+        from: process.env.MAIL_FROM,
+        to: delivery.EMAIL,
+        subject: 'Código para redefinir sua senha - deliverybairro.com',
+        text: `Olá ${delivery.RESPONSAVEL || delivery.DELIVERY_NOME},\n\nSeu código para redefinir a senha é: ${code}\n\nEle expira em 15 minutos. Se você não solicitou essa alteração, ignore este e-mail.\n\nEquipe deliverybairro.com.`
+      });
+    }
+
+    return res.status(200).json({ message: 'PASSWORD_RESET_CODE_SENT' });
+  } catch (error) {
+    console.error('Erro ao solicitar redefinição de senha:', error.message);
+    return res.status(500).json({ error: 'PASSWORD_RESET_ERROR' });
+  }
+});
+
+router.post('/api/delivery/reset-password', async (req, res) => {
+  const { email, codigo, PASSWORD } = req.body;
+  if (typeof email !== 'string' || !email.trim() || typeof codigo !== 'string' ||
+      !/^\d{6}$/.test(codigo) || typeof PASSWORD !== 'string' || PASSWORD.length < 6) {
+    return res.status(400).json({ error: 'INVALID_PASSWORD_RESET_DATA' });
+  }
+
+  try {
+    const [result] = await db.query(
+      `UPDATE usuarios u
+       INNER JOIN deliveries d ON d.EMAIL = u.EMAIL
+       SET u.\`PASSWORD\` = ?, d.VALIDATION_CODE = NULL
+       WHERE u.EMAIL = ? AND u.CHV = '1' AND d.CHV = '1'
+         AND LEFT(d.VALIDATION_CODE, 6) = ?
+         AND CAST(SUBSTRING(d.VALIDATION_CODE, 7) AS UNSIGNED) > UNIX_TIMESTAMP()`,
+      [hashPassword(PASSWORD), email.trim(), codigo]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(400).json({ error: 'INVALID_OR_EXPIRED_RESET_CODE' });
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Erro ao redefinir senha do delivery:', error.message);
+    return res.status(500).json({ error: 'PASSWORD_RESET_ERROR' });
+  }
+});
+
+router.post('/api/user/register', async (req, res) => {
+  try {
+    const { NOME, SOBRENOME, TELEFONE, EMAIL, PASSWORD } = req.body;
+    if (![NOME, SOBRENOME, TELEFONE, EMAIL].every(value => typeof value === 'string' && value.trim()) ||
+        typeof PASSWORD !== 'string' || PASSWORD.length < 6) {
+      return res.status(400).json({ error: 'INVALID_REGISTRATION_DATA' });
+    }
+
+    const email = EMAIL.trim().toLowerCase();
+    const [existing] = await db.query(
+      'SELECT USER_ID FROM usuarios WHERE EMAIL = ? LIMIT 1',
+      [email]
+    );
+    if (existing.length > 0) {
+      return res.status(409).json({ error: 'EMAIL_ALREADY_REGISTERED' });
+    }
+
+    const [result] = await db.query(
+      `INSERT INTO usuarios (NOME, SOBRENOME, TELEFONE, EMAIL, \`PASSWORD\`, URL_IMAGEM, CHV)
+       VALUES (?, ?, ?, ?, ?, '', '1')`,
+      [NOME.trim(), SOBRENOME.trim(), TELEFONE.trim(), email, hashPassword(PASSWORD)]
+    );
+
+    return res.status(201).json({
+      success: true,
+      USER_ID: result.insertId,
+      NOME: NOME.trim(),
+      SOBRENOME: SOBRENOME.trim(),
+      TELEFONE: TELEFONE.trim(),
+      EMAIL: email,
+      URL_IMAGEM: ''
+    });
+  } catch (error) {
+    console.error('Erro ao cadastrar usuário:', error.message);
+    return res.status(500).json({ error: 'USER_REGISTRATION_ERROR' });
   }
 });
 
 router.post('/api/user/authenticate', async (req, res) => {
   try {
-    const { USER_ID, CHV, timezoneOffset } = req.body;
-
-    if (!USER_ID || USER_ID === undefined) {
-      return res.status(400).json({
-        error: 'Código do Usuário (MySQL) é obrigatório',
-        details: 'O campo USER_ID deverá ser informado corretamente'
-      });
+    const { EMAIL, PASSWORD, timezoneOffset } = req.body;
+    if (typeof EMAIL !== 'string' || !EMAIL.trim() ||
+        typeof PASSWORD !== 'string' || !PASSWORD ||
+        !Number.isFinite(timezoneOffset)) {
+      return res.status(400).json({ error: 'INVALID_CREDENTIALS' });
     }
 
-    if (timezoneOffset === undefined) {
-      return res.status(400).json({
-        error: 'timezoneOffset é obrigatório',
-        details: 'O campo timezoneOffset é necessário para calcular o horário local'
-      });
-    }
-
-    const rawIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    // Remove IPv6 prefix (::ffff:) and get only first IP if multiple
-    let IP_ADDRESS = rawIp.includes(',') ? rawIp.split(',')[0].trim() : rawIp;
-    IP_ADDRESS = IP_ADDRESS.replace('::ffff:', '');
-
-    const [userExists] = await db.query(
-      'select USER_ID from usuarios where USER_ID = ?',
-      [USER_ID]
+    const [users] = await db.query(
+      `SELECT USER_ID, CHV
+       FROM usuarios
+       WHERE EMAIL = ? AND \`PASSWORD\` = ? AND CHV = '1'
+       LIMIT 1`,
+      [EMAIL.trim(), hashPassword(PASSWORD)]
     );
-
-    if (!userExists || userExists.length === 0) {
-      return res.status(404).json({
-        error: 'Usuário não encontrado',
-        details: 'O USER_ID fornecido não existe na base de dados'
-      });
+    if (users.length === 0) {
+      return res.status(401).json({ error: 'INVALID_CREDENTIALS' });
     }
 
+    const userId = users[0].USER_ID;
+    const CHV = users[0].CHV;
+    const rawIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const IP_ADDRESS = String(rawIp).split(',')[0].trim().replace('::ffff:', '');
     const serverTime = new Date();
     const localTime = new Date(serverTime.getTime() - timezoneOffset * 60000);
     const DT_ACCESS = localTime.toISOString().slice(0, 19).replace('T', ' ');
     const EXPIRATION_TIME = new Date(localTime.getTime() + 10800 * 1000).toISOString().slice(0, 19).replace('T', ' ');
 
     const user = {
-      id: USER_ID,
+      id: userId,
+      type: 'user',
       dt_access: DT_ACCESS,
       chv: CHV
     };
-    const secret = "#23f3dDF209B6dDc156e79F5405402ACffA1b7686"
-    const token = jwt.sign(user, secret, {
+    const token = jwt.sign(user, DELIVERY_JWT_SECRET, {
       expiresIn: '3h',
       algorithm: 'HS256'
     });
 
     await db.query(
       `insert into userlog (USER_ID, IP_ADDRESS, DT_ACCESS, TOKEN, EXPIRATION_TIME, CHV) values (?, ?, ?, ?, ?, ?)`,
-      [USER_ID, IP_ADDRESS, DT_ACCESS, token, EXPIRATION_TIME, CHV]
+      [userId, IP_ADDRESS, DT_ACCESS, token, EXPIRATION_TIME, CHV]
     );
 
     return res.status(200).json({
       token,
       expiresIn: 10800,
-      userId: USER_ID
+      userId
     });
   } catch (error) {
-    console.error('Erro na autenticação do usuário:', error);
-    return res.status(500).json({
-      error: 'Erro interno do servidor',
-      details: error.message
-    });
+    console.error('Erro na autenticação do usuário:', error.message);
+    return res.status(500).json({ error: 'USER_AUTHENTICATION_ERROR' });
+  }
+});
+
+router.post('/api/user/request-password-reset', async (req, res) => {
+  const { email } = req.body;
+  if (typeof email !== 'string' || !email.trim()) {
+    return res.status(400).json({ error: 'INVALID_EMAIL' });
+  }
+  try {
+    await passwordReset.requestPasswordReset('user', email.trim().toLowerCase());
+    return res.status(200).json({ message: 'PASSWORD_RESET_CODE_SENT' });
+  } catch (error) {
+    console.error('Erro ao solicitar redefinição de senha do usuário:', error.message);
+    return res.status(500).json({ error: 'PASSWORD_RESET_ERROR' });
+  }
+});
+
+router.post('/api/user/reset-password', async (req, res) => {
+  const { email, code, PASSWORD } = req.body;
+  if (typeof email !== 'string' || !email.trim() ||
+      typeof code !== 'string' || !/^\d{6}$/.test(code) ||
+      typeof PASSWORD !== 'string' || PASSWORD.length < 6) {
+    return res.status(400).json({ error: 'INVALID_PASSWORD_RESET_DATA' });
+  }
+  try {
+    const reset = await passwordReset.resetPassword(
+      'user', email.trim().toLowerCase(), code, hashPassword(PASSWORD)
+    );
+    if (!reset) return res.status(400).json({ error: 'INVALID_OR_EXPIRED_RESET_CODE' });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Erro ao redefinir senha do usuário:', error.message);
+    return res.status(500).json({ error: 'PASSWORD_RESET_ERROR' });
   }
 });
 
@@ -279,40 +544,29 @@ router.post('/api/user/authenticate', async (req, res) => {
 // ==========================================
 router.post('/api/courier/authenticate', async (req, res) => {
   try {
-    const { COURIER_ID, CHV, timezoneOffset } = req.body;
-
-    if (!COURIER_ID || CHV !== 1) {
-      return res.status(400).json({
-        error: 'COURIER_ID e CHV são obrigatórios',
-        details: 'Verifique os dados enviados'
-      });
+    const { EMAIL, PASSWORD, timezoneOffset } = req.body;
+    if (typeof EMAIL !== 'string' || !EMAIL.trim() ||
+        typeof PASSWORD !== 'string' || !PASSWORD ||
+        !Number.isFinite(timezoneOffset)) {
+      return res.status(400).json({ error: 'INVALID_CREDENTIALS' });
     }
 
-    if (timezoneOffset === undefined) {
-      return res.status(400).json({
-        error: 'timezoneOffset é obrigatório',
-        details: 'O campo timezoneOffset é necessário para calcular o horário local'
-      });
-    }
-
-    const rawIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    // Remove IPv6 prefix (::ffff:) and get only first IP if multiple
-    let IP_ADDRESS = rawIp.includes(',') ? rawIp.split(',')[0].trim() : rawIp;
-    IP_ADDRESS = IP_ADDRESS.replace('::ffff:', '');
-
-    // Verifica se o entregador existe
-    const [courierExists] = await db.query(
-      'SELECT COURIER_ID, NOME, SOBRENOME, EMAIL, TELEFONE, TRANSPORTE, PLACA, URL_IMAGEM FROM couriers WHERE COURIER_ID = ?',
-      [COURIER_ID]
+    const [couriers] = await db.query(
+      `SELECT COURIER_ID, NOME, SOBRENOME, EMAIL, TELEFONE, TRANSPORTE, PLACA, URL_IMAGEM, CHV
+       FROM couriers
+       WHERE EMAIL = ? AND \`PASSWORD\` = ? AND CHV = '1'
+       LIMIT 1`,
+      [EMAIL.trim().toLowerCase(), hashPassword(PASSWORD)]
     );
-
-    if (!courierExists || courierExists.length === 0) {
-      return res.status(404).json({
-        error: 'Entregador não encontrado',
-        details: 'O COURIER_ID fornecido não existe na base de dados'
-      });
+    if (couriers.length === 0) {
+      return res.status(401).json({ error: 'INVALID_CREDENTIALS' });
     }
 
+    const courier = couriers[0];
+    const COURIER_ID = courier.COURIER_ID;
+    const CHV = courier.CHV;
+    const rawIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const IP_ADDRESS = String(rawIp).split(',')[0].trim().replace('::ffff:', '');
     const serverTime = new Date();
     const localTime = new Date(serverTime.getTime() - timezoneOffset * 60000);
     const DT_ACCESS = localTime.toISOString().slice(0, 19).replace('T', ' ');
@@ -320,13 +574,13 @@ router.post('/api/courier/authenticate', async (req, res) => {
 
     const user = {
       id: COURIER_ID,
+      courierId: COURIER_ID,
       type: 'courier',
       dt_access: DT_ACCESS,
       chv: CHV
     };
 
-    const secret = "#23f3dDF209B6dDc156e79F5405402ACffA1b7686";
-    const token = jwt.sign(user, secret, {
+    const token = jwt.sign(user, DELIVERY_JWT_SECRET, {
       expiresIn: '3h',
       algorithm: 'HS256'
     });
@@ -340,14 +594,20 @@ router.post('/api/courier/authenticate', async (req, res) => {
     return res.status(200).json({
       token,
       expiresIn: 10800,
-      courier: courierExists[0]
+      courier: {
+        COURIER_ID: courier.COURIER_ID,
+        NOME: courier.NOME,
+        SOBRENOME: courier.SOBRENOME,
+        EMAIL: courier.EMAIL,
+        TELEFONE: courier.TELEFONE,
+        TRANSPORTE: courier.TRANSPORTE,
+        PLACA: courier.PLACA,
+        URL_IMAGEM: courier.URL_IMAGEM
+      }
     });
   } catch (error) {
-    console.error('Erro na autenticação do entregador:', error);
-    return res.status(500).json({
-      error: 'Erro interno do servidor',
-      details: error.message
-    });
+    console.error('Erro na autenticação do entregador:', error.message);
+    return res.status(500).json({ error: 'COURIER_AUTHENTICATION_ERROR' });
   }
 });
 
@@ -357,22 +617,18 @@ router.post('/api/courier/authenticate', async (req, res) => {
 router.post('/api/courier/register', async (req, res) => {
   try {
     const {
-      FIREBASE_UID,
       NOME,
       SOBRENOME,
       EMAIL,
       TELEFONE,
       TRANSPORTE,
-      PLACA
+      PLACA,
+      PASSWORD
     } = req.body;
 
-    console.log('Dados recebidos para cadastro:', { FIREBASE_UID, NOME, SOBRENOME, EMAIL, TELEFONE, TRANSPORTE, PLACA });
-
-    if (!FIREBASE_UID || !NOME || !EMAIL || !TELEFONE || !TRANSPORTE) {
-      return res.status(400).json({
-        error: 'Campos obrigatórios faltando',
-        details: 'FIREBASE_UID, NOME, EMAIL, TELEFONE e TRANSPORTE são obrigatórios'
-      });
+    if (![NOME, SOBRENOME, EMAIL, TELEFONE, TRANSPORTE].every(value => typeof value === 'string' && value.trim()) ||
+        typeof PASSWORD !== 'string' || PASSWORD.length < 6) {
+      return res.status(400).json({ error: 'INVALID_REGISTRATION_DATA' });
     }
 
     // Valida tipo de transporte
@@ -384,40 +640,67 @@ router.post('/api/courier/register', async (req, res) => {
       });
     }
 
-    // Verifica se já existe entregador com este email ou Firebase UID
+    const email = EMAIL.trim().toLowerCase();
     const [existing] = await db.query(
-      'SELECT * FROM couriers WHERE EMAIL = ? OR FIREBASE_UID = ?',
-      [EMAIL, FIREBASE_UID]
+      'SELECT COURIER_ID FROM couriers WHERE EMAIL = ? LIMIT 1',
+      [email]
     );
 
     if (existing && existing.length > 0) {
-      return res.status(409).json({
-        error: 'Entregador já cadastrado',
-        details: 'Já existe um entregador com este email ou Firebase UID'
-      });
+      return res.status(409).json({ error: 'EMAIL_ALREADY_REGISTERED' });
     }
 
-    // Insere novo entregador
     const [result] = await db.query(`
       INSERT INTO couriers (
-        FIREBASE_UID, NOME, SOBRENOME, TELEFONE, EMAIL, 
+        NOME, SOBRENOME, TELEFONE, EMAIL, \`PASSWORD\`,
         TRANSPORTE, PLACA, URL_IMAGEM, CHV
       ) VALUES (?, ?, ?, ?, ?, ?, ?, '', '1')
-    `, [FIREBASE_UID, NOME, SOBRENOME, TELEFONE, EMAIL, TRANSPORTE, PLACA || '']);
-
-    console.log('Entregador cadastrado com sucesso. ID:', result.insertId);
+    `, [
+      NOME.trim(), SOBRENOME.trim(), TELEFONE.trim(), email,
+      hashPassword(PASSWORD), TRANSPORTE, PLACA || ''
+    ]);
 
     return res.status(201).json({
       success: true,
-      message: 'Cadastro realizado com sucesso!',
+      message: 'Cadastro realizado com sucesso',
       courierId: result.insertId
     });
   } catch (error) {
-    console.error('Erro no cadastro do entregador:', error);
-    return res.status(500).json({
-      error: 'Erro interno do servidor',
-      details: error.message
-    });
+    console.error('Erro no cadastro do entregador:', error.message);
+    return res.status(500).json({ error: 'COURIER_REGISTRATION_ERROR' });
+  }
+});
+
+router.post('/api/courier/request-password-reset', async (req, res) => {
+  const { email } = req.body;
+  if (typeof email !== 'string' || !email.trim()) {
+    return res.status(400).json({ error: 'INVALID_EMAIL' });
+  }
+  try {
+    await passwordReset.requestPasswordReset('courier', email.trim().toLowerCase());
+    return res.status(200).json({ message: 'PASSWORD_RESET_CODE_SENT' });
+  } catch (error) {
+    console.error('Erro ao solicitar redefinição de senha do entregador:', error.message);
+    return res.status(500).json({ error: 'PASSWORD_RESET_ERROR' });
+  }
+});
+
+router.post('/api/courier/reset-password', async (req, res) => {
+  const { email, code, PASSWORD } = req.body;
+  if (typeof email !== 'string' || !email.trim() ||
+      typeof code !== 'string' || !/^\d{6}$/.test(code) ||
+      typeof PASSWORD !== 'string' || PASSWORD.length < 6) {
+    return res.status(400).json({ error: 'INVALID_PASSWORD_RESET_DATA' });
+  }
+  try {
+    const reset = await passwordReset.resetPassword(
+      'courier', email.trim().toLowerCase(), code, hashPassword(PASSWORD)
+    );
+    if (!reset) return res.status(400).json({ error: 'INVALID_OR_EXPIRED_RESET_CODE' });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Erro ao redefinir senha do entregador:', error.message);
+    return res.status(500).json({ error: 'PASSWORD_RESET_ERROR' });
   }
 });
 
@@ -553,6 +836,7 @@ router.post('/api/delivery/send-validation-code/:id', async (req, res) => {
         console.log('E-mail de validação enviado para:', email);
       } catch (mailError) {
         console.error('Erro ao enviar e-mail de validação:', mailError);
+        throw mailError;
       }
     }
 
@@ -664,7 +948,12 @@ router.get('/api/listar/deliveries', async (req, res) => {
 router.get('/api/listar/usuarios', async (req, res) => {
   try {
     const [result] = await db.query('select * from usuarios order by NOME');
-    return res.status(200).json(result);
+    const users = result.map(user => {
+      const safeUser = { ...user };
+      delete safeUser.PASSWORD;
+      return safeUser;
+    });
+    return res.status(200).json(users);
   } catch (error) {
     console.error('Erro ao listar usuários:', error);
     return res.status(500).send(error);
@@ -701,7 +990,7 @@ router.get('/api/pedido/:id', async (req, res) => {
       date_format(p.DATA, '%d/%m/%Y %H:%i:%s') as data_pedido, 
       concat(u.NOME, ' ', u.SOBRENOME) as nome_cliente, u.TELEFONE as telefone_cliente, 
       p.ENDERECO_ENTREGA, p.LATITUDE, p.LONGITUDE, 
-      p.STATUS, p.PUSH_TOKEN, p.VR_SUBTOTAL, p.TAXA_ENTREGA, p.VR_TOTAL, 
+      p.STATUS, p.VR_SUBTOTAL, p.TAXA_ENTREGA, p.VR_TOTAL,
       i.ITEM_ID, pp.PRODUTO_NOME, pp.URL_IMAGEM as imagem_produto, pp.VR_UNITARIO, i.QTD, i.ACRESCIMOS, i.OBS, i.VR_ACRESCIMOS, i.TOTAL 
       FROM pedidos p 
       join usuarios u ON (u.USER_ID = p.USER_ID) 
@@ -749,7 +1038,6 @@ router.get('/api/pedido/:id', async (req, res) => {
           TAXA_ENTREGA: pedidoResult.TAXA_ENTREGA,
           VR_TOTAL: pedidoResult.VR_TOTAL,
           STATUS: pedidoResult.STATUS,
-          PUSH_TOKEN: pedidoResult.PUSH_TOKEN,
           ITENS: [{
             ITEM_ID: pedidoResult.ITEM_ID,
             PRODUTO: pedidoResult.PRODUTO_NOME,
@@ -875,18 +1163,19 @@ router.delete('/api/delete/delivery/:id', async (req, res) => {
 router.post('/api/add/usuario', async (req, res) => {
   try {
     const {
-      FIREBASE_UID,
       NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM,
       CHV
     } = req.body;
     const [result] = await db.query(`insert into usuarios (
-      FIREBASE_UID, NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM, CHV
-      ) values (?, ?, ?, ?, ?, ?, ?) `,
-      [FIREBASE_UID, NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM, CHV]);
-    return res.status(201).json({
+      NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM, CHV
+      ) values (?, ?, ?, ?, ?, ?) `,
+      [NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM, CHV]);
+    const user = {
       USER_ID: result.insertId,
       ...req.body
-    });
+    };
+    delete user.PASSWORD;
+    return res.status(201).json(user);
   } catch (error) {
     console.error('Erro ao adicionar usuário:', error);
     return res.status(400).send(error);
@@ -896,11 +1185,16 @@ router.post('/api/add/usuario', async (req, res) => {
 router.get('/api/user/:id', async (req, res) => {
   try {
     const id = req.params.id;
+    if (req.auth?.type !== 'user' || String(req.auth.id) !== String(id)) {
+      return res.sendStatus(403);
+    }
     const [result] = await db.query('select * from usuarios where USER_ID = ?', [id]);
     if (result.length === 0) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
-    return res.status(200).json(result[0]);
+    const user = { ...result[0] };
+    delete user.PASSWORD;
+    return res.status(200).json(user);
   } catch (error) {
     console.error('Erro ao buscar usuário:', error);
     return res.status(400).send(error);
@@ -910,6 +1204,9 @@ router.get('/api/user/:id', async (req, res) => {
 router.put('/api/update/usuario/:id', async (req, res) => {
   try {
     const id = req.params.id;
+    if (req.auth?.type !== 'user' || String(req.auth.id) !== String(id)) {
+      return res.sendStatus(403);
+    }
     const {
       NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM
     } = req.body;
@@ -917,10 +1214,12 @@ router.put('/api/update/usuario/:id', async (req, res) => {
       set NOME = ?, SOBRENOME = ?, TELEFONE = ?, EMAIL = ?,  URL_IMAGEM = ? where USER_ID = ? `,
       [NOME, SOBRENOME, TELEFONE, EMAIL, URL_IMAGEM, id]
     );
-    return res.status(200).json({
+    const user = {
       USER_ID: id,
       ...req.body
-    });
+    };
+    delete user.PASSWORD;
+    return res.status(200).json(user);
   } catch (error) {
     console.error('Erro ao atualizar usuário:', error);
     return res.status(400).send(error);
@@ -970,7 +1269,13 @@ router.post('/api/add/courier', async (req, res) => {
 router.get('/api/courier/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const [result] = await db.query('select * from couriers where COURIER_ID = ?', [id]);
+    if (req.auth?.type !== 'courier' || String(req.auth.id) !== String(id)) {
+      return res.sendStatus(403);
+    }
+    const [result] = await db.query(
+      'select COURIER_ID, NOME, SOBRENOME, TELEFONE, EMAIL, TRANSPORTE, PLACA, URL_IMAGEM, CHV from couriers where COURIER_ID = ?',
+      [id]
+    );
     if (result.length === 0) {
       return res.status(404).json({ error: 'Courier não encontrado' });
     }

@@ -5,6 +5,7 @@
 const express = require('express');
 const authMiddleware = require('./auth.js');
 const db = require('./config/database.js');
+const { uploadImage, getImageUrl } = require('./middleware/imageUpload.js');
 const router = express.Router();
 
 // =====================================================
@@ -69,6 +70,11 @@ router.use((req, res, next) => {
   return authMiddleware(req, res, next);
 });
 
+router.post('/delivery-app/upload/image', uploadImage, async (req, res) => {
+  if (!req.auth?.id) return res.sendStatus(401);
+  return res.status(201).json({ url_imagem: getImageUrl(req) });
+});
+
 /** ROTAS DELIVERY-APP */
 
 // Listar pedidos por delivery
@@ -97,7 +103,7 @@ router.get('/delivery-app/pedidos/abertos/delivery/:id', async (req, res) => {
     const [result] = await db.query(`
       SELECT p.PEDIDO_ID, p.DELIVERY_ID, p.USER_ID,
         DATE_FORMAT(p.DATA, '%d/%m/%Y %H:%i:%s') AS data_pedido, 
-        p.STATUS, p.PUSH_TOKEN,
+        p.STATUS,
         CONCAT(u.NOME, ' ', u.SOBRENOME) AS nome_cliente,
         u.TELEFONE AS telefone_cliente,
         p.ENDERECO_ENTREGA, p.LATITUDE, p.LONGITUDE,    
@@ -120,7 +126,6 @@ router.get('/delivery-app/pedidos/abertos/delivery/:id', async (req, res) => {
         pedido = {
           PEDIDO_ID: pedido_ID,
           DATA: pedidoResult.data_pedido,
-          PUSH_TOKEN: pedidoResult.PUSH_TOKEN,
           STATUS: pedidoResult.STATUS,
           USER_ID: pedidoResult.USER_ID,
           CLIENTE: pedidoResult.nome_cliente,
@@ -259,6 +264,12 @@ router.put('/delivery-app/update/imagem/produto/:id', async (req, res) => {
         details: 'O campo url_imagem não pode estar vazio'
       });
     }
+    const [products] = await db.query(
+      'SELECT DELIVERY_ID FROM produtos WHERE PRODUTO_ID = ? LIMIT 1',
+      [id]
+    );
+    if (products.length === 0) return res.status(404).json({ error: 'Produto não encontrado' });
+    if (String(products[0].DELIVERY_ID) !== String(req.auth.id)) return res.sendStatus(403);
     await db.query('UPDATE produtos SET URL_IMAGEM = ? WHERE PRODUTO_ID = ?', [url_imagem, id]);
     return res.status(200).json({ url_imagem });
   } catch (error) {
@@ -402,9 +413,9 @@ router.put('/delivery-app/update/status/pedido', async (req, res) => {
       return res.status(400).json({ error: 'orderId e status são obrigatórios' });
     }
 
-    // Primeiro busca o pedido para obter o PUSH_TOKEN
+    // Busca o usuário do pedido para emitir a atualização em tempo real.
     const [pedidoResult] = await db.query(
-      'SELECT PUSH_TOKEN, USER_ID FROM pedidos WHERE PEDIDO_ID = ?',
+      'SELECT USER_ID FROM pedidos WHERE PEDIDO_ID = ?',
       [orderId]
     );
 
@@ -415,10 +426,8 @@ router.put('/delivery-app/update/status/pedido', async (req, res) => {
     // Atualiza status
     await db.query('UPDATE pedidos SET STATUS = ? WHERE PEDIDO_ID = ?', [status, orderId]);
 
-    // Estratégia híbrida: websocket OU push
-    const pushToken = pedidoResult[0].PUSH_TOKEN;
     const userId = pedidoResult[0].USER_ID;
-    let websocketSent = false;
+    let realtimeSent = false;
 
     try {
       const { getIO } = require('./io');
@@ -426,42 +435,17 @@ router.put('/delivery-app/update/status/pedido', async (req, res) => {
       if (io) {
         const userRoom = `user_${userId}`;
         const orderRoom = `order_${orderId}`;
-
-        // Verifica se há clientes conectados nas rooms
-        const socketsInUserRoom = io.sockets.adapter.rooms.get(userRoom);
-        const socketsInOrderRoom = io.sockets.adapter.rooms.get(orderRoom);
-
-        if ((socketsInUserRoom && socketsInUserRoom.size > 0) || (socketsInOrderRoom && socketsInOrderRoom.size > 0)) {
-          // Cliente online: apenas websocket (sem push)
-          io.to(userRoom).emit('orderStatusUpdated', { orderId, status });
-          io.to(orderRoom).emit('orderStatusUpdated', { orderId, status });
-          websocketSent = true;
-          console.log(`[WebSocket] ✅ Status enviado para user_${userId} e order_${orderId}`);
-        }
+        io.to(userRoom).emit('orderStatusUpdated', { orderId, status });
+        io.to(orderRoom).emit('orderStatusUpdated', { orderId, status });
+        realtimeSent = true;
       }
-    } catch (emitErr) {
-      console.warn('Falha ao emitir evento websocket:', emitErr.message);
-    }
-
-    // Enviar push apenas se websocket não entregou (cliente offline)
-    if (!websocketSent && pushToken) {
-      try {
-        const { sendExpoNotification } = require('./services/notifications');
-        await sendExpoNotification(
-          pushToken,
-          'Atualização do Pedido',
-          `Pedido #${orderId} foi atualizado para: ${status.replace(/_/g, ' ')}`,
-          { orderId, status, type: 'order_update' }
-        );
-        console.log(`[Push] Notificação enviada para user ${userId}`);
-      } catch (notificationError) {
-        console.warn('Erro ao enviar notificação push:', notificationError.message);
-      }
+    } catch (emitError) {
+      console.error('Falha ao emitir evento Socket.IO:', emitError.message);
     }
 
     return res.status(200).json({
       message: 'Status do pedido atualizado com sucesso',
-      notificationSent: !!pushToken,
+      realtimeSent,
       orderId,
       status
     });

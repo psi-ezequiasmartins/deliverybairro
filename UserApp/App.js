@@ -18,7 +18,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { CartProvider } from './src/contexts/CartContext';
 import { OrderProvider } from './src/contexts/OrderContext';
-import { NotificationProvider } from './src/contexts/NotificationContext';
 import { TranslateProvider } from './src/contexts/TranslateContext';
 import { LogBox, View, Text } from 'react-native';
 import Logger from './src/utils/logger';
@@ -90,10 +89,8 @@ function App() {
             <AuthProvider>
               <CartProvider>
                 <OrderProvider>
-                  <NotificationProvider>
-                    <StatusBar style="dark" backgroundColor="#FFFFCC" translucent={false} />
-                    <Routes />
-                  </NotificationProvider>
+                  <StatusBar style="dark" backgroundColor="#FFFFCC" translucent={false} />
+                  <Routes />
                 </OrderProvider>
               </CartProvider>
             </AuthProvider>

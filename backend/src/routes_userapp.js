@@ -6,6 +6,7 @@ const express = require('express');
 const authMiddleware = require('../src/auth.js');
 const db = require('../src/config/database.js');
 const { calculateSystemFees } = require('../src/config/fees.js');
+const { uploadImage, getImageUrl } = require('../src/middleware/imageUpload.js');
 const router = express.Router();
 
 // ROTAS PÚBLICAS USER-APP (ajuste conforme necessário)
@@ -32,6 +33,12 @@ router.use((req, res, next) => {
 });
 
 // --- Rotas USER-APP ---
+
+router.post('/user-app/upload/profile-image', uploadImage, async (req, res) => {
+  const userId = req.auth?.id;
+  if (!userId) return res.sendStatus(401);
+  return res.status(201).json({ url: getImageUrl(req) });
+});
 
 router.get('/user-app/listar/categorias', async (req, res) => {
   try {
@@ -149,7 +156,6 @@ router.post('/user-app/add/pedido', async (req, res) => {
       VR_SUBTOTAL,
       TAXA_ENTREGA,
       VR_TOTAL,
-      PUSH_TOKEN,
       STATUS,
       ENDERECO_ENTREGA,
       LATITUDE,
@@ -172,8 +178,8 @@ router.post('/user-app/add/pedido', async (req, res) => {
         VR_SUBTOTAL, TAXA_ENTREGA, 
         TAXA_SERVICO, TAXA_PAGAMENTO_FIXA, TAXA_PAGAMENTO_PERCENTUAL, TAXA_PAGAMENTO_VALOR,
         VR_TOTAL, STATUS, 
-        ENDERECO_ENTREGA, LATITUDE, LONGITUDE, PUSH_TOKEN
-      ) values (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ENDERECO_ENTREGA, LATITUDE, LONGITUDE
+      ) values (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         DELIVERY_ID, USER_ID,
         feesCalculation.subtotal,
@@ -184,7 +190,7 @@ router.post('/user-app/add/pedido', async (req, res) => {
         feesCalculation.paymentPercentageValue,
         feesCalculation.grandTotal, // Total recalculado com todas as taxas
         STATUS,
-        ENDERECO_ENTREGA, LATITUDE, LONGITUDE, PUSH_TOKEN
+        ENDERECO_ENTREGA, LATITUDE, LONGITUDE
       ]
     );
 
@@ -206,6 +212,18 @@ router.post('/user-app/add/pedido', async (req, res) => {
           item.TOTAL
         ]
       );
+    }
+
+    try {
+      const { getIO } = require('./io');
+      const io = getIO();
+      if (io) {
+        const event = { orderId: PEDIDO_ID, deliveryId: DELIVERY_ID, userId: USER_ID, status: STATUS };
+        io.to(`delivery_${DELIVERY_ID}`).emit('newOrder', event);
+        io.to('couriers').emit('newOrder', event);
+      }
+    } catch (error) {
+      console.error('Falha ao emitir novo pedido via Socket.IO:', error.message);
     }
 
     return res.status(201).json({
@@ -257,7 +275,7 @@ router.get('/user-app/pedido/:id', async (req, res) => {
       date_format(p.DATA, '%d/%m/%Y %H:%i:%s') as data_pedido, 
       concat(u.NOME, ' ', u.SOBRENOME) as nome_cliente, u.TELEFONE as telefone_cliente, 
       p.ENDERECO_ENTREGA, p.LATITUDE, p.LONGITUDE, 
-      p.STATUS, p.PUSH_TOKEN, 
+      p.STATUS,
       p.VR_SUBTOTAL, p.TAXA_ENTREGA, 
       p.TAXA_SERVICO, p.TAXA_PAGAMENTO_FIXA, p.TAXA_PAGAMENTO_PERCENTUAL, p.TAXA_PAGAMENTO_VALOR,
       p.VR_TOTAL, 
@@ -309,7 +327,6 @@ router.get('/user-app/pedido/:id', async (req, res) => {
           TAXA_PAGAMENTO_VALOR: pedidoResult.TAXA_PAGAMENTO_VALOR || 0,
           VR_TOTAL: pedidoResult.VR_TOTAL,
           STATUS: pedidoResult.STATUS,
-          PUSH_TOKEN: pedidoResult.PUSH_TOKEN,
           ITENS: [{
             ITEM_ID: pedidoResult.ITEM_ID,
             PRODUTO: pedidoResult.PRODUTO_NOME,

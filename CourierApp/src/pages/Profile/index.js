@@ -10,8 +10,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Alert,
-  Switch
+  Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
@@ -23,8 +22,6 @@ export default function Profile() {
   const { t } = useTranslation();
   const { courier, signOut } = useContext(AuthContext);
   const { currentLanguage, setLanguage, supportedLanguages } = useTranslateContext();
-
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
   const handleSignOut = () => {
     Alert.alert(
@@ -204,13 +201,7 @@ export default function Profile() {
 
           <View style={styles.settingItem}>
             <FontAwesome5 name="bell" size={20} color="#FF6B35" />
-            <Text style={styles.settingText}>Notificações</Text>
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
-              trackColor={{ false: '#333', true: '#FF6B35' }}
-              thumbColor={'#FFF'}
-            />
+            <Text style={styles.settingText}>Atualizações em tempo real enquanto conectado</Text>
           </View>
         </View>
 

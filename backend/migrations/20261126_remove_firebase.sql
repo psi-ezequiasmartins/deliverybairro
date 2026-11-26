@@ -1,0 +1,26 @@
+-- Back up the database before applying this migration.
+-- usuarios.PASSWORD is already present in the live database.
+ALTER TABLE couriers
+  ADD COLUMN PASSWORD VARCHAR(240) NULL AFTER EMAIL,
+  DROP COLUMN FIREBASE_UID;
+
+ALTER TABLE usuarios
+  DROP COLUMN FIREBASE_UID;
+
+ALTER TABLE pedidos
+  DROP COLUMN PUSH_TOKEN;
+
+CREATE TABLE auth_password_resets (
+  RESET_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  ACCOUNT_TYPE ENUM('user', 'courier') NOT NULL,
+  ACCOUNT_ID INT NOT NULL,
+  EMAIL VARCHAR(100) NOT NULL,
+  CODE_HASH CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  EXPIRES_AT DATETIME NOT NULL,
+  USED_AT DATETIME DEFAULT NULL,
+  CREATED_AT TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (RESET_ID),
+  UNIQUE KEY uq_auth_password_resets_account (ACCOUNT_TYPE, ACCOUNT_ID),
+  KEY idx_auth_password_resets_email (EMAIL),
+  KEY idx_auth_password_resets_expiration (EXPIRES_AT)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

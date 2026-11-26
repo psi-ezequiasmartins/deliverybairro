@@ -100,7 +100,8 @@ export default function SignUp({ navigation }) {
         TRANSPORTE: formData.transporte,
         PLACA: formData.placa,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        navigation
       });
     } catch (error) {
       Alert.alert('Erro no Cadastro', error.message);

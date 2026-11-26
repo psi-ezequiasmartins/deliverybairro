@@ -42,7 +42,15 @@
   },
   "reset": {
     "title": "Recuperar Acesso",
-    "subtitle": "Enviaremos um link de recuperação para o e-mail cadastrado:",
+    "subtitle": "Enviaremos um código de recuperação para o e-mail cadastrado:",
+    "enterCode": "Informe o código de seis dígitos recebido por e-mail.",
+    "code": "Código de recuperação",
+    "codeSent": "Se a conta estiver cadastrada, você receberá um código por e-mail.",
+    "updatePassword": "Atualizar senha",
+    "resendCode": "Reenviar código",
+    "passwordUpdated": "Senha atualizada com sucesso.",
+    "invalidCode": "Código inválido ou expirado.",
+    "error": "Não foi possível concluir a recuperação da senha.",
     "sendLink": "Enviar Link",
     "noAccount": "Ainda não possui Conta? Junte-se a Nós!",
     "backToLogin": "Retornar para o Login"
@@ -71,6 +79,9 @@
     "haveAccount": "Já tenho uma Conta!",
     "requiredFields": "Dados obrigatórios",
     "passwordMismatch": "As senhas não coincidem",
+    "success": "Usuário cadastrado com sucesso.",
+    "emailAlreadyRegistered": "Este e-mail já possui cadastro. Use a recuperação de senha.",
+    "error": "Não foi possível cadastrar o usuário.",
     "invalidPhone": "Telefone inválido",
     "invalidEmail": "Email inválido"
   },

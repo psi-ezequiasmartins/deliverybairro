@@ -191,22 +191,23 @@ export default function Orders({ navigation }) {
     fetchAcceptedOrders();
 
     // Escuta atualizações de status de pedidos via websocket
-    socket.on('orderStatusUpdated', (data) => {
-      // Atualiza pedidos disponíveis e aceitos conforme ID
-      // Estrutura esperada: { id: ORDER_ID, status: 'novo_status' }
-      if (data?.id) {
-        // Atualiza arrays em contexto se presente
-        // Como o contexto gerencia o estado, aqui apenas força refetch simples
-        // Alternativamente, poderia atualizar diretamente se tivéssemos setters
+    const handleOrderUpdate = (data) => {
+      if (data?.orderId || data?.id) {
         Logger.info('Orders', 'Atualização recebida via websocket', data);
-        // Refetch leve para sincronizar
         fetchAvailableOrders();
         fetchAcceptedOrders();
       }
-    });
+    };
+    const handleNewOrder = (data) => {
+      Logger.info('Orders', 'Novo pedido recebido via websocket', data);
+      fetchAvailableOrders();
+    };
+    socket.on('orderStatusUpdated', handleOrderUpdate);
+    socket.on('newOrder', handleNewOrder);
 
     return () => {
-      socket.off('orderStatusUpdated');
+      socket.off('orderStatusUpdated', handleOrderUpdate);
+      socket.off('newOrder', handleNewOrder);
     };
   }, []);
 

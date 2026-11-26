@@ -9,7 +9,6 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.8",
     "dotenv": "^16.3.1",
-    "firebase": "^10.12.3",
     "flag-icons": "^7.5.0",
     "i18next": "^25.5.3",
     "i18next-browser-languagedetector": "^8.2.0",

@@ -5,14 +5,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { useTranslateContext } from '../../context/TranslateContext';
 import { useTranslation } from 'react-i18next';
 import api from "../../config/apiAxios";
 import './login.css';
 
 export default function Login() {
   const { t } = useTranslation();
-  const { currentLanguage } = useTranslateContext();
   const { loading, message, signIn, authenticated, result } = useContext(AuthContext);
   // const [delivery, setDelivery] = useState(null);
   const [email, setEmail] = useState('');
@@ -21,8 +19,6 @@ export default function Login() {
   const ano = new Date().getFullYear();
 
   useEffect(() => {
-    console.log('🌐 Login - Current Language:', currentLanguage);
-    console.log('🌐 Login - Translation test:', t('app.login.title'));
     // Após login bem-sucedido, buscar dados do delivery
     if (result === 'S' && authenticated) {
       const deliveryId = parseFloat(localStorage.getItem("vID"));
@@ -46,13 +42,18 @@ export default function Login() {
           navigate('/app/login');
         });
     }
-  }, [result, authenticated, navigate, currentLanguage, t]);
+  }, [result, authenticated, navigate, t]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    signIn(email, password);
+  }
 
   // ...removido: validação e navegação devem ser feitas no useEffect acima
 
   return (
     <div className="d-flex align-items-center text-center form-container">
-      <form className="form-login" onSubmit={(e) => e.preventDefault()}>
+      <form className="form-login" onSubmit={handleSubmit}>
         <a href="/#">
           <img src="/images/logo.png" alt="" className="mb-4" />
         </a>
@@ -65,11 +66,12 @@ export default function Login() {
           <input onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="password" placeholder={t('app.login.password')} />
           <label htmlFor="password">{t('app.login.password')}</label>
         </div>
-        <button onClick={() => signIn(email, password)} className="btn btn-lg btn-dark mt-2 w-100" type="button">{t('app.login.signin')}</button>
+        <button className="btn btn-lg btn-dark mt-2 w-100" type="submit" disabled={loading}>{t('app.login.signin')}</button>
         <div className="form-links">
           <Link to="/pre-cadastro" className="mx-3">{t('app.login.create_account')}</Link>
+          <Link to="/app/login/reset" className="mx-3">{t('app.login.forgot_password')}</Link>
         </div>
-        {message && <div className="alert alert-danger mt-2" role="alert">{message}</div>}
+        {message && <div className="alert alert-danger mt-2" role="alert">{t(message)}</div>}
         <small>&copy; {ano} {t('app.login.copyright')}</small>
       </form>
       {loading && (

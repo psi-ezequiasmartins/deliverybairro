@@ -42,7 +42,15 @@
   },
   "reset": {
     "title": "Recover Access",
-    "subtitle": "We'll send a recovery link to your registered email:",
+    "subtitle": "We'll send a recovery code to your registered email:",
+    "enterCode": "Enter the six-digit code sent to your email.",
+    "code": "Recovery code",
+    "codeSent": "If the account exists, a recovery code will arrive by email.",
+    "updatePassword": "Update password",
+    "resendCode": "Resend code",
+    "passwordUpdated": "Password updated successfully.",
+    "invalidCode": "The code is invalid or expired.",
+    "error": "Unable to complete password recovery.",
     "sendLink": "Send Link",
     "noAccount": "Don't have an account? Join us!",
     "backToLogin": "Back to Login"
@@ -71,6 +79,9 @@
     "haveAccount": "Already have an account!",
     "requiredFields": "Required fields",
     "passwordMismatch": "Passwords don't match",
+    "success": "User registered successfully.",
+    "emailAlreadyRegistered": "This email is already registered. Use password recovery.",
+    "error": "Unable to register the user.",
     "invalidPhone": "Invalid phone",
     "invalidEmail": "Invalid email"
   },

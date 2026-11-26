@@ -6,8 +6,6 @@ import { useState, useEffect, useCallback } from 'react';
 import socket from '../../../services/socket';
 import { Link, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { firebase_app } from "../../../config/apiFirebase";
 import { imprimirListagemDeProdutos } from './impressao';
 
 import Menu from '../../../components/menu';
@@ -23,7 +21,6 @@ import Swal from 'sweetalert2';
 
 export default function Produtos() {
   const { t } = useTranslation();
-  const storage = getStorage(firebase_app);
   const vDelivery = localStorage.getItem("vDelivery");
   const vID = localStorage.getItem("vID");
 
@@ -92,6 +89,14 @@ export default function Produtos() {
     setProdutoID(null);
   }
 
+  async function uploadProductImage(file) {
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    const { data } = await api.post('/delivery-app/upload/image', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return data.url_imagem;
+  }
 
   async function imgUpload(id) {
     const { value: file } = await Swal.fire({
@@ -124,72 +129,39 @@ export default function Produtos() {
       };
       reader.readAsDataURL(file);
 
-      const metadata = {
-        contentType: 'image/jpeg'
-      };
-      const storageRef = ref(storage, '/produtos/' + Date.now() + '_' + file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-      uploadTask.on('state_changed', (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload progress: ' + progress + '%');
-      }, (error) => {
-        setMsg('Erro no upload: ' + error.message);
+      try {
+        const imageUrl = await uploadProductImage(file);
+        setUrlImagem(imageUrl);
+        await api.put(`/delivery-app/update/imagem/produto/${id}`, { url_imagem: imageUrl });
+        setMsg(t('app.products.image_upload.upload_success_backend'));
+        setLoadingImage(false);
+        Swal.fire({
+          theme: 'dark',
+          icon: 'success',
+          title: t('app.products.image_upload.upload_success'),
+          imageUrl,
+          imageAlt: t('app.products.form.product_image'),
+          confirmButtonColor: '#3085d6'
+        }).then(() => {
+          const modal = document.getElementById('md_editarproduto');
+          if (modal) {
+            const bsModal = Modal.getInstance(modal) || new Modal(modal);
+            bsModal.hide();
+          }
+          atualizarListagem();
+        });
+      } catch (error) {
+        const errorMessage = error.response?.data?.details || error.response?.data?.error || error.message;
+        setMsg('Erro no upload: ' + errorMessage);
         setLoadingImage(false);
         Swal.fire({
           theme: 'dark',
           icon: 'error',
           title: t('app.products.image_upload.upload_error') || 'Erro no upload',
-          text: error.message,
+          text: errorMessage,
           confirmButtonColor: '#d33'
         });
-      }, () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          try {
-            setUrlImagem(downloadURL);
-            await api.put(`/delivery-app/update/imagem/produto/${id}`, { "url_imagem": downloadURL });
-            setMsg(t('app.products.image_upload.upload_success_backend'));
-            setLoadingImage(false);
-
-            Swal.fire({
-              theme: 'dark',
-              icon: 'success',
-              title: t('app.products.image_upload.upload_success'),
-              imageUrl: downloadURL,
-              imageAlt: t('app.products.form.product_image'),
-              confirmButtonColor: '#3085d6'
-            }).then(() => {
-              // Fecha o modal de edição usando Bootstrap API
-              const modal = document.getElementById('md_editarproduto');
-              if (modal) {
-                const bsModal = Modal.getInstance(modal) || new Modal(modal);
-                bsModal.hide();
-              }
-              atualizarListagem();
-            });
-          } catch (err) {
-            const errorMsg = err.response?.data?.error || err.message;
-            setMsg('Erro ao salvar imagem no backend: ' + errorMsg);
-            setLoadingImage(false);
-            Swal.fire({
-              theme: 'dark',
-              icon: 'error',
-              title: t('app.products.image_upload.save_error') || 'Erro ao salvar',
-              text: errorMsg,
-              confirmButtonColor: '#d33'
-            });
-          }
-        }).catch((err) => {
-          setMsg('Erro ao obter URL da imagem: ' + err.message);
-          setLoadingImage(false);
-          Swal.fire({
-            theme: 'dark',
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível obter o link da imagem.',
-            confirmButtonColor: '#d33'
-          });
-        });
-      });
+      }
     }
   }
 
@@ -222,47 +194,29 @@ export default function Produtos() {
       };
       reader.readAsDataURL(file);
 
-      const metadata = {
-        contentType: 'image/jpeg'
-      };
-      const storageRef = ref(storage, '/produtos/' + Date.now() + '_' + file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-      uploadTask.on('state_changed', (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload progress: ' + progress + '%');
-      }, (error) => {
-        setMsg(t('app.products.image_upload.upload_error') || 'Erro no upload: ' + error.message);
+      try {
+        const imageUrl = await uploadProductImage(file);
+        setUrlImagem(imageUrl);
+        setLoadingImage(false);
+        Swal.fire({
+          theme: 'dark',
+          icon: 'success',
+          title: t('app.products.image_upload.ready_title') || 'Imagem pronta!',
+          text: t('app.products.image_upload.ready_text') || 'Agora clique em "Salvar" para finalizar o cadastro.',
+          confirmButtonColor: '#3085d6'
+        });
+      } catch (error) {
+        const errorMessage = error.response?.data?.details || error.response?.data?.error || error.message;
+        setMsg(t('app.products.image_upload.upload_error') || 'Erro no upload: ' + errorMessage);
         setLoadingImage(false);
         Swal.fire({
           theme: 'dark',
           icon: 'error',
           title: t('app.products.image_upload.upload_error') || 'Erro no upload',
-          text: error.message,
+          text: errorMessage,
           confirmButtonColor: '#d33'
         });
-      }, () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          setUrlImagem(downloadURL);
-          setLoadingImage(false);
-          Swal.fire({
-            theme: 'dark',
-            icon: 'success',
-            title: t('app.products.image_upload.ready_title') || 'Imagem pronta!',
-            text: t('app.products.image_upload.ready_text') || 'Agora clique em "Salvar" para finalizar o cadastro.',
-            confirmButtonColor: '#3085d6'
-          });
-        }).catch((err) => {
-          setMsg('Erro ao obter URL da imagem: ' + err.message);
-          setLoadingImage(false);
-          Swal.fire({
-            theme: 'dark',
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível obter o link da imagem.',
-            confirmButtonColor: '#d33'
-          });
-        });
-      });
+      }
     }
   }
 

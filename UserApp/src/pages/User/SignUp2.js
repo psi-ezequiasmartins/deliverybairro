@@ -9,7 +9,6 @@ import { MaskedTextInput } from 'react-native-mask-text';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../contexts/AuthContext';
-import { NotificationContext } from '../../contexts/NotificationContext';
 
 import icon from '../../../assets/icon.png';
 
@@ -31,7 +30,6 @@ export default function SignUp2(props) {
   const [confirm_password, setConfirmPassword] = useState('');
 
   const { signUp, loading } = useContext(AuthContext);
-  const { pushToken } = useContext(NotificationContext);
 
   function checkEmptyField(field) {
     if (field.trim() === '') {
@@ -51,19 +49,13 @@ export default function SignUp2(props) {
       return;
     }
 
-    if (!pushToken) {
-      Alert.alert('', 'Erro ao obter o Push Token. Verifique as permissões de notificação.');
-      return;
-    }
-
     await signUp(
       nome.trim(),
       sobrenome.trim(),
       telefone.trim(),
       email.trim(),
       password.trim(),
-      confirm_password.trim(),
-      pushToken.trim()
+      confirm_password.trim()
     );
   }
 

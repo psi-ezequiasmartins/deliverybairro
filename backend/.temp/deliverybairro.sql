@@ -464,6 +464,7 @@ CREATE TABLE `usuarios` (
   `SOBRENOME` varchar(60) NOT NULL,
   `TELEFONE` varchar(18) NOT NULL,
   `EMAIL` varchar(100) NOT NULL,
+  `PASSWORD` varchar(240) DEFAULT NULL,
   `URL_IMAGEM` varchar(240) NOT NULL,
   `CHV` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;

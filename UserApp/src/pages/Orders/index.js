@@ -11,7 +11,6 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView } from
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from "../../contexts/AuthContext";
-import { NotificationContext } from "../../contexts/NotificationContext";
 
 import Header from '../../components/Header';
 import OrderListItem from './OrderListItem';
@@ -23,7 +22,6 @@ export default function Pedidos() {
   const [pedidos, setPedidos] = useState([]);
 
   const { user } = useContext(AuthContext);
-  const { notify, setNotify } = useContext(NotificationContext);
 
   const listRef = useRef(null);
   const id = user?.USER_ID;
@@ -84,12 +82,7 @@ export default function Pedidos() {
       // Sai da sala ao desmontar componente
       leaveRoom(userRoom);
     };
-  }, [id]); useEffect(() => {
-    if (notify) {
-      loadPedidos();
-      setNotify(false);
-    }
-  }, [notify, setNotify]);
+  }, [id]);
 
   async function moveToTop() {
     await listRef.current.scrollToOffset({ offset: 0, animated: true })

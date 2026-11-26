@@ -70,7 +70,6 @@ const publicRoutes = [
 
 router.get('/api/ping', (req, res) => {
   res.status(200).json({ message: 'Server is online', status: res.statusCode });
-  console.log('JWT_SECRET (PING):', process.env.JWT_SECRET);
 });
 
 // Rota de verificação de saúde do servidor

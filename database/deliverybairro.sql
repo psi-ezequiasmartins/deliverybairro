@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 26/11/2026 às 21:18
+-- Tempo de geração: 29/11/2026 às 00:23
 -- Versão do servidor: 10.11.10-MariaDB-log
 -- Versão do PHP: 8.2.31
 
@@ -162,7 +162,8 @@ INSERT INTO `deliveries` (`DELIVERY_ID`, `DELIVERY_NOME`, `PLANO`, `CATEGORIA_ID
 (1001, 'Cantin d\'Minas Delivery', 'PRO', 105, 'José Antônio de Oliveira e Cida', 'joseantoniodeoliveira71@gmail.com', '+55 31 98775-9781', 'Aberto das 9h até às 19h de Segunda a Sábado', 15, 30, 4.5, 4.9, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/deliverys%2Fcantindminasdelivery.jpg?alt=media&token=a6259473-4eb1-4f0e-98ce-251b151bab9f', '31530-390', 'Rua Antônio Junqueira Júnior', '77', '', 'Santa Mônica', 'Belo Horizonte', 'MG', -19.826684, -43.983459, '1', NULL),
 (1002, 'Sanduba do Zé', 'PREMIUM', 102, 'Zé das Couves', 'zedascouves@email.com', '+55 31 98410-7540', 'Aberto todos os dias a partir das 19h exceto às segundas feiras (fechado)', 15, 45, 4, 3.5, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/deliverys%2Fsandubadoze.jpg?alt=media&token=3bac7899-904e-4acd-aac8-75506a1d6819', '31525-365', 'Rua Érico Veríssimo', '2267', 'Loja B', 'Santa Mônica', 'Belo Horizonte', 'MG', -19.822279, -43.978664, '1', NULL),
 (1003, 'Hotdog da Maria', 'PRO', 103, 'Maria das Graças ', 'mariadg@email.com', '+55 31 9999-9999', 'Aberto a partir das 19h', 15, 30, 3.5, 4.7, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/deliverys%2Fhotdogdamaria.jpg?alt=media&token=93d46c8d-abe3-4008-aa2d-c9a81a6c23fb', '', 'Rua dos Bororós', '629 ', '', 'Santa Mônica', 'Belo Horizonte', 'MG', -19.825318, -43.983096, '1', NULL),
-(1006, 'Distribuidora Guarani', 'FREE', 104, 'José Carlos dos Santos', 'josecarlossantos0659@gmail.com', '(31) 98651-1043', NULL, NULL, NULL, NULL, NULL, NULL, '31812-260', 'Rua Jornalista Laércio Campos', '417', 'loja', 'Minaslândia (P Maio)', 'Belo Horizonte', 'MG', NULL, NULL, '1', NULL);
+(1006, 'Distribuidora Guarani', 'FREE', 104, 'José Carlos dos Santos', 'josecarlossantos0659@gmail.com', '(31) 98651-1043', NULL, NULL, NULL, NULL, NULL, NULL, '31812-260', 'Rua Jornalista Laércio Campos', '417', 'loja', 'Minaslândia (P Maio)', 'Belo Horizonte', 'MG', NULL, NULL, '1', NULL),
+(1021, 'KWsCEGpirvidZvGtjcYxN', 'FREE', 101, 'ESZijccezFoVNXkrBwaGqUzd', 'ip.e.juked.2.9@gmail.com', '(98) 2274-3926', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '187998');
 
 -- --------------------------------------------------------
 
@@ -193,7 +194,8 @@ INSERT INTO `extras` (`EXTRA_ID`, `DESCRICAO`, `VR_UNITARIO`, `DELIVERY_ID`) VAL
 (15, 'Queijo tipo \"Requeijão Catupery\"', 1.50, 1003),
 (16, 'Bacon fatiado', 1.50, 1003),
 (17, 'Salada Americana (Alface Crespa, Tomate e Cebola Roxa)', 1.00, 1003),
-(18, 'Molho Especial (Maionese, Alho, Salsa e Condimentos especiais)', 1.20, 1003);
+(18, 'Molho Especial (Maionese, Alho, Salsa e Condimentos especiais)', 1.20, 1003),
+(19, 'Molho de Maionese c/ Bacon', 3.80, 1002);
 
 -- --------------------------------------------------------
 
@@ -386,20 +388,20 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`PRODUTO_ID`, `DELIVERY_ID`, `PRODUTO_NOME`, `DESCRICAO`, `VR_UNITARIO`, `URL_IMAGEM`, `ITENS_EXTRAS`, `ITENS_OBS`, `CHV`) VALUES
-(1017, 1002, 'X-Tudo', 'Pão, hambúrguer de carne angus, alface, tomate e queijo prato.', 33.90, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fx-cebola-maionese.jpg?alt=media&token=5c279940-5b42-4107-8467-5462189b367b', 'S', 'S', ''),
-(1018, 1002, 'X-Egg Bacon', 'Pão, hambúrguer de carne angus, creme cheese, queijo prato, bacon e ovo.', 24.90, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fx-eggbacon.jpg?alt=media&token=c4dfa87f-d48c-4559-8f1b-accf16512b28', 'S', 'S', ''),
-(1019, 1002, 'X-Bacon Duplo', 'Pão, 02 hambúrguers de carne angus, salada, queijo prato e bacon.', 27.90, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fxbacon-duplo.jpg?alt=media&token=48f0e6a0-8536-497b-8803-bea76992a583', 'S', 'S', ''),
-(1020, 1002, 'X-Filé Frango', 'Pão, filet de frango picado, creme cheese e queijo prato.', 25.60, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fx-frango.png?alt=media&token=4c7f5bfa-dcd8-4bed-a5db-6e982a0c7ea5', 'S', 'S', ''),
+(1017, 1002, 'X-Tudo', 'Pão, hambúrguer de carne angus, alface, tomate e queijo prato.', 33.90, 'http://srv.deliverybairro.com/uploads/92dc570a-ba22-4cd1-bb0b-6dd8d98e5883.jpg', 'S', 'S', ''),
+(1018, 1002, 'X-Egg Bacon', 'Pão, hambúrguer de carne angus, creme cheese, queijo prato, bacon e ovo.', 24.90, 'http://srv.deliverybairro.com/uploads/72864509-6664-45ef-a877-69a64b187f60.jpg', 'S', 'S', ''),
+(1019, 1002, 'X-Bacon Duplo', 'Pão, 02 hambúrguers de carne angus, salada, queijo prato e bacon.', 27.90, 'http://srv.deliverybairro.com/uploads/89b9de22-0d50-4e93-ba67-af6d37431337.jpg', 'S', 'S', ''),
+(1020, 1002, 'X-Filé Frango', 'Pão, filet de frango picado, creme cheese e queijo prato.', 25.60, 'http://srv.deliverybairro.com/uploads/7d64b5a7-20b9-4fe7-8ed5-8a7597cd9ac3.jpg', 'S', 'S', ''),
 (1022, 1003, 'Hot Dog Tradicional', 'Pão de Hot Dog, 1 Salsicha, Ketchup, Maionese e Mostarda', 14.50, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fhotdog-1.png?alt=media&token=63055b8f-b826-4f23-9348-0649a92c0738', 'S', 'S', ''),
 (1023, 1003, 'Hot Dog Soja', 'Salsicha de soja, requeijão, oregano, cheddar, vinagrete, milho, maionese, batata palha, pure e parmesão (vegetariano ou vegano)', 28.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fhotdog-2.png?alt=media&token=a4556ff9-6e61-465e-9a1a-3482cea3e6e0', 'S', 'S', ''),
 (1024, 1003, 'Hot Dogão', 'Duas salsichas, requeijão, oregano, cheddar, vinagrete, milho, maionese, batata palha, pure e parmesão', 31.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fhotdog-3.png?alt=media&token=00a92e27-fa0e-4ff8-b359-d87e3d5912d6', 'S', 'S', ''),
-(1025, 1002, 'Coca-Cola Lata', 'Refrigerante Coca-Cola lata 350ml', 4.80, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fcoca-cola.jpg?alt=media&token=55f1a7a2-8550-4d42-80f5-b6331e593462', 'N', 'N', ''),
+(1025, 1002, 'Coca-Cola Lata', 'Refrigerante Coca-Cola lata 350ml', 4.80, 'http://srv.deliverybairro.com/uploads/fb96db90-12f9-464e-9630-5afc9a0356b7.jpg', 'N', 'N', ''),
 (1030, 1001, 'Porção de Fritas + Frango a Passarinho', '300g de Batata Frita a Palito + 300g de Frango Frito a Passarinho + Salada (opcional)', 45.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Ffrango%20a%20passarinho%20%2B%20fritas.jpg?alt=media&token=b56f9fb2-0cd8-4d16-9af3-22a2bd9c4912', 'S', 'S', ''),
 (1032, 1001, 'Porção de Frango a Passarinho', '600g de Frango Frito a Passarinho + Salada Americana (opcional)', 38.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Ffrango%20a%20passarinho.jpg?alt=media&token=8b81e72c-2657-49e2-8c71-12052282fced', 'S', 'S', ''),
 (1039, 1001, 'Mexidão', 'Arroz, feijão, farofa c/ ovos mexido, calabresa acebolada, ovo frito, bacon', 15.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fmexid%C3%A3o.png?alt=media&token=d2794d1a-367a-42d6-89df-1b10d0ec37e8', 'S', 'S', ''),
 (1040, 1001, 'Espaguete a Bolonhesa', 'Espaguete ao molho Bolonhesa c/ Mussarella', 18.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fespaguete-bolonhesa.png?alt=media&token=665e0aa5-9619-4acc-a8c4-b84194760ff4', 'S', 'S', ''),
 (1041, 1001, 'Janta', 'A escolha, pernil, frango, omelete, arroz feijão espaguete fritas', 15.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fjanta.png?alt=media&token=e74ef0b5-8875-4f7f-abd6-34efddb9358e', 'S', 'S', ''),
-(1048, 1002, 'Guaraná Antárctica Lata', 'Refrigerante de Guaraná, Lata 350ml', 4.50, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2Fguaran%C3%A1%20antarctica.jpg?alt=media&token=96b03d8a-3b04-4eb6-8329-6c3844ccc2cd', 'N', 'N', ''),
+(1048, 1002, 'Guaraná Antárctica Lata', 'Refrigerante de Guaraná, Lata 350ml', 4.50, 'http://srv.deliverybairro.com/uploads/0731ce31-1d8d-4e53-ad90-5ad268f026cd.jpg', 'N', 'N', ''),
 (1053, 1003, 'Guaraná Antártica 350ml', 'Refrigerante de Guaraná, Lata 350ml', 4.50, 'https://firebasestorage.googleapis.com/v0/b/psi-deliverybairro.firebasestorage.app/o/produtos%2Fguaran%C3%A1%20antarctica.jpg?alt=media&token=70dde331-657d-47ad-b2b1-ee2322747aef', 'N', 'N', ''),
 (1054, 1003, 'Coca-Cola 350ml', 'Refrigerante de Cola, Lata 350ml', 4.50, 'https://firebasestorage.googleapis.com/v0/b/psi-deliverybairro.firebasestorage.app/o/produtos%2Fcoca-cola.jpg?alt=media&token=4b9f601d-658e-4be7-a5b3-52157be62045', 'N', 'N', ''),
 (1057, 1001, 'Água Mineral s/ Gás', 'Água Mineral sem Gás, copo 200ml', 2.00, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2F%C3%81GUA%20MINERAL%20SEM%20G%C3%81S%20200ML.jpg?alt=media&token=abc0d91a-ee07-4844-a4e1-a5cc29b07741', 'N', 'N', ''),
@@ -407,9 +409,9 @@ INSERT INTO `produtos` (`PRODUTO_ID`, `DELIVERY_ID`, `PRODUTO_NOME`, `DESCRICAO`
 (1061, 1001, 'Refrigerante Coca-Cola 350ml', 'Refrigerante de Cola, Lata 350ml', 4.80, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2FCOCA-COLA.jpg?alt=media&token=bb15e4ec-18d9-4439-861f-064a623394b6', 'N', 'N', ''),
 (1062, 1001, 'Refrigerante Guaraná Antártica 350ml', 'Refrigerante de Guaraná, Lata 350ml', 4.80, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2FGUARAN%C3%81%20ANTARCTICA%20350%20ML.jpg?alt=media&token=89db11b1-2ad1-4026-9913-1fda702d8ef3', 'N', 'N', ''),
 (1063, 1001, 'Cerveja Brahma 350ml', 'Cerveja Brahma Chopp Lata 350ml', 7.59, 'https://firebasestorage.googleapis.com/v0/b/psi-crm-ca846.appspot.com/o/produtos%2FCERVEJA%20BRAHMA%20LATA.jpg?alt=media&token=1ab1d965-a44b-4eae-8086-45bd20b07787', 'N', 'N', ''),
-(1068, 1002, 'Água Mineral Gasosa 300ml', 'Água Mineral c/ Gás Natural\nGarrafa c/ 300ml', 4.80, 'https://firebasestorage.googleapis.com/v0/b/psi-deliverybairro.firebasestorage.app/o/produtos%2F%C3%81GUA%20MINERAL%20GASOSA.jpg?alt=media&token=81e61c8b-19b8-4713-b079-2893a27d719b', 'S', 'S', ''),
-(1069, 1002, 'Cerveja Brahma Lata 355ml', 'Cerveja Brahma Chopp Lata 355ml', 7.99, 'https://firebasestorage.googleapis.com/v0/b/psi-deliverybairro.firebasestorage.app/o/produtos%2Fcerveja%20brahma.jpg?alt=media&token=293ae99f-d010-46cb-bc2d-fcca6a2e342c', 'N', 'N', ''),
-(1070, 1002, 'X-Burguer Gourmet', 'Carne de Hamburguer Especial 200gr Grelhado,\nAlface, Rúcula, Cebola Roxa, Tomate, Queijo Cheddar, Pão Especial', 35.00, 'https://firebasestorage.googleapis.com/v0/b/psi-deliverybairro.firebasestorage.app/o/produtos%2Fhamburguer-artezanal.jpg?alt=media&token=a2d0077f-f46a-49fd-bcda-c3709262fa78', 'S', 'S', ''),
+(1068, 1002, 'Água Mineral Gasosa 300ml', 'Água Mineral c/ Gás Natural\nGarrafa c/ 300ml', 4.80, 'http://srv.deliverybairro.com/uploads/ba85a938-6881-492d-9728-5c2292a4b7f7.jpg', 'S', 'S', ''),
+(1069, 1002, 'Cerveja Brahma Lata 355ml', 'Cerveja Brahma Chopp Lata 355ml', 7.99, 'http://srv.deliverybairro.com/uploads/35d8ebfb-2737-41a7-9901-f6fc388f65c8.jpg', 'N', 'N', ''),
+(1070, 1002, 'X-Burguer Gourmet', 'Carne de Hamburguer Especial 200gr Grelhado,\nAlface, Rúcula, Cebola Roxa, Tomate, Queijo Cheddar, Pão Especial', 35.00, 'http://srv.deliverybairro.com/uploads/14555085-4f5f-4481-8533-5ee1a2a348d0.jpg', 'S', 'S', ''),
 (1071, 1006, 'Cerveja Brahma Litrinho ', 'Cerveja Brahma Litrinho 300 ml', 5.50, 'https://placehold.co/500', 'N', 'N', '1');
 
 -- --------------------------------------------------------
@@ -678,7 +680,33 @@ INSERT INTO `userlog` (`ID`, `USER_ID`, `IP_ADDRESS`, `DT_ACCESS`, `TOKEN`, `EXP
 (117, 100001, '138.117.205.71', '2026-08-08 20:23:58', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAxLCJkdF9hY2Nlc3MiOiIyMDI2LTA4LTA4IDIwOjIzOjU4IiwiY2h2IjoxLCJpYXQiOjE3ODYyMzE0MzgsImV4cCI6MTc4NjI0MjIzOH0.PA22oitDjX2wP2pl8_PQ0O_D1qNgBX7cBYX3-_sU3r4', '2026-08-08 23:23:58', '1'),
 (118, 1002, '201.17.188.224', '2026-09-08 15:51:56', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNi0wOS0wOCAxNTo1MTo1NiIsImNodiI6MSwiaWF0IjoxNzg4ODkzNTE2LCJleHAiOjE3ODg5MDQzMTZ9.DEcBbrV3cKQFYRKLixjiP4RqfOb3EN3_CCzdM3bLRDI', '2026-09-08 18:51:56', '1'),
 (119, 1006, '201.17.157.97', '2026-11-03 12:12:44', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwNiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0wMyAxMjoxMjo0NCIsImNodiI6MSwiaWF0IjoxNzkzNzE4NzY0LCJleHAiOjE3OTM3Mjk1NjR9.2ln8fPFqAkZMtoFmIZY3RBc3e8-7uovbU60pyR0XdM0', '2026-11-03 15:12:44', '1'),
-(120, 1002, '201.17.157.97', '2026-11-03 12:13:26', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0wMyAxMjoxMzoyNiIsImNodiI6MSwiaWF0IjoxNzkzNzE4ODA2LCJleHAiOjE3OTM3Mjk2MDZ9.des1RVwDQv2ExCVbDeS5CwFCx0mjau35l9UwSGCOUfQ', '2026-11-03 15:13:26', '1');
+(120, 1002, '201.17.157.97', '2026-11-03 12:13:26', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0wMyAxMjoxMzoyNiIsImNodiI6MSwiaWF0IjoxNzkzNzE4ODA2LCJleHAiOjE3OTM3Mjk2MDZ9.des1RVwDQv2ExCVbDeS5CwFCx0mjau35l9UwSGCOUfQ', '2026-11-03 15:13:26', '1'),
+(121, 1002, '201.80.0.162', '2026-11-26 11:45:26', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxMTo0NToyNiIsImNodiI6IjEiLCJpYXQiOjE3OTU3MDQzMjYsImV4cCI6MTc5NTcxNTEyNn0.5jvdiAn4Z61hkvX-QbortsCseCZqbhscVaj3NupKGkM', '2026-11-26 14:45:26', '1'),
+(122, 1002, '201.80.0.162', '2026-11-26 11:48:40', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxMTo0ODo0MCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MDQ1MjAsImV4cCI6MTc5NTcxNTMyMH0.eZdUOJp_7XtslG7GLOcDJpL6wPT5XxAGyq9vnAjft-w', '2026-11-26 14:48:40', '1'),
+(123, 1002, '201.80.0.162', '2026-11-26 11:49:30', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxMTo0OTozMCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MDQ1NzAsImV4cCI6MTc5NTcxNTM3MH0.fdDsxcFeumyI2-iGw4nILd6eTOd6vjHAdqhoec9qLdc', '2026-11-26 14:49:30', '1'),
+(124, 1002, '201.80.0.162', '2026-11-26 11:53:54', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxMTo1Mzo1NCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MDQ4MzQsImV4cCI6MTc5NTcxNTYzNH0.-9VFiOdipXHsxE-GCdixWklX1KTSMwylx_k1yT4A6LY', '2026-11-26 14:53:54', '1'),
+(125, 1002, '201.80.0.162', '2026-11-26 11:55:35', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxMTo1NTozNSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MDQ5MzUsImV4cCI6MTc5NTcxNTczNX0.K_2S29-EnvnntIiaowBaPoN5OmAazliur9UxqlcPeYU', '2026-11-26 14:55:35', '1'),
+(126, 1002, '201.80.0.162', '2026-11-26 12:05:42', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxMjowNTo0MiIsImNodiI6IjEiLCJpYXQiOjE3OTU3MDU1NDIsImV4cCI6MTc5NTcxNjM0Mn0.qxQ3HsBGDLH7buutLqKTaxUGGZw0AUQvw0x5O5tG8J4', '2026-11-26 15:05:42', '1'),
+(127, 1002, '201.80.0.162', '2026-11-26 16:05:04', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxNjowNTowNCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MTk5MDQsImV4cCI6MTc5NTczMDcwNH0.sN0II_0KMqmAA7-S9aZaJNPc0lwmiPDBW8OYS-LEobI', '2026-11-26 19:05:04', '1'),
+(128, 1002, '201.80.0.162', '2026-11-26 17:19:25', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxNzoxOToyNSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MjQzNjUsImV4cCI6MTc5NTczNTE2NX0.8kQ6kJL2RKvwG11lBoDIK2imbP0Hmwj1b-zM_99z-n4', '2026-11-26 20:19:25', '1'),
+(129, 1002, '201.80.0.162', '2026-11-26 17:19:36', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxNzoxOTozNiIsImNodiI6IjEiLCJpYXQiOjE3OTU3MjQzNzYsImV4cCI6MTc5NTczNTE3Nn0.sS956bAAD5UI5B92fYspePUDpnkFOpFZamH0iBpH9-Y', '2026-11-26 20:19:36', '1'),
+(130, 1002, '201.80.0.162', '2026-11-26 17:47:48', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxNzo0Nzo0OCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MjYwNjgsImV4cCI6MTc5NTczNjg2OH0.pAyYqLUAq2rZ2waQO4fi8XUjbl0LSa4AWOeeD5y0uF8', '2026-11-26 20:47:48', '1'),
+(131, 1002, '201.80.0.162', '2026-11-26 18:00:46', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODowMDo0NiIsImNodiI6IjEiLCJpYXQiOjE3OTU3MjY4NDYsImV4cCI6MTc5NTczNzY0Nn0.bln2Gu3nAaucqrB1nRYN2GgHXavG1I5pVLWkX_-LRdI', '2026-11-26 21:00:46', '1'),
+(132, 1002, '201.80.0.162', '2026-11-26 18:03:29', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODowMzoyOSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MjcwMDksImV4cCI6MTc5NTczNzgwOX0.kju1PkqER_CyHyvnwqWPmaDdT7FXMlC7QfjjjKafF3M', '2026-11-26 21:03:29', '1'),
+(133, 1002, '201.80.0.162', '2026-11-26 18:09:40', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODowOTo0MCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MjczODAsImV4cCI6MTc5NTczODE4MH0.19x_usDWQ88_oPpCAQ5qNedDYGW7NLvGP7sMlObWEIM', '2026-11-26 21:09:40', '1'),
+(134, 1002, '201.80.0.162', '2026-11-26 18:13:05', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODoxMzowNSIsImNodiI6IjEiLCJpYXQiOjE3OTU3Mjc1ODUsImV4cCI6MTc5NTczODM4NX0.cAKIZL2vmgYp-EaMEkEQT7TeLjJvm5XzTXMVU77XqY8', '2026-11-26 21:13:05', '1'),
+(135, 1002, '201.80.0.162', '2026-11-26 18:13:42', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODoxMzo0MiIsImNodiI6IjEiLCJpYXQiOjE3OTU3Mjc2MjIsImV4cCI6MTc5NTczODQyMn0.3EAdlw6igkqAl_XMHVGY4iEThtz2gMFn6FlzjhLhRw8', '2026-11-26 21:13:42', '1'),
+(136, 1002, '201.80.0.162', '2026-11-26 18:52:18', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODo1MjoxOCIsImNodiI6IjEiLCJpYXQiOjE3OTU3Mjk5MzgsImV4cCI6MTc5NTc0MDczOH0.i4mWQvSVMtkzAtm7W6uwEaqu4k5DE4AOZ4JXSNC-66U', '2026-11-26 21:52:18', '1'),
+(137, 1002, '201.80.0.162', '2026-11-26 18:52:39', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODo1MjozOSIsImNodiI6IjEiLCJpYXQiOjE3OTU3Mjk5NTksImV4cCI6MTc5NTc0MDc1OX0.irVNW5NUDf1LkRyEXhU8gXeBzTQV7EyGkIbzGlmphJ4', '2026-11-26 21:52:39', '1'),
+(138, 1002, '201.80.0.162', '2026-11-26 18:53:22', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODo1MzoyMiIsImNodiI6IjEiLCJpYXQiOjE3OTU3MzAwMDIsImV4cCI6MTc5NTc0MDgwMn0.RhrWbwEBHCv7J5nyH00JSwnFsYmwbAqZnheoGb7QqIk', '2026-11-26 21:53:22', '1'),
+(139, 1002, '201.80.0.162', '2026-11-26 18:53:39', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxODo1MzozOSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MzAwMTksImV4cCI6MTc5NTc0MDgxOX0.T6RP7irCH_kLGBMzWCbO0CX-kwxonvGTzz2_JhCXPOg', '2026-11-26 21:53:39', '1'),
+(140, 1002, '201.80.0.162', '2026-11-26 19:39:25', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxOTozOToyNSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MzI3NjUsImV4cCI6MTc5NTc0MzU2NX0.VPNSSzKdyHJNf8evh5tJW4ER1VrqHJCFeW29kT2hTgw', '2026-11-26 22:39:25', '1'),
+(141, 1002, '201.80.0.162', '2026-11-26 19:39:35', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxOTozOTozNSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MzI3NzUsImV4cCI6MTc5NTc0MzU3NX0.LDl-FFukvHObZl9zAf2nnVi9ADPzc_q3jk14B6dlqZE', '2026-11-26 22:39:35', '1'),
+(142, 1002, '201.80.0.162', '2026-11-26 19:40:10', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxOTo0MDoxMCIsImNodiI6IjEiLCJpYXQiOjE3OTU3MzI4MTAsImV4cCI6MTc5NTc0MzYxMH0.3UhoSXcadTUG8ok4640DzjLfBClmq7s-9RsS3gWiWds', '2026-11-26 22:40:10', '1'),
+(143, 1002, '201.80.0.162', '2026-11-26 19:53:35', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNiAxOTo1MzozNSIsImNodiI6IjEiLCJpYXQiOjE3OTU3MzM2MTUsImV4cCI6MTc5NTc0NDQxNX0.o3T0dlonMBC1yKJxBgrDO5GXYPGd6wiK-RMIjakosck', '2026-11-26 22:53:35', '1'),
+(144, 1002, '201.80.0.162', '2026-11-27 17:12:31', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yNyAxNzoxMjozMSIsImNodiI6IjEiLCJpYXQiOjE3OTU4MTAzNTEsImV4cCI6MTc5NTgyMTE1MX0.TSAkAnXppa1P1wCL1an0GCi1Uj4hAyeWkVZ0XV0NHkU', '2026-11-27 20:12:31', '1'),
+(145, 1002, '201.80.0.162', '2026-11-28 13:15:36', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yOCAxMzoxNTozNiIsImNodiI6IjEiLCJpYXQiOjE3OTU4ODI1MzYsImV4cCI6MTc5NTg5MzMzNn0.UjobT6MN92LWyFdpmuny2s9UEV9wKJ8xaXt2gC8_njo', '2026-11-28 16:15:36', '1'),
+(146, 1002, '201.80.0.162', '2026-11-28 13:15:52', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwidHlwZSI6ImRlbGl2ZXJ5IiwiZHRfYWNjZXNzIjoiMjAyNi0xMS0yOCAxMzoxNTo1MiIsImNodiI6IjEiLCJpYXQiOjE3OTU4ODI1NTIsImV4cCI6MTc5NTg5MzM1Mn0.MjOQZu1hSFtLTF_EDP4HdwsIr552OH4SrBOQ0z9WISE', '2026-11-28 16:15:52', '1');
 
 -- --------------------------------------------------------
 
@@ -703,7 +731,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`USER_ID`, `NOME`, `SOBRENOME`, `TELEFONE`, `EMAIL`, `PASSWORD`, `URL_IMAGEM`, `CHV`) VALUES
 (100001, 'Ezequias', 'Martins', '(31) 98410-7540', 'ezequiasmartins@gmail.com', '*1A030512019B7B4B97167D5515EBB6C7105EB12F', '', '0'),
-(100002, 'Zé', 'das Couves', '(31) 98410-0000', 'zedascouves@email.com', '*3522E3A7EDC4BD06F7952ACA8D71D5B393A58D7E', '', '1');
+(100002, 'Zé', 'das Couves', '(31) 98410-0000', 'zedascouves@email.com', '*1A030512019B7B4B97167D5515EBB6C7105EB12F', '', '1');
 
 --
 -- Índices para tabelas despejadas
@@ -864,13 +892,13 @@ ALTER TABLE `couriers`
 -- AUTO_INCREMENT de tabela `deliveries`
 --
 ALTER TABLE `deliveries`
-  MODIFY `DELIVERY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
+  MODIFY `DELIVERY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1022;
 
 --
 -- AUTO_INCREMENT de tabela `extras`
 --
 ALTER TABLE `extras`
-  MODIFY `EXTRA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `EXTRA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `itens`
@@ -930,7 +958,7 @@ ALTER TABLE `taxas_exceptions`
 -- AUTO_INCREMENT de tabela `userlog`
 --
 ALTER TABLE `userlog`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

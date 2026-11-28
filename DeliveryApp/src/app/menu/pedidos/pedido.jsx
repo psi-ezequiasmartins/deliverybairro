@@ -61,12 +61,12 @@ export default function Pedido(props) {
                 onChange={(e) => AlterarStatus(e.target.value)}
                 className="status-select"
               >
-                <option value="NOVO">🔴 Novo</option>
-                <option value="AGUARDANDO">🟠 Aguardando</option>
-                <option value="PREPARANDO">⚪ Preparando</option>
-                <option value="PRONTO_PARA_RETIRADA">🟡 Pronto</option>
-                <option value="SAIU_PARA_ENTREGA">🔵 Em Entrega</option>
-                <option value="ENTREGUE">🟢 Entregue</option>
+                <option value="NOVO">(🔴) Novo</option>
+                <option value="AGUARDANDO">(🟠) Aguardando</option>
+                <option value="PREPARANDO">(⚪) Preparando</option>
+                <option value="PRONTO_PARA_RETIRADA">(🟡) Pronto</option>
+                <option value="SAIU_PARA_ENTREGA">(🔵) Em Entrega</option>
+                <option value="ENTREGUE">(🟢) Entregue</option>
               </select>
             </div>
 
@@ -79,8 +79,8 @@ export default function Pedido(props) {
                 className="status-select"
               >
                 <option value="">-- Selecione --</option>
-                <option value="PGTO_PENDENTE">🔴 Pendente</option>
-                <option value="PGTO_OK">🟢 Pago</option>
+                <option value="PGTO_PENDENTE">(🔴) Pendente</option>
+                <option value="PGTO_OK">(🟢) Pago</option>
               </select>
             </div>
 
@@ -93,8 +93,8 @@ export default function Pedido(props) {
                 className="status-select"
               >
                 <option value="">-- Selecione --</option>
-                <option value="FINALIZADO">✅ Finalizado</option>
-                <option value="CANCELADO">❌ Cancelado</option>
+                <option value="FINALIZADO">(✅) Finalizado</option>
+                <option value="CANCELADO">(❌) Cancelado</option>
               </select>
             </div>
           </div>
